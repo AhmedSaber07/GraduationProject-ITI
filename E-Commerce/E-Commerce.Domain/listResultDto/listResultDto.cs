@@ -8,11 +8,11 @@ namespace E_Commerce.Domain.listResultDto
 {
     public class listResultDto<TEntity>
     {
-        public IEnumerable<TEntity> Entities;
+        public IEnumerable<TEntity> entities;
         public int count;
         public listResultDto()
         {
-            Entities = new List<TEntity>();
+            entities = new List<TEntity>();
         }
     }
 }

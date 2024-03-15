@@ -1,0 +1,13 @@
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.csproj.AssemblyReference.cache
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.AssemblyInfoInputs.cache
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.AssemblyInfo.cs
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.csproj.CoreCompileInputs.cache
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.sourcelink.json
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\bin\Debug\net8.0\E-Commerce.Application.deps.json
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\bin\Debug\net8.0\E-Commerce.Application.dll
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\bin\Debug\net8.0\E-Commerce.Application.pdb
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.dll
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\refint\E-Commerce.Application.dll
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.pdb
+D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\ref\E-Commerce.Application.dll

@@ -1,4 +1,9 @@
 
+using E_Commerce.Domain.Models;
+using E_Commerce.Infrastructure.Context;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace E_Commerce.WebAPI
 {
     public class Program
@@ -13,7 +18,14 @@ namespace E_Commerce.WebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+          //  builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<_2B_EgyptDBContext>();
 
+            builder.Services.AddDbContext<_2B_EgyptDBContext>(
+             op =>
+             {
+                 op.UseSqlServer(builder.Configuration.GetConnectionString("db"));
+             }
+             );
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

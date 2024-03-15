@@ -91,7 +91,7 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.23.53103"
           }
-      }
+        }
       },
       "Microsoft.Extensions.Caching.Memory/8.0.0": {
         "dependencies": {
@@ -106,8 +106,8 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.23.53103"
           }
-    }
-  },
+        }
+      },
       "Microsoft.Extensions.Configuration.Abstractions/8.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "8.0.0"

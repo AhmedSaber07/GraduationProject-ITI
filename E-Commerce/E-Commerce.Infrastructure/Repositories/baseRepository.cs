@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure.Repositories
 {
-    public class Repository<TEntity, TID> : ibaseRepository<TEntity, TID> where TEntity : BaseEntity
+    public class baseRepository<TEntity, TID> : ibaseRepository<TEntity, TID> where TEntity : BaseEntity
     {
         private readonly _2B_EgyptDBContext _context;
-        public Repository(_2B_EgyptDBContext context)
+        public baseRepository(_2B_EgyptDBContext context)
         {
             _context = context;
         }

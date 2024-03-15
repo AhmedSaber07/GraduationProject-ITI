@@ -11,3 +11,16 @@ D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Deb
 D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\refint\E-Commerce.Application.dll
 D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.pdb
 D:\iti-round2\GP\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\ref\E-Commerce.Application.dll
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\bin\Debug\net8.0\E-Commerce.Application.deps.json
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\bin\Debug\net8.0\E-Commerce.Application.dll
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\bin\Debug\net8.0\E-Commerce.Application.pdb
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.csproj.AssemblyReference.cache
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.AssemblyInfoInputs.cache
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.AssemblyInfo.cs
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.csproj.CoreCompileInputs.cache
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.sourcelink.json
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.dll
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\refint\E-Commerce.Application.dll
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\E-Commerce.Application.pdb
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.Application\obj\Debug\net8.0\ref\E-Commerce.Application.dll

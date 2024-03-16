@@ -296,3 +296,4 @@ C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.
 C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.WebAPI\obj\Debug\net8.0\E-Commerce.WebAPI.pdb
 C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.WebAPI\obj\Debug\net8.0\E-Commerce.WebAPI.genruntimeconfig.cache
 C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.WebAPI\obj\Debug\net8.0\ref\E-Commerce.WebAPI.dll
+C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.WebAPI\bin\Debug\net8.0\AutoMapper.dll

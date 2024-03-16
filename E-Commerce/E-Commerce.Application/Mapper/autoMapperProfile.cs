@@ -12,9 +12,27 @@ namespace E_Commerce.Application.Mapper
     {
         public autoMapperProfile()
         {
+
             // product
             CreateMap<Domain.DTOs.productDto.createDto, Product>().ReverseMap();
             CreateMap<Domain.DTOs.productDto.updateDto, Product>().ReverseMap();
+            CreateMap<Domain.DTOs.productDto.GetProductDto, Product>().ReverseMap();
+
+            // product-Image
+            CreateMap<Domain.DTOs.ProductImageDto.CreateDto, ProductImage>().ReverseMap();
+            CreateMap<Domain.DTOs.ProductImageDto.UpdateDto, ProductImage>().ReverseMap();
+            CreateMap<Domain.DTOs.ProductImageDto.GetProductImageDto, ProductImage>().ReverseMap();
+
+            // review
+            CreateMap<Domain.DTOs.ReviewDto.CreateDto, Review>().ReverseMap();
+            CreateMap<Domain.DTOs.ReviewDto.UpdateDto, Review>().ReverseMap();
+            CreateMap<Domain.DTOs.ReviewDto.GetReviewDto, Review>().ReverseMap();
+
+            // order-item
+            CreateMap<Domain.DTOs.OrderItemDto.CreateDto, orderItem>().ReverseMap();
+            CreateMap<Domain.DTOs.OrderItemDto.UpdateDto, orderItem>().ReverseMap();
+            CreateMap<Domain.DTOs.OrderItemDto.GetOrderItemDto, orderItem>().ReverseMap();
+
 
             //category
             CreateMap<Domain.DTOs.CategoryDto.CreateOrUpdateCategoryDto, Category>().ReverseMap();

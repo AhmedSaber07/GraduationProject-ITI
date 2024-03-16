@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Domain.DTOs.productDto
 {
-    public class getProductDto
+    public class GetProductDto
     {
         public Guid Id { get; set; }
         public bool IsDeleted { get; set; }
@@ -26,16 +26,15 @@ namespace E_Commerce.Domain.DTOs.productDto
         public Guid brandId { get; set; }
 
         // Navigation properties
-        public virtual Category Category { get; set; }
-        public virtual Brand Brand { get; set; }
-        public virtual ICollection<orderItem> OrderItems { get; set; }
-        public virtual ICollection<ProductImage> Images { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
-        public getProductDto()
+
+        public virtual ICollection<OrderItemDto.GetOrderItemDto> OrderItems { get; set; }
+        public virtual ICollection<ProductImageDto.GetProductImageDto> Images { get; set; }
+        public virtual ICollection<ReviewDto.GetReviewDto> Reviews { get; set; }
+        public GetProductDto()
         {
-            OrderItems = new List<orderItem>();
-            Images = new List<ProductImage>();
-            Reviews = new List<Review>();
+            OrderItems = new List<OrderItemDto.GetOrderItemDto>();
+            Images = new List<ProductImageDto.GetProductImageDto>();
+            Reviews = new List<ReviewDto.GetReviewDto>();
         }
     }
 }

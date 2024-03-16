@@ -20,7 +20,7 @@ namespace E_Commerce.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            //SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+           // SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Brand", b =>
                 {
@@ -468,7 +468,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Category", "ParentCategory")
                         .WithMany("Subcategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ParentCategory");
@@ -479,7 +479,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -490,7 +490,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Order", "Order")
                         .WithOne("Payment")
                         .HasForeignKey("E_Commerce.Domain.Models.Payment", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -501,13 +501,13 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("brandId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("E_Commerce.Domain.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("categoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Brand");
@@ -520,7 +520,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -531,7 +531,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Product", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -542,13 +542,13 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("E_Commerce.Domain.Models.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Order");

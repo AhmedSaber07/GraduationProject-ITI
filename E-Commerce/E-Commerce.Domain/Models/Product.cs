@@ -39,8 +39,8 @@ namespace E_Commerce.Domain.Models
         // Navigation properties
         public virtual Category Category { get; set; }
         public virtual Brand Brand { get; set; }
-        public virtual ICollection<orderItem> OrderItems { get; set; }
+        public virtual ICollection<orderItem>? OrderItems { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review>? Reviews { get; set; }
     }
 }

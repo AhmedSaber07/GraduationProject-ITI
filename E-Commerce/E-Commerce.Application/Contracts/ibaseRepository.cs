@@ -10,7 +10,7 @@ namespace E_Commerce.Infrastructure.Context
         Task<IQueryable<TEntity>> GetAllAsync();
         Task<TEntity> GetByIdAsync(TID id);
         Task<TEntity> CreateAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TEntity entity, int Id);
+        Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> HardDeleteAsync(TEntity entity);
         Task<TEntity> SoftDeleteAsync(TEntity entity);
         Task<int> SaveChangesAsync();

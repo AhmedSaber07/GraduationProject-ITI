@@ -1,4 +1,5 @@
-﻿using E_Commerce.Domain.Models;
+﻿using E_Commerce.Domain.DTOs.CategoryDto;
+using E_Commerce.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,16 +24,15 @@ namespace E_Commerce.Domain.DTOs.productDto
         public Guid brandId { get; set; }
 
         // Navigation properties
-        public virtual Category Category { get; set; }
-        public virtual Brand Brand { get; set; }
-        public virtual ICollection<orderItem> OrderItems { get; set; }
-        public virtual ICollection<ProductImage> Images { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+
+        public virtual ICollection<OrderItemDto.CreateDto>? OrderItems { get; set; }
+        public virtual ICollection<ProductImageDto.CreateDto> Images { get; set; }
+        public virtual ICollection<ReviewDto.CreateDto>? Reviews { get; set; }
         public createDto()
         {
-            OrderItems = new List<orderItem>();
-            Images = new List<ProductImage>();
-            Reviews = new List<Review>();
+            OrderItems = new List<OrderItemDto.CreateDto>();
+            Images = new List<ProductImageDto.CreateDto>();
+            Reviews = new List<ReviewDto.CreateDto>();
         }
     }
 }

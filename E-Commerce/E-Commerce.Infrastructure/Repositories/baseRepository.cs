@@ -48,9 +48,9 @@ namespace E_Commerce.Infrastructure.Repositories
             return _context.SaveChangesAsync();
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity, int Id)
+        public Task<TEntity> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_context.Set<TEntity>().Update(entity).Entity);
         }
     }
 }

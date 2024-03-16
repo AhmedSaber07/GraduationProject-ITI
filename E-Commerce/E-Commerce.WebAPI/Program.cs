@@ -1,6 +1,9 @@
 
+using E_Commerce.Application.Contracts;
+using E_Commerce.Application.Services;
 using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
+using E_Commerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,8 +23,16 @@ namespace E_Commerce.WebAPI
             builder.Services.AddSwaggerGen();
             //  builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<_2B_EgyptDBContext>();
 
+
+            // registeration
+            builder.Services.AddScoped<iproductService, productService>();
+            builder.Services.AddScoped<iproductRepository, productRepository>();
+
+
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 
 
             builder.Services.AddDbContext<_2B_EgyptDBContext>(

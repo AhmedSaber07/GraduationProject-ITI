@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,19 @@ namespace E_Commerce.Infrastructure.Repositories
             return (await _context.Set<TEntity>().AddAsync(entity)).Entity;
         }
 
-        public Task<TEntity> DeleteAsync(TEntity entity)
+        public Task<TEntity> HardDeleteAsync(TEntity entity)
         {
 
             return Task.FromResult(_context.Set<TEntity>().Remove(entity).Entity);
         }
+        public Task<TEntity> SoftDeleteAsync(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<IQueryable<TEntity>> GetAllAsync()
         {
+
             return Task.FromResult(_context.Set<TEntity>().Where(E => E.IsDeleted == false));
         }
 

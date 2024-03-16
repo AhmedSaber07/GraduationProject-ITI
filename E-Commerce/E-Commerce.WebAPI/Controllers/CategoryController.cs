@@ -1,0 +1,46 @@
+﻿using Company.Dtos.ViewResult;
+using E_Commerce.Application.Services;
+using E_Commerce.Domain.DTOs.CategoryDto;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace E_Commerce.WebAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : ControllerBase
+    {
+        private readonly icategoryServices icategoryServices;
+
+        public CategoryController(icategoryServices icategoryServices)
+        {
+            this.icategoryServices = icategoryServices;
+        }
+
+      
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<ActionResult< resultDto<getDto>>> Get(Guid id)
+        {
+            var category = await icategoryServices.getById(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            category.Entity.children = await icategoryServices.GetAllChildrenByCategoryId(id);
+            return category;
+        }
+        [HttpPost]
+       
+        public IActionResult Post([FromBody] CreateOrUpdateCategoryDto category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            icategoryServices.createAsync(category);
+            return CreatedAtAction(nameof(Get), new { id = category.id }, category);
+        }
+    }
+}

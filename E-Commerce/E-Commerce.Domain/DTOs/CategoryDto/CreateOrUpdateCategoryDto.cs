@@ -9,12 +9,14 @@ namespace E_Commerce.Domain.DTOs.CategoryDto
 {
     public class CreateOrUpdateCategoryDto
     {
-       
+        public Guid id { get; set; }
+
         public string NameAr { get; set; }
 
       
         public string NameEn { get; set; }
 
         public Guid? ParentCategoryId { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

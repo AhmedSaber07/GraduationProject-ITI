@@ -11,7 +11,10 @@ namespace E_Commerce.Application.Contracts
 {
     public interface icategoryRepository : ibaseRepository<Category, Guid>
     {
-        Task<IQueryable<Product>> GetAllProductbyCategoryId(Guid id);
-        Task<bool> isCategoryExist(Guid id);
+        public Task<IQueryable<Product>> GetAllProductbyCategoryId(Guid id);
+        public Task<bool> IsCategoryExist(Guid id);
+        public Task<IQueryable<Category>> GetAllChildrenById(Guid id);
+        public Task<bool> CheckHasChildren(Guid id);
+        public Task<bool> SeaechByName(string name);
     }
 }

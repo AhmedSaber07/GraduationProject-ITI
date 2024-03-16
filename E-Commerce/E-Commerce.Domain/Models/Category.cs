@@ -13,11 +13,11 @@ namespace E_Commerce.Domain.Models
         public string nameEn { get; set; }
 
         [ForeignKey("ParentCategory")]
-        public Guid ParentCategoryId { get; set; }
-      
-        public virtual Category ParentCategory { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
-        public virtual ICollection<Category> Subcategories { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual Category? ParentCategory { get; set; }
+
+        public virtual ICollection<Category>? Subcategories { get; set; }
+        public virtual ICollection<Product>? Products { get; set; }
     }
 }

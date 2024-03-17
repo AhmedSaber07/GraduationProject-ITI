@@ -38,6 +38,7 @@ namespace E_Commerce.Application.Mapper
             //category
             CreateMap<Domain.DTOs.CategoryDto.CreateOrUpdateCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.ReadCategoryDto, Category>().ReverseMap();
+            CreateMap<Domain.DTOs.CategoryDto.getDto, Category>().ReverseMap();
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using E_Commerce.Domain.Models;
+﻿using E_Commerce.Domain.listResultDto;
+using E_Commerce.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace E_Commerce.Domain.DTOs.CategoryDto
         public Guid Id { get; set; }
         public string NameAr { get; set; }
         public string NameEn { get; set; }
-        public List<Category>? children { get; set; }
+        public listResultDto<getDto>? children { get; set; }
     }
 }

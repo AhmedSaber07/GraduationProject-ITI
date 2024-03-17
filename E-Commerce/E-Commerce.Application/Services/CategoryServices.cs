@@ -9,6 +9,7 @@ using Company.Dtos.ViewResult;
 using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
+using E_Commerce.Domain.DTOs.productDto;
 namespace E_Commerce.Application.Services
 {
     public class CategoryServices : icategoryServices
@@ -42,9 +43,14 @@ namespace E_Commerce.Application.Services
 
         }
 
-        public Task<resultDto<ReadCategoryDto>> getAll()
+        public async Task<listResultDto<getDto>> getAll()
         {
-            throw new NotImplementedException();
+            var q = await categoryRepository.GetAllAsync();
+            listResultDto<getDto> categorys = new listResultDto<getDto>();
+            categorys.entities = _mapper.Map<IEnumerable<getDto>>(q);
+            categorys.count = q.Count();
+            return categorys;
+            
         }
 
         public async Task<resultDto<getDto>> getById(Guid ID)
@@ -65,9 +71,14 @@ namespace E_Commerce.Application.Services
            
         }
 
-        public async Task<List<Category>> GetAllChildrenByCategoryId(Guid categoryId)
+        public async Task<listResultDto<getDto>> GetAllChildrenByCategoryId(Guid categoryId)
         {
-            return (List<Category>)await categoryRepository.GetAllChildrenById(categoryId);
+            var q = await categoryRepository.GetAllChildrenById(categoryId);
+            listResultDto<getDto> categorys = new listResultDto<getDto>();
+            categorys.entities = _mapper.Map<IEnumerable<getDto>>(q);
+            categorys.count = q.Count();
+            return categorys;
+
         }
         public Task<resultDto<ReadCategoryDto>> hardDeleteAsync(ReadCategoryDto category)
         {

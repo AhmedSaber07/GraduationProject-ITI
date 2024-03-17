@@ -16,8 +16,9 @@ namespace E_Commerce.Application.Services
         Task<resultDto<ReadCategoryDto>> hardDeleteAsync(ReadCategoryDto category);
         Task<resultDto<ReadCategoryDto>> softDeleteAsync(ReadCategoryDto category);
         Task<resultDto<getDto>> getById(Guid ID);
-        Task<resultDto<ReadCategoryDto>> getAll();
-         Task<List<Category>> GetAllChildrenByCategoryId(Guid categoryId);
-       
+         Task<listResultDto<getDto>> getAll();
+        Task<listResultDto<getDto>> GetAllChildrenByCategoryId(Guid categoryId);
+
+
     }
 }

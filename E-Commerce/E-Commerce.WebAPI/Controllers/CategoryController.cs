@@ -30,16 +30,20 @@ namespace E_Commerce.WebAPI.Controllers
             category.Entity.children = await icategoryServices.GetAllChildrenByCategoryId(id);
             return category;
         }
-        [HttpPost]
-       
-        public IActionResult Post([FromBody] CreateOrUpdateCategoryDto category)
+        [HttpGet]
+        public async Task<ActionResult<resultDto<getDto>>> Get()
+        {        
+            return Ok(await icategoryServices.getAll());
+        }
+        [HttpPost]      
+        public async Task<IActionResult> Post([FromBody] CreateOrUpdateCategoryDto category)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            icategoryServices.createAsync(category);
+           await icategoryServices.createAsync(category);
             return CreatedAtAction(nameof(Get), new { id = category.id }, category);
         }
     }

@@ -37,8 +37,8 @@ namespace E_Commerce.Application.Services
             productEntity.Id = Guid.NewGuid();
             foreach (var image in productDto.Images)
             {
-                var _productimage =_mapper.Map<ProductImage>(image);
-                _productimage.createdAt=DateTime.Now;
+                var _productimage = _mapper.Map<ProductImage>(image);
+                _productimage.createdAt = DateTime.Now;
                 productEntity.Images.Add(_productimage);
             }
             productEntity.createdAt = DateTime.Now;
@@ -46,7 +46,7 @@ namespace E_Commerce.Application.Services
             await _productRepository.SaveChangesAsync();
             createdProduct = _mapper.Map<createDto>(productEntity);
             return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = true, Message = "Created Sucessfully" };
-        
+
         }
         public async Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null)
         {
@@ -56,19 +56,22 @@ namespace E_Commerce.Application.Services
             {
                 foreach (var include in includes)
                 {
-                    allProductsQuery = allProductsQuery.Include(include);
+                        allProductsQuery = allProductsQuery.Include(include);
                 }
             }
-            var productsPage = allProductsQuery.Skip(items * (pagenumber - 1)).Take(items).ToList();
+            var totalCount = await allProductsQuery.CountAsync();
+            var productsPage = await allProductsQuery.Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
             //_mapper.Map<IEnumerable<GetProductDto>>(productsPage);
-            listResultDto<GetProductDto> productList = new listResultDto<GetProductDto>();
-            productList.entities = _mapper.Map<IEnumerable<GetProductDto>>(productsPage);
-            productList.count = allProductsQuery.Count();
+            listResultDto<GetProductDto> productList = new listResultDto<GetProductDto>
+            {
+                entities = _mapper.Map<IEnumerable<GetProductDto>>(productsPage),
+                count = totalCount
+            };
             return productList;
 
         }
 
-        public async Task<resultDto<GetProductDto>> getById(Guid ID)
+        public async Task<resultDto<GetProductDto>> getById(Guid ID, string[] includes = null)
         {
             GetProductDto returnedProduct = null;
             try
@@ -77,7 +80,7 @@ namespace E_Commerce.Application.Services
                 {
                     return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = "ID Not Found" };
                 }
-                var product = await _productRepository.GetByIdAsync(ID);
+                var product = await _productRepository.GetByIdAsync(ID, includes);
                 returnedProduct = _mapper.Map<GetProductDto>(product);
                 return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = true, Message = "Returned Sucessfully" };
 

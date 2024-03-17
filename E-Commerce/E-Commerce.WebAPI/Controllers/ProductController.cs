@@ -3,6 +3,7 @@ using E_Commerce.Application.Contracts;
 using E_Commerce.Domain;
 using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
+using E_Commerce.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,18 +21,20 @@ namespace E_Commerce.WebAPI.Controllers
         }
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<listResultDto<GetProductDto>>> Get()
+        public async Task<ActionResult<listResultDto<GetProductDto>>> Getall(int items, int pagenumber,[FromBody] string[] includes = null)
         {
-            return Ok(await _productService.GetAllPaginationAsync(1, 1));
+            var x = await _productService.GetAllPaginationAsync(items, pagenumber,includes);
+            return Ok(x);
         }
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetProductDto>> Get(Guid id)
+        public async Task<ActionResult<GetProductDto>> Getone(Guid id,[FromBody] string[] includes = null)
         {
             if (id != Guid.Empty)
             {
-                return Ok(await _productService.getById(id));
+                var x = await _productService.getById(id,includes);
+                return Ok(x.Entity);
             }
             return NotFound();
         }
@@ -40,9 +43,12 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> addproduct(createDto productDto)
         {
-
-            var x = await _productService.createAsync(productDto);
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                var resultProduct = await _productService.createAsync(productDto);
+                return Created("Product", resultProduct );
+            }
+            return BadRequest(ModelState);
 
         }
 

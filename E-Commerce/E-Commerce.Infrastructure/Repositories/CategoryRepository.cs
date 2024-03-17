@@ -33,14 +33,13 @@ namespace E_Commerce.Infrastructure.Repositories
         public async Task<IQueryable<Category>> GetAllChildrenById(Guid id)
         {
             var Query = _context.categories.Where(c => c.ParentCategoryId == id);
-
             return await Task.FromResult(Query);
         }
 
        async public Task<bool> CheckHasChildren(Guid id)
-        {
+       {
             return await _context.categories.AnyAsync(c => c.ParentCategoryId == id);
-        }
+       }
 
         public async Task<bool> SeaechByName(string name)
         {

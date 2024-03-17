@@ -1,6 +1,7 @@
 ﻿using Company.Dtos.ViewResult;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.CategoryDto;
+using E_Commerce.Domain.listResultDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace E_Commerce.WebAPI.Controllers
             return category;
         }
         [HttpGet]
-        public async Task<ActionResult<resultDto<getDto>>> Get()
+        public async Task<ActionResult<listResultDto<getDto>>> Get()
         {        
             return Ok(await icategoryServices.getAll());
         }
@@ -45,6 +46,13 @@ namespace E_Commerce.WebAPI.Controllers
 
            await icategoryServices.createAsync(category);
             return CreatedAtAction(nameof(Get), new { id = category.id }, category);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+          var result=  await icategoryServices.softDeleteAsync(id);
+
+            return Ok(result);
         }
     }
 }

@@ -33,10 +33,11 @@ namespace E_Commerce.Application.Services
             else
             {
                 category.id = Guid.NewGuid();
+                category.CreatedAt = DateTime.Now;
                 var Cat = _mapper.Map<Category>(category);
-                var Newbook = await categoryRepository.CreateAsync(Cat);
+                var Newcategory = await categoryRepository.CreateAsync(Cat);
                 await categoryRepository.SaveChangesAsync();
-                var CatDto = _mapper.Map<CreateOrUpdateCategoryDto>(Newbook);
+                var CatDto = _mapper.Map<CreateOrUpdateCategoryDto>(Newcategory);
                 return new resultDto<CreateOrUpdateCategoryDto> { Entity = CatDto, IsSuccess = true, Message = "Created Successfully" };
             }
 
@@ -85,9 +86,25 @@ namespace E_Commerce.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<resultDto<ReadCategoryDto>> softDeleteAsync(ReadCategoryDto category)
+        public async Task<resultDto<ReadCategoryDto>> softDeleteAsync(Guid category)
         {
-            throw new NotImplementedException();
+            bool ok = true;
+            ok =! (await categoryRepository.CheckHasChildren(category));
+            var categ = await categoryRepository.GetByIdAsync(category);
+            if (categ == null) ok = false;
+            if(!ok)
+            {
+                return new resultDto<ReadCategoryDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
+            }
+
+            categ.IsDeleted = true;
+            categ.deletedAt = DateTime.Now;
+           await categoryRepository.SaveChangesAsync();
+            var Returnc = _mapper.Map<ReadCategoryDto>(categ);
+            return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
+
+           
+
         }
 
         public Task<resultDto<CreateOrUpdateCategoryDto>> updateAsync(CreateOrUpdateCategoryDto category)
@@ -95,6 +112,6 @@ namespace E_Commerce.Application.Services
             throw new NotImplementedException();
         }
 
-       
+    
     }
 }

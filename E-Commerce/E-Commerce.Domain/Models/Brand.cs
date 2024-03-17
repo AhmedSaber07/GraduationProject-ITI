@@ -12,6 +12,6 @@ namespace E_Commerce.Domain.Models
         [MaxLength(100, ErrorMessage = "Brand name cannot exceed 100 characters.")]
         public string nameEn { get; set; }
         public string email { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product>? Products { get; set; }
     }
 }

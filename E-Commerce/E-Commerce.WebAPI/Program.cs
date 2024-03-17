@@ -32,6 +32,8 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<iproductRepository, productRepository>();
             builder.Services.AddScoped<icategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<icategoryServices, CategoryServices>();
+            builder.Services.AddScoped<ibrandRepository, BrandRepository>();
+            builder.Services.AddScoped<ibrandService, brandService>();
 
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -11,7 +11,6 @@ namespace E_Commerce.Domain.DTOs.productDto
 {
     public class createDto
     {
-        public DateTime createdAt { get; set; }
         public string nameAr { get; set; }      
         public string nameEn { get; set; }
         public string descriptionAr { get; set; }    
@@ -26,12 +25,12 @@ namespace E_Commerce.Domain.DTOs.productDto
         // Navigation properties
 
         public virtual ICollection<OrderItemDto.CreateDto>? OrderItems { get; set; }
-        public virtual ICollection<ProductImageDto.CreateDto> Images { get; set; }
+        public virtual ICollection<ProductImageDto.CreateWithProductDto> Images { get; set; }
         public virtual ICollection<ReviewDto.CreateDto>? Reviews { get; set; }
         public createDto()
         {
             OrderItems = new List<OrderItemDto.CreateDto>();
-            Images = new List<ProductImageDto.CreateDto>();
+            Images = new List<ProductImageDto.CreateWithProductDto>();
             Reviews = new List<ReviewDto.CreateDto>();
         }
     }

@@ -20,6 +20,7 @@ namespace E_Commerce.Application.Mapper
 
             // product-Image
             CreateMap<Domain.DTOs.ProductImageDto.CreateDto, ProductImage>().ReverseMap();
+            CreateMap<Domain.DTOs.ProductImageDto.CreateWithProductDto, ProductImage>().ReverseMap();
             CreateMap<Domain.DTOs.ProductImageDto.UpdateDto, ProductImage>().ReverseMap();
             CreateMap<Domain.DTOs.ProductImageDto.GetProductImageDto, ProductImage>().ReverseMap();
 

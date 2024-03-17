@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "E-Commerce.WebAPI/1.0.0": {
         "dependencies": {
+          "E-Commerce.Application": "1.0.0",
           "E-Commerce.Infrastructure": "1.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.3",
           "Microsoft.EntityFrameworkCore.Design": "8.0.3",

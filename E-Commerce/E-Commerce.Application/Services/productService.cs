@@ -28,27 +28,26 @@ namespace E_Commerce.Application.Services
         public async Task<resultDto<createDto>> createAsync(createDto productDto)
         {
             createDto createdProduct = null;
-            try
-            {
-                if (productDto is null)
-                {
-                    return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = false, Message = "Entered Values is Empty" };
-                }
-                Product productEntity = _mapper.Map<Product>(productDto);
-                productEntity = await _productRepository.CreateAsync(productEntity);
-                productEntity.createdAt = DateTime.Now;
-                await _productRepository.SaveChangesAsync();
-                createdProduct = _mapper.Map<createDto>(productEntity);
-                return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = true, Message = "Created Sucessfully" };
 
-            }
-            catch (Exception ex)
+            if (productDto is null)
             {
-                return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = false, Message = ex.Message };
-
+                return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = false, Message = "Entered Values is Empty" };
             }
+            Product productEntity = _mapper.Map<Product>(productDto);
+            productEntity.Id = Guid.NewGuid();
+            foreach (var image in productDto.Images)
+            {
+                var _productimage =_mapper.Map<ProductImage>(image);
+                _productimage.createdAt=DateTime.Now;
+                productEntity.Images.Add(_productimage);
+            }
+            productEntity.createdAt = DateTime.Now;
+            productEntity = await _productRepository.CreateAsync(productEntity);
+            await _productRepository.SaveChangesAsync();
+            createdProduct = _mapper.Map<createDto>(productEntity);
+            return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = true, Message = "Created Sucessfully" };
+        
         }
-
         public async Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null)
         {
             var allProductsQuery = await _productRepository.GetAllAsync();
@@ -89,7 +88,7 @@ namespace E_Commerce.Application.Services
             }
         }
 
-        public async Task<listResultDto<GetProductDto>> getbyNameAr(string nameAr , string[] includes = null)
+        public async Task<listResultDto<GetProductDto>> getbyNameAr(string nameAr, string[] includes = null)
         {
             var allProductsQuery = await _productRepository.GetAllAsync();
 
@@ -197,6 +196,7 @@ namespace E_Commerce.Application.Services
                 return new resultDto<updateDto>() { Entity = updatedProductStockQuantity, IsSuccess = false, Message = "Id Not Found" };
             }
             var productEntity = await _productRepository.GetByIdAsync(Id);
+            productEntity.updatedAt = DateTime.Now;
             productEntity.stockQuantity = productStockQuantity;
             await _productRepository.SaveChangesAsync();
             updatedProductStockQuantity = _mapper.Map<updateDto>(productEntity);
@@ -211,6 +211,7 @@ namespace E_Commerce.Application.Services
                 return new resultDto<updateDto>() { Entity = updatedProductStockQuantity, IsSuccess = false, Message = "Id Not Found" };
             }
             var productEntity = await _productRepository.GetByIdAsync(Id);
+            productEntity.updatedAt = DateTime.Now;
             productEntity.price = productPrice;
             await _productRepository.SaveChangesAsync();
             updatedProductStockQuantity = _mapper.Map<updateDto>(productEntity);

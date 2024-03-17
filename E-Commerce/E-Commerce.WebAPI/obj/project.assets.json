@@ -4782,6 +4782,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "E-Commerce.Application >= 1.0.0",
       "E-Commerce.Infrastructure >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.3",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.3",
@@ -4817,8 +4818,21 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+<<<<<<< Updated upstream
             "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
               "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
+=======
+<<<<<<< HEAD
+            "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
+              "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
+            },
+            "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
+=======
+            "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
+              "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
+>>>>>>> 4aaca53f0413e6f2a577e6b9a08db1c215b8d2be
+>>>>>>> Stashed changes
             }
           }
         }

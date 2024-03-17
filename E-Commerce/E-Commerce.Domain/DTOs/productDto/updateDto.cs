@@ -10,8 +10,6 @@ namespace E_Commerce.Domain.DTOs.productDto
 {
     public class updateDto
     {
-
-        public DateTime updatedAt { get; set; }
         public string nameAr { get; set; }
         public string nameEn { get; set; }
         public string descriptionAr { get; set; }
@@ -25,9 +23,9 @@ namespace E_Commerce.Domain.DTOs.productDto
 
         // Navigation properties
 
-        public virtual ICollection<OrderItemDto.UpdateDto> OrderItems { get; set; }
+        public virtual ICollection<OrderItemDto.UpdateDto>? OrderItems { get; set; }
         public virtual ICollection<ProductImageDto.UpdateDto> Images { get; set; }
-        public virtual ICollection<ReviewDto.UpdateDto> Reviews { get; set; }
+        public virtual ICollection<ReviewDto.UpdateDto>? Reviews { get; set; }
 
         public updateDto()
         {

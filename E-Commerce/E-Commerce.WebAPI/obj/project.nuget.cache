@@ -1,6 +1,14 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "tYI9Yf3709idLJWBT2jsR+ZU4FH3Sg/8RxBm3hoW3Vthip1P1zQdhYL8FbRLtAJDRcojS1XKKmcgGZMw9CwVgQ==",
+=======
+<<<<<<< HEAD
+  "dgSpecHash": "ZrXuGgh7zSCWxHRCBz6VNc7Fi1ajgPXH1dBgOzyHPFheOZav63dFHSjZ89k2d2cFp5y19ANkmPvX6cUkF2fvwQ==",
+=======
+  "dgSpecHash": "tYI9Yf3709idLJWBT2jsR+ZU4FH3Sg/8RxBm3hoW3Vthip1P1zQdhYL8FbRLtAJDRcojS1XKKmcgGZMw9CwVgQ==",
+>>>>>>> 4aaca53f0413e6f2a577e6b9a08db1c215b8d2be
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj",
   "expectedPackageFiles": [

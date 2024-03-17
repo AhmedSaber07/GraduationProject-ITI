@@ -34,13 +34,20 @@ namespace E_Commerce.Infrastructure.Repositories
 
         public Task<IQueryable<TEntity>> GetAllAsync()
         {
-
-            return Task.FromResult(_context.Set<TEntity>().Where(E => E.IsDeleted == false));
+                return Task.FromResult(_context.Set<TEntity>().Where(E => E.IsDeleted == false));
         }
 
-        public async Task<TEntity> GetByIdAsync(TID id)
+        public async Task<TEntity> GetByIdAsync(TID id, string[] includes = null)
         {
-            return await _context.Set<TEntity>().FindAsync(id);
+            var query = _context.Set<TEntity>().AsQueryable();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query=query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync(E=>E.Id.Equals(id));
         }
 
         public Task<int> SaveChangesAsync()

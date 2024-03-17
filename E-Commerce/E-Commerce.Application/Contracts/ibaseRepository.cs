@@ -8,7 +8,7 @@ namespace E_Commerce.Infrastructure.Context
     public interface ibaseRepository<TEntity, TID>
     {
         Task<IQueryable<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(TID id);
+        Task<TEntity> GetByIdAsync(TID id, string[] includes = null);
         Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> HardDeleteAsync(TEntity entity);

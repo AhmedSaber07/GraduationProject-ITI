@@ -17,11 +17,12 @@ namespace E_Commerce.Application.Services
     {
         private readonly ibrandRepository brandRepository;
         private readonly IMapper _mapper;
-
-        public brandService(ibrandRepository brandRepository, IMapper mapper)
+        iproductService productService;
+        public brandService(ibrandRepository brandRepository, IMapper mapper , iproductService iproduct)
         {
             this.brandRepository = brandRepository;
             _mapper = mapper;
+            productService = iproduct;
         }
 
         public async Task<resultDto<CreateDto>> createAsync(CreateDto brand)
@@ -51,14 +52,64 @@ namespace E_Commerce.Application.Services
             return brands;
         }
 
-        public Task<resultDto<GetBrandDto>> getById(Guid ID)
+        public async Task<resultDto<GetBrandDto>> getById(Guid ID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var brand = await brandRepository.GetByIdAsync(ID);
+                var Returnc = _mapper.Map<GetBrandDto>(brand);
+
+
+                return new resultDto<GetBrandDto> { Entity = Returnc, IsSuccess = true, Message = "there is exist" };
+            }
+            catch (Exception ex)
+            {
+                return new resultDto<GetBrandDto> { Entity = null, IsSuccess = false, Message = ex.Message };
+
+            }
         }
 
-        public Task<resultDto<GetBrandDto>> softDeleteAsync(Guid id)
+        public async Task<resultDto<GetBrandDto>> softDeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+
+            bool ok = true;
+            var x=await productService.getbybrandAsync(id);
+            ok = x.count == 0 ? true : false;
+            var brand = await brandRepository.GetByIdAsync(id);
+            if (brand == null) ok = false;
+            if (!ok)
+            {
+                return new resultDto<GetBrandDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
+            }
+
+            brand.IsDeleted = true;
+            brand.deletedAt = DateTime.Now;
+            await brandRepository.SaveChangesAsync();
+            var Returnc = _mapper.Map<GetBrandDto>(brand);
+            return new resultDto<GetBrandDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
+
+
+        }
+        public async Task<resultDto<GetBrandDto>> HardDeleteAsync(Guid id)
+        {
+
+            bool ok = true;
+            var x = await productService.getbybrandAsync(id);
+            ok = x.count == 0 ? true : false;
+            var brand = await brandRepository.GetByIdAsync(id);
+            if (brand == null) ok = false;
+            if (!ok)
+            {
+                return new resultDto<GetBrandDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
+            }
+
+            await brandRepository.HardDeleteAsync(brand);
+            brand.deletedAt = DateTime.Now;
+            await brandRepository.SaveChangesAsync();
+            var Returnc = _mapper.Map<GetBrandDto>(brand);
+            return new resultDto<GetBrandDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
+
+
         }
     }
 }

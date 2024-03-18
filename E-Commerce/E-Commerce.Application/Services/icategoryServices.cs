@@ -13,7 +13,7 @@ namespace E_Commerce.Application.Services
     {
         Task<resultDto<CreateOrUpdateCategoryDto>> createAsync(CreateOrUpdateCategoryDto category);
         Task<resultDto<CreateOrUpdateCategoryDto>> updateAsync(CreateOrUpdateCategoryDto category);
-        Task<resultDto<ReadCategoryDto>> hardDeleteAsync(ReadCategoryDto category);
+        Task<resultDto<ReadCategoryDto>> HardDeleteAsync(Guid category);
         Task<resultDto<ReadCategoryDto>> softDeleteAsync(Guid category);
         Task<resultDto<getDto>> getById(Guid ID);
          Task<listResultDto<getDto>> getAll();

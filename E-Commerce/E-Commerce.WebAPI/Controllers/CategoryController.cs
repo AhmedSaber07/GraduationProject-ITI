@@ -1,4 +1,5 @@
 ﻿using Company.Dtos.ViewResult;
+using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.listResultDto;
@@ -47,11 +48,27 @@ namespace E_Commerce.WebAPI.Controllers
            await icategoryServices.createAsync(category);
             return CreatedAtAction(nameof(Get), new { id = category.id }, category);
         }
-        [HttpDelete]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("SoftDelete/{id:guid}")]
+        public async Task<IActionResult> SoftDelete(Guid id)
         {
-          var result=  await icategoryServices.softDeleteAsync(id);
+            if (id == Guid.Empty)
+            {
+                return NotFound();
 
+            }
+            var result=  await icategoryServices.softDeleteAsync(id);
+
+            return Ok(result);
+        }
+        [HttpDelete("HardDelete/{id:guid}")]
+        public async Task<IActionResult> HardDelete(Guid Id)
+        {
+            if (Id == Guid.Empty)
+            {
+                return NotFound();
+              
+            }
+           var result= await icategoryServices.HardDeleteAsync(Id);
             return Ok(result);
         }
     }

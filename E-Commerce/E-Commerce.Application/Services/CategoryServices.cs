@@ -81,9 +81,24 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
-        public Task<resultDto<ReadCategoryDto>> hardDeleteAsync(ReadCategoryDto category)
+        public async Task<resultDto<ReadCategoryDto>> HardDeleteAsync(Guid category)
         {
-            throw new NotImplementedException();
+            bool ok = true;
+            ok = !(await categoryRepository.CheckHasChildren(category));
+            var categ = await categoryRepository.GetByIdAsync(category);
+            if (categ == null) ok = false;
+            if (!ok)
+            {
+                return new resultDto<ReadCategoryDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
+            }
+
+            await categoryRepository.HardDeleteAsync(categ);
+            categ.deletedAt = DateTime.Now;
+            await categoryRepository.SaveChangesAsync();
+            var Returnc = _mapper.Map<ReadCategoryDto>(categ);
+            return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
+
+
         }
 
         public async Task<resultDto<ReadCategoryDto>> softDeleteAsync(Guid category)

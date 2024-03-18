@@ -16,6 +16,8 @@ namespace E_Commerce.Application.Services
         Task<resultDto<GetBrandDto>> softDeleteAsync(Guid id);
         Task<resultDto<GetBrandDto>> getById(Guid ID);
         Task<listResultDto<GetBrandDto>> getAll();
-       
+       Task<resultDto<GetBrandDto>> HardDeleteAsync(Guid id);
+
+
     }
 }

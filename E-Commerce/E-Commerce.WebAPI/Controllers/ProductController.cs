@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.WebAPI.Controllers
 {
-    [Route("api/product")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -19,49 +19,196 @@ namespace E_Commerce.WebAPI.Controllers
         {
             _productService = productService;
         }
-        // GET: api/<ProductController>
+        // GET
         [HttpGet]
-        public async Task<ActionResult<listResultDto<GetProductDto>>> Getall(int items, int pagenumber,[FromBody] string[] includes = null)
+        public async Task<ActionResult<listResultDto<GetProductDto>>> Getall(int items, int pagenumber, [FromBody] string[] includes = null)
         {
-            var x = await _productService.GetAllPaginationAsync(items, pagenumber,includes);
-            return Ok(x);
+            return Ok(await _productService.GetAllPaginationAsync(items, pagenumber, includes));
         }
 
-        // GET api/<ProductController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GetProductDto>> Getone(Guid id,[FromBody] string[] includes = null)
+        [HttpGet("{id:guid}", Name = "GetByProductId")]
+        public async Task<ActionResult<resultDto<GetProductDto>>> GetOneById(Guid id, [FromBody] string[] includes = null)
         {
             if (id != Guid.Empty)
             {
-                var x = await _productService.getById(id,includes);
-                return Ok(x.Entity);
+                var product = await _productService.getById(id, includes);
+                if (product is not null)
+                {
+                    return Ok(product);
+                }
+                else
+                {
+                    return NotFound();
+
+                }
             }
             return NotFound();
         }
 
-        // POST api/<ProductController>
+        [HttpGet("ArbicName/{nameAr:alpha}", Name = "GetByArbicName")]
+        public async Task<ActionResult<listResultDto<GetProductDto>>> GetByArbicName(string nameAr, [FromBody] string[] includes = null)
+        {
+            if (nameAr != string.Empty)
+            {
+                var products = await _productService.getbyNameAr(nameAr, includes);
+                if (products is not null)
+                {
+                    return Ok(products);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
+        [HttpGet("EnglishName/{nameEn:alpha}", Name = "GetByEnglishName")]
+        public async Task<ActionResult<listResultDto<GetProductDto>>> GetByEnglishName(string nameEn, [FromBody] string[] includes = null)
+        {
+            if (nameEn != string.Empty)
+            {
+                var products = await _productService.getbyNameEn(nameEn, includes);
+                if (products is not null)
+                {
+                    return Ok(products);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
+
+        [HttpGet("StockQuantity/{productStockQuantity:int}", Name = "GetByProductStockQuantity")]
+        public async Task<ActionResult<listResultDto<GetProductDto>>> GetByProductStockQuantity(int productStockQuantity, [FromBody] string[] includes = null)
+        {
+            if (productStockQuantity != 0)
+            {
+                var products = await _productService.getbyStockQuantityAsync(productStockQuantity, includes);
+                if (products is not null)
+                {
+                    return Ok(products);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
+
+        [HttpGet("BrandId/{brandId:guid}", Name = "GetProductsbyBrandAsync")]
+        public async Task<ActionResult<listResultDto<GetProductDto>>> GetProductsbyBrandAsync(Guid brandId, [FromBody] string[] includes = null)
+        {
+            if (brandId != Guid.Empty)
+            {
+                var products = await _productService.getbybrandAsync(brandId, includes);
+                if (products is not null)
+                {
+                    return Ok(products);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
+
+
+
+        // POST 
         [HttpPost]
-        public async Task<IActionResult> addproduct(createDto productDto)
+        public async Task<ActionResult<resultDto<GetProductDto>>> Addproduct([FromBody] createDto productDto)
         {
             if (ModelState.IsValid)
             {
                 var resultProduct = await _productService.createAsync(productDto);
-                return Created("Product", resultProduct );
+                return Created("Product", resultProduct);
             }
             return BadRequest(ModelState);
 
         }
 
-        // PUT api/<ProductController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
+        //PUT 
+        //[HttpPut("{id:guid}")]
+        //public async Task<ActionResult<resultDto<updateDto>>> UpdateProduct(Guid Id, [FromBody] updateDto productDto)
         //{
+        //    if (await _productService.ProductExist(Id))
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var resultProduct = await _productService.updateAsync(productDto, Id);
+        //            return Created("Product", resultProduct);
+        //        }
+        //        return BadRequest(ModelState);
+        //    }
+        //    return NotFound();
         //}
+        [HttpPut("{id:guid}/price")]
+        public async Task<ActionResult<resultDto<updateDto>>> UpdateProductPrice(Guid Id, decimal price)
+        {
 
-        //// DELETE api/<ProductController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+            if (await _productService.ProductExist(Id))
+            {
+                if (ModelState.IsValid)
+                {
+                    var resultProduct = await _productService.updatePriceAsync(price, Id);
+                    return Created("Product", resultProduct);
+                }
+            }
+            return BadRequest(ModelState);
+        }
+        [HttpPut("{id:guid}/stockQuantity")]
+        public async Task<ActionResult<resultDto<updateDto>>> updateStockQuantityAsync(Guid Id, int productStockQuantity)
+        {
+
+            if (await _productService.ProductExist(Id))
+            {
+                if (ModelState.IsValid)
+                {
+                    var resultProduct = await _productService.updateStockQuantityAsync(productStockQuantity, Id);
+                    return Created("Product", resultProduct);
+                }
+            }
+            return BadRequest(ModelState);
+        }
+
+        //DELETE
+        [HttpDelete("HardDelete/{id:guid}")]
+        public async Task<IActionResult> HardDelete(Guid Id)
+        {
+            if (Id != Guid.Empty)
+            {
+                var product = await _productService.hardDeleteAsync(Id);
+                if (product is not null)
+                {
+                    return Ok(product);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }   // problem in product image delete on cascade
+        [HttpDelete("SoftDelete/{id:guid}")]
+        public async Task<ActionResult<resultDto<GetProductDto>>> SoftDelete(Guid Id)
+        {
+            if (Id != Guid.Empty)
+            {
+                var product = await _productService.softDeleteAsync(Id);
+                if (product is not null)
+                {
+                    return Ok(product);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
     }
 }

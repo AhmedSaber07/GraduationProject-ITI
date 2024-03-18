@@ -13,6 +13,7 @@ namespace E_Commerce.Infrastructure.Context
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> HardDeleteAsync(TEntity entity);
         Task<TEntity> SoftDeleteAsync(TEntity entity);
+        Task<bool> EntityExist(TID entity);
         Task<int> SaveChangesAsync();
     }
 }

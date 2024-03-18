@@ -8,7 +8,6 @@ namespace E_Commerce.Domain.DTOs.ReviewDto
 {
     public class CreateDto
     {
-        public DateTime createdAt { get; set; }
         public string nickName { get; set; }
         public string summary { get; set; }
         public string reviewText { get; set; }

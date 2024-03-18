@@ -24,7 +24,7 @@ namespace E_Commerce.Domain.DTOs.productDto
         // Navigation properties
 
         public virtual ICollection<OrderItemDto.UpdateDto>? OrderItems { get; set; }
-        public virtual ICollection<ProductImageDto.UpdateDto> Images { get; set; }
+        public virtual ICollection<ProductImageDto.UpdateDto>? Images { get; set; }
         public virtual ICollection<ReviewDto.UpdateDto>? Reviews { get; set; }
 
         public updateDto()

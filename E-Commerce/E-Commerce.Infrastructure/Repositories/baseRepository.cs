@@ -59,5 +59,11 @@ namespace E_Commerce.Infrastructure.Repositories
         {
             return Task.FromResult(_context.Set<TEntity>().Update(entity).Entity);
         }
+
+        public async Task<bool> EntityExist(TID id)
+        {
+            return (await _context.Set<TEntity>().AnyAsync(E=>E.Id.Equals(id)));
+
+        }
     }
 }

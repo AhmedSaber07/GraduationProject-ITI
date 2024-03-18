@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("E-Commerce.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71db5493b1403d42914de5ba8b2d4d298814d502")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b008fd3c61774b30adee53b37cd7489948dd3311")]
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("E-Commerce.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("E-Commerce.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

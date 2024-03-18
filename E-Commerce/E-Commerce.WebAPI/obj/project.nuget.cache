@@ -1,14 +1,6 @@
 {
   "version": 2,
-<<<<<<< Updated upstream
-  "dgSpecHash": "CRp4DRPNCpKLPw1Yj75J/YVRjJN6ZMs+Bf3nBX8iLmfgm1A6JPT+6lhSE3jVPB0dO640ECQTvQrCXnzaDa/X6g==",
-=======
-<<<<<<< HEAD
   "dgSpecHash": "ZrXuGgh7zSCWxHRCBz6VNc7Fi1ajgPXH1dBgOzyHPFheOZav63dFHSjZ89k2d2cFp5y19ANkmPvX6cUkF2fvwQ==",
-=======
-  "dgSpecHash": "CRp4DRPNCpKLPw1Yj75J/YVRjJN6ZMs+Bf3nBX8iLmfgm1A6JPT+6lhSE3jVPB0dO640ECQTvQrCXnzaDa/X6g==",
->>>>>>> 71db5493b1403d42914de5ba8b2d4d298814d502
->>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj",
   "expectedPackageFiles": [
@@ -106,15 +98,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-<<<<<<< Updated upstream
-      "message": "Problem reading the cache file D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-=======
-<<<<<<< HEAD
       "message": "Problem reading the cache file C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-=======
-      "message": "Problem reading the cache file D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
->>>>>>> 71db5493b1403d42914de5ba8b2d4d298814d502
->>>>>>> Stashed changes
     }
   ]
 }

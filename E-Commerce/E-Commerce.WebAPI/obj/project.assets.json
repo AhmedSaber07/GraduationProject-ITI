@@ -4823,27 +4823,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-<<<<<<< Updated upstream
-            "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
-              "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
-            },
-            "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
-              "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
-=======
-<<<<<<< HEAD
             "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
               "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
             },
             "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
-=======
-            "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
-              "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
-            },
-            "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
-              "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
->>>>>>> 71db5493b1403d42914de5ba8b2d4d298814d502
->>>>>>> Stashed changes
             }
           }
         }
@@ -4911,15 +4895,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-<<<<<<< Updated upstream
-      "message": "Problem reading the cache file D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-=======
-<<<<<<< HEAD
       "message": "Problem reading the cache file C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-=======
-      "message": "Problem reading the cache file D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
->>>>>>> 71db5493b1403d42914de5ba8b2d4d298814d502
->>>>>>> Stashed changes
     }
   ]
 }

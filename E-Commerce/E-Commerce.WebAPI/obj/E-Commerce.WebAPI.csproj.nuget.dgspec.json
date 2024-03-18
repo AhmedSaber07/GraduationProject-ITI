@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj": {}
+    "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
+    "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj",
+        "projectUniqueName": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj",
         "projectName": "E-Commerce.Application",
-        "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj",
-        "packagesPath": "C:\\Users\\Mohamed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\obj\\",
+        "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj",
+        "packagesPath": "C:\\Users\\saraz\\.nuget\\packages\\",
+        "outputPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mohamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\saraz\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -32,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj": {
-                "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj"
+              "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj": {
+                "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj"
               }
             }
           }
@@ -77,21 +73,17 @@
         }
       }
     },
-    "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj": {
+    "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj",
+        "projectUniqueName": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj",
         "projectName": "E-Commerce.Domain",
-        "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj",
-        "packagesPath": "C:\\Users\\Mohamed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\obj\\",
+        "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj",
+        "packagesPath": "C:\\Users\\saraz\\.nuget\\packages\\",
+        "outputPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mohamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\saraz\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -150,21 +142,17 @@
         }
       }
     },
-    "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
+    "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj",
+        "projectUniqueName": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj",
         "projectName": "E-Commerce.Infrastructure",
-        "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Mohamed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\obj\\",
+        "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\saraz\\.nuget\\packages\\",
+        "outputPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mohamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\saraz\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -178,11 +166,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
-                "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
+              "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
+                "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
               },
-              "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj": {
-                "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj"
+              "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj": {
+                "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Domain\\E-Commerce.Domain.csproj"
               }
             }
           }
@@ -236,21 +224,17 @@
         }
       }
     },
-    "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj": {
+    "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj",
+        "projectUniqueName": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj",
         "projectName": "E-Commerce.WebAPI",
-        "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj",
-        "packagesPath": "C:\\Users\\Mohamed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\",
+        "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\E-Commerce.WebAPI.csproj",
+        "packagesPath": "C:\\Users\\saraz\\.nuget\\packages\\",
+        "outputPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.WebAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mohamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\saraz\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -264,27 +248,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-<<<<<<< Updated upstream
               "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
                 "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
               },
               "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
                 "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
-=======
-<<<<<<< HEAD
-              "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
-                "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
-              },
-              "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Mohamed\\Desktop\\E-Commerce\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
-=======
-              "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj": {
-                "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Application\\E-Commerce.Application.csproj"
-              },
-              "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj": {
-                "projectPath": "D:\\iti-round2\\GP\\GraduationProject-ITI\\GraduationProject-ITI\\E-Commerce\\E-Commerce.Infrastructure\\E-Commerce.Infrastructure.csproj"
->>>>>>> 71db5493b1403d42914de5ba8b2d4d298814d502
->>>>>>> Stashed changes
               }
             }
           }

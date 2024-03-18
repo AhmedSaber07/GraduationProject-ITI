@@ -4,9 +4,13 @@
     "\\E-Commerce",
     "\\E-Commerce\\E-Commerce.Application",
     "\\E-Commerce\\E-Commerce.Application\\Services",
+    "\\E-Commerce\\E-Commerce.Domain",
+    "\\E-Commerce\\E-Commerce.Domain\\Models",
+    "\\E-Commerce\\E-Commerce.Infrastructure",
+    "\\E-Commerce\\E-Commerce.Infrastructure\\Repositories",
     "\\E-Commerce\\E-Commerce.WebAPI",
     "\\E-Commerce\\E-Commerce.WebAPI\\Controllers"
   ],
-  "SelectedNode": "\\E-Commerce\\E-Commerce.WebAPI\\Program.cs",
+  "SelectedNode": "\\E-Commerce\\E-Commerce.Infrastructure\\Repositories\\baseRepository.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -44,5 +44,12 @@ namespace E_Commerce.WebAPI.Controllers
             await _brandService.createAsync(brand);
             return CreatedAtAction(nameof(Get), new { id = brand.id }, brand);
         }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _brandService.softDeleteAsync(id);
+
+            return Ok(result);
+        }
     }
 }

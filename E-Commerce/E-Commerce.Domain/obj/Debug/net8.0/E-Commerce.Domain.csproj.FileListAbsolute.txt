@@ -37,3 +37,15 @@ D:\iti-round2\GP\GraduationProject-ITI\GraduationProject-ITI\E-Commerce\E-Commer
 D:\iti-round2\GP\GraduationProject-ITI\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\refint\E-Commerce.Domain.dll
 D:\iti-round2\GP\GraduationProject-ITI\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.pdb
 D:\iti-round2\GP\GraduationProject-ITI\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\ref\E-Commerce.Domain.dll
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\bin\Debug\net8.0\E-Commerce.Domain.deps.json
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\bin\Debug\net8.0\E-Commerce.Domain.dll
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\bin\Debug\net8.0\E-Commerce.Domain.pdb
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.csproj.AssemblyReference.cache
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.AssemblyInfoInputs.cache
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.AssemblyInfo.cs
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.csproj.CoreCompileInputs.cache
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.dll
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\refint\E-Commerce.Domain.dll
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\E-Commerce.Domain.pdb
+E:\GraduationProject-ITI\E-Commerce\E-Commerce.Domain\obj\Debug\net8.0\ref\E-Commerce.Domain.dll

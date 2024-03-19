@@ -37,7 +37,7 @@ namespace E_Commerce.WebAPI
 
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+            builder.Services.AddIdentity<MyUser, IdentityRole>().AddEntityFrameworkStores<_2B_EgyptDBContext>();
 
 
 
@@ -55,7 +55,7 @@ namespace E_Commerce.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

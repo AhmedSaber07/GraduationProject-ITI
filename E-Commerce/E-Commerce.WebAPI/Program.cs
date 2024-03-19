@@ -1,9 +1,11 @@
 
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
+using E_Commerce.Application.Settings;
 using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
 using E_Commerce.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,11 +36,20 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<icategoryServices, CategoryServices>();
             builder.Services.AddScoped<ibrandRepository, BrandRepository>();
             builder.Services.AddScoped<ibrandService, brandService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            builder.Services.AddIdentity<MyUser, IdentityRole>().AddEntityFrameworkStores<_2B_EgyptDBContext>();
-
+            //Identity setting
+            builder.Services.AddIdentity<MyUser, IdentityRole<Guid>>().AddEntityFrameworkStores<_2B_EgyptDBContext>().AddDefaultTokenProviders();
+            builder.Services.AddAuthentication(
+                options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme=JwtBearerDefaults.AuthenticationScheme;
+                }
+                );
 
 
             builder.Services.AddDbContext<_2B_EgyptDBContext>(

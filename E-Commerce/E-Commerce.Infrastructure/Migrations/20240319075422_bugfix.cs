@@ -41,11 +41,11 @@ namespace E_Commerce.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    addressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    addressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    postalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    addressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    addressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    postalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -84,9 +84,17 @@ namespace E_Commerce.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
-
+            migrationBuilder.InsertData(
+        table: "Roles",
+        columns: new[] { "Id", "Name", "NormalizedName", "ConcurrencyStamp" },
+        values: new object[,]
+        {
+            { Guid.NewGuid(), "Admin", "ADMIN", Guid.NewGuid().ToString() },
+            { Guid.NewGuid(), "User", "USER", Guid.NewGuid().ToString() }
+        
+        });
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
                 columns: table => new
@@ -225,6 +233,7 @@ namespace E_Commerce.Infrastructure.Migrations
                 column: "UserId",
                 principalTable: "Users",
                 principalColumn: "Id");
+          
         }
 
         /// <inheritdoc />
@@ -265,14 +274,14 @@ namespace E_Commerce.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    addressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    addressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    deletedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    postalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    updatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    addressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    addressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    deletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    postalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -293,6 +302,7 @@ namespace E_Commerce.Infrastructure.Migrations
                 column: "UserId",
                 principalTable: "AppUsers",
                 principalColumn: "Id");
+           
         }
     }
 }

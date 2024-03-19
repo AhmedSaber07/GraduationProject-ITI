@@ -1,4 +1,5 @@
-﻿using Company.Dtos.ViewResult;
+﻿using Azure;
+using Company.Dtos.ViewResult;
 using E_Commerce.Domain.DTOs.UserAccount;
 using E_Commerce.Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +14,15 @@ namespace E_Commerce.WebAPI.Controllers
     {
         private readonly SignInManager<MyUser> _SignInManager;
         private readonly UserManager<MyUser> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        UserAccountController(SignInManager<MyUser> signInManager,UserManager<MyUser> userManager)
+        public UserAccountController(SignInManager<MyUser> signInManager, UserManager<MyUser> userManager, IConfiguration configuration, RoleManager<IdentityRole<Guid>> roleManager)
         {
             _SignInManager = signInManager;
             _userManager = userManager;
+            _configuration = configuration;
+            _roleManager = roleManager;
         }
         //[HttpPost("Login")]
         //public async Task<IActionResult> Login(LoginDto loginDto)
@@ -27,7 +32,7 @@ namespace E_Commerce.WebAPI.Controllers
 
         //}
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
+        public async Task<IActionResult> Register(RegisterDto registerDto,string role)
         {
             if (!ModelState.IsValid)
             {
@@ -46,12 +51,20 @@ namespace E_Commerce.WebAPI.Controllers
                 return StatusCode(500, "The Phone already exist");
             }
             /////
-            MyUser user = new MyUser() { Email = registerDto.Email, UserName = registerDto.Phone };
-            var result= await _userManager.CreateAsync(user,registerDto.Password);
-            if (result.Succeeded)
+            MyUser user = new MyUser() { Email = registerDto.Email, UserName = registerDto.Phone ,SecurityStamp=Guid.NewGuid().ToString()};
+            if (await _roleManager.RoleExistsAsync(role))
             {
-                return Ok("Created Successfuly");
-            }
+                var result = await _userManager.CreateAsync(user, registerDto.Password);
+                await _userManager.AddToRoleAsync(user, "user");
+                if (!result.Succeeded)
+                {
+                    StatusCode(500, "Error exist");
+                }
+                else 
+                {
+                    return Ok("Created Successfuly");
+                }
+            }         
             return StatusCode(500, "Error exist");
 
         }

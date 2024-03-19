@@ -17,6 +17,6 @@ namespace E_Commerce.Domain.Models
 
        
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual MyUser User { get; set; }
     }
 }

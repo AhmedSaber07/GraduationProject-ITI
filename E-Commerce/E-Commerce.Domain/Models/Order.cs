@@ -14,7 +14,7 @@ namespace E_Commerce.Domain.Models
 
         public virtual Payment Payment { get; set; }
       
-        public virtual User User { get; set; }
+        public virtual MyUser User { get; set; }
         public virtual ICollection<orderItem> OrderItems { get; set; }
     }
 }

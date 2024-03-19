@@ -11,6 +11,6 @@
     "\\E-Commerce\\E-Commerce.WebAPI",
     "\\E-Commerce\\E-Commerce.WebAPI\\Controllers"
   ],
-  "SelectedNode": "\\E-Commerce\\E-Commerce.sln",
+  "SelectedNode": "\\E-Commerce\\E-Commerce.WebAPI\\Controllers\\CategoryController.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -29,7 +29,11 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-             
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var exist = await _userManager.FindByEmailAsync(registerDto.Email);
             if (exist != null)
             {

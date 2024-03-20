@@ -4,6 +4,7 @@ using E_Commerce.Application.Services;
 using E_Commerce.Application.Settings;
 using E_Commerce.Domain.DTOs.UserAccount;
 using E_Commerce.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -116,10 +117,10 @@ namespace E_Commerce.WebAPI.Controllers
             var isValidEmail = new EmailAddressAttribute().IsValid(logindto.UserName);
             MyUser user;
             if(isValidEmail)
-             user = await _userManager.FindByNameAsync(logindto.UserName);
+                user = await _userManager.FindByEmailAsync(logindto.UserName);     
             else
-                user = await _userManager.FindByEmailAsync(logindto.UserName);
-       
+                user = await _userManager.FindByNameAsync(logindto.UserName);
+
             if (user != null && await _userManager.CheckPasswordAsync(user, logindto.Password))
             {
                 var authClaims = new List<Claim>
@@ -160,6 +161,51 @@ namespace E_Commerce.WebAPI.Controllers
                 );
 
             return token;
+        }
+        [HttpGet("reset-password")]
+        public async Task<IActionResult> ResetPassword(string email,string token)
+        {
+            var model = new ResetPasswordDto { token = token, Email = email };
+
+            return Ok(new { model });
+        }
+        //ResetPasswordDto
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+
+            if (user != null)
+            {
+                var resetPasswordRes = await _userManager.ResetPasswordAsync(user, resetPasswordDto.token, resetPasswordDto.Password);
+                if (resetPasswordRes.Succeeded)
+                {
+                    foreach (var item in resetPasswordRes.Errors)
+                    {
+                        ModelState.AddModelError(item.Code, item.Description);
+                    }
+                    return Ok(ModelState);
+                }
+                return StatusCode(200, "Password has been changed");
+            }
+            return StatusCode(500, "Error exist");
+        }
+        //ResetPasswordDto
+        [HttpPost("forget-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user!=null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var link=Url.Action(nameof(ResetPassword), "UserAccount",new {token,email=user.Email},Request.Scheme);
+                var message = new Message(new string[] { user.Email }, "reset password link", link!);
+                _emailService.SendEmail(message);
+                return StatusCode(200, "Password change request is sent on email");
+            }
+            return StatusCode(500, "Error exist");
         }
     }
 }

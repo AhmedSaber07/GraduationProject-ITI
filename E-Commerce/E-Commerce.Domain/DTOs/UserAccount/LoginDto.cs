@@ -8,5 +8,7 @@ namespace E_Commerce.Domain.DTOs.UserAccount
 {
     public class LoginDto
     {
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

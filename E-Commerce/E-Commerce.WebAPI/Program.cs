@@ -8,6 +8,7 @@ using E_Commerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace E_Commerce.WebAPI
 {
@@ -51,7 +52,10 @@ namespace E_Commerce.WebAPI
                 }
                 );
 
-
+            //Add Email Configs
+            var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<MailSettings>();
+            builder.Services.AddSingleton(emailConfig);
+        
             builder.Services.AddDbContext<_2B_EgyptDBContext>(
              op =>
              {

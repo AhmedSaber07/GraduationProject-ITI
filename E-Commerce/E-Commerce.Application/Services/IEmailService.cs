@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E_Commerce.Application.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace E_Commerce.Application.Services
 {
     public interface IEmailService
     {
-        Task SendEmail(string email);
+        void SendEmail(Message message);
     }
 }

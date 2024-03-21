@@ -23,10 +23,12 @@ namespace E_Commerce.WebAPI.Controllers
     {
         private readonly SignInManager<MyUser> _SignInManager;
         private readonly UserManager<MyUser> _userManager;
+        private readonly SignInManager<MyUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IuserService _userService;
+
         public UserAccountController(SignInManager<MyUser> signInManager, 
             UserManager<MyUser> userManager, IConfiguration configuration,
             RoleManager<IdentityRole<Guid>> roleManager
@@ -55,6 +57,15 @@ namespace E_Commerce.WebAPI.Controllers
                 return StatusCode(200, "Updated successfuly");
             else
                 return StatusCode(500, " Not Updated ");
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return StatusCode(200, "Logout successfuly");
+            
+              
 
         }
         [HttpPost("Register")]
@@ -116,8 +127,7 @@ namespace E_Commerce.WebAPI.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    return StatusCode(200, "Email Verified Successfully");
-                
+                    return StatusCode(200, "Email Verified Successfully");                
                 }
             }
             return StatusCode(500, "This User Doesnot exist!");
@@ -219,12 +229,7 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return StatusCode(500, "Error exist");
         }
-        //[HttpPost]
-        //public async Task <IActionResult> AddAddress( AddressDto addressDto)
-        //{
-
-
-        //}
+    
 
     }
 }

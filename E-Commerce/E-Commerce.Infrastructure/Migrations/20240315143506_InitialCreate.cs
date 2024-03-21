@@ -166,7 +166,7 @@ namespace E_Commerce.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    sessionId = table.Column<string>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     createdAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -176,18 +176,13 @@ namespace E_Commerce.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_carts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_carts_AppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                  
                     table.ForeignKey(
                         name: "FK_carts_products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -277,10 +272,7 @@ namespace E_Commerce.Infrastructure.Migrations
                 table: "carts",
                 column: "ProductId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_carts_UserId",
-                table: "carts",
-                column: "UserId");
+       
 
             migrationBuilder.CreateIndex(
                 name: "IX_categories_ParentCategoryId",

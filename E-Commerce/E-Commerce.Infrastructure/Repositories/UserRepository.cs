@@ -4,14 +4,9 @@ using E_Commerce.Domain.DTOs.UserAccount;
 using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure.Repositories
-{
+{ 
     public class UserRepository: iuserRepository
     {
         private readonly _2B_EgyptDBContext _context;
@@ -25,8 +20,7 @@ namespace E_Commerce.Infrastructure.Repositories
         public async Task<bool>  addAddress(AddressDto addressDto)
         {
             var user = await _userManager.FindByIdAsync(addressDto.id.ToString());
-           if (user == null) { 
-            
+           if (user != null) {             
                 if(addressDto.addressLine1!=null)
                     user.addressLine1=addressDto.addressLine1;
                 if (addressDto.addressLine2 != null)

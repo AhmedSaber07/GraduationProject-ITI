@@ -1,4 +1,5 @@
-﻿using E_Commerce.Domain.DTOs.productDto;
+﻿using E_Commerce.Application.Contracts;
+using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.DTOs.UserAccount;
 using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
@@ -11,14 +12,16 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure.Repositories
 {
-    public class UserRepository
+    public class UserRepository: iuserRepository
     {
         private readonly _2B_EgyptDBContext _context;
-        public UserRepository(_2B_EgyptDBContext context)
+        private readonly UserManager<MyUser> _userManager;
+        public UserRepository(_2B_EgyptDBContext context , UserManager<MyUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-        private readonly UserManager<MyUser> _userManager;
+       
         public async Task<bool>  addAddress(AddressDto addressDto)
         {
             var user = await _userManager.FindByIdAsync(addressDto.id.ToString());
@@ -32,13 +35,50 @@ namespace E_Commerce.Infrastructure.Repositories
                     user.country = addressDto.country;
                 if (addressDto.city != null)
                     user.city = addressDto.city;
-
                 await _context.SaveChangesAsync();
                 return true;
-
            }
             return false;
         }
 
+        public Task<IQueryable<MyUser>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MyUser> GetByIdAsync(Guid id, string[] includes = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MyUser> CreateAsync(MyUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MyUser> UpdateAsync(MyUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MyUser> HardDeleteAsync(MyUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MyUser> SoftDeleteAsync(MyUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> EntityExist(Guid entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -26,25 +26,37 @@ namespace E_Commerce.WebAPI.Controllers
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IEmailService _emailService;
-
+        private readonly IuserService _userService;
         public UserAccountController(SignInManager<MyUser> signInManager, 
             UserManager<MyUser> userManager, IConfiguration configuration,
             RoleManager<IdentityRole<Guid>> roleManager
-            , IEmailService emailService)
+            , IEmailService emailService
+            , IuserService userService
+            )
         {
             _SignInManager = signInManager;
             _userManager = userManager;
             _configuration = configuration;
             _roleManager = roleManager;
             _emailService = emailService;
+            _userService = userService;
         }
-        //[HttpPost("Login")]
-        //public async Task<IActionResult> Login(LoginDto loginDto)
-        //{
+        [HttpPost("AddAddress")]
+        public async Task<IActionResult> AddAddress(AddressDto addressDto)
+        {
 
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.AddAddress(addressDto);
+            if (result)
+                return StatusCode(200, "Updated successfuly");
+            else
+                return StatusCode(500, " Not Updated ");
 
-        //}
+        }
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto registerDto,string role)
         {
@@ -207,5 +219,12 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return StatusCode(500, "Error exist");
         }
+        //[HttpPost]
+        //public async Task <IActionResult> AddAddress( AddressDto addressDto)
+        //{
+
+
+        //}
+
     }
 }

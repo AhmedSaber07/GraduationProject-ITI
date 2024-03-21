@@ -8,11 +8,11 @@ namespace E_Commerce.Domain.DTOs.UserAccount
 {
     public class AddressDto
     {
-        public string addressLine1 { get; set; }
-        public string addressLine2 { get; set; }
-        public string city { get; set; }
-        public string postalCode { get; set; }
-        public string country { get; set; }
+        public Guid id { get; set; }
+        public string? addressLine1 { get; set; }
+        public string? addressLine2 { get; set; }
+        public string? city { get; set; }
+        public string? country { get; set; }
 
     }
 }

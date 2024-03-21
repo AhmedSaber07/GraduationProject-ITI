@@ -46,7 +46,10 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.BrandDto.GetBrandDto, Brand>().ReverseMap();
             CreateMap<Domain.DTOs.BrandDto.UpdateDto, Brand>().ReverseMap();
 
-           
+            //user
+            CreateMap<Domain.DTOs.UserAccount.AddressDto, MyUser>().ReverseMap();
+
+
         }
     }
 }

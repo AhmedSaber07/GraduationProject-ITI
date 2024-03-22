@@ -49,7 +49,6 @@ namespace E_Commerce.Application.Services
         public async Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null)
         {
             var allProductsQuery = await _productRepository.GetAllAsync();
-
             if (includes != null)
             {
                 foreach (var include in includes)

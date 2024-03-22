@@ -32,6 +32,17 @@ namespace E_Commerce.WebAPI.Controllers
             category.Entity.children = await icategoryServices.GetAllChildrenByCategoryId(id);
             return category;
         }
+        [HttpGet("GetAllChildrenById/{id:guid}")]
+        public async Task<ActionResult<List<getDto>>> GetAllChildrenById(Guid id)
+        {
+            var category = await  icategoryServices.GetAllChildrenByCategoryId(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+           
+            return category;
+        }
         [HttpGet]
         public async Task<ActionResult<listResultDto<getDto>>> Get()
         {        

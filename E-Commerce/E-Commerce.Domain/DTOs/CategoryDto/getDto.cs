@@ -13,6 +13,7 @@ namespace E_Commerce.Domain.DTOs.CategoryDto
         public Guid Id { get; set; }
         public string NameAr { get; set; }
         public string NameEn { get; set; }
-        public listResultDto<getDto>? children { get; set; }
+        public List<getDto>? children { get; set; }
+        //public virtual ICollection<Category>? Subcategories { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 using E_Commerce.Domain.DTOs.productDto;
+using Microsoft.EntityFrameworkCore;
 namespace E_Commerce.Application.Services
 {
     public class CategoryServices : icategoryServices
@@ -40,18 +41,20 @@ namespace E_Commerce.Application.Services
                 var CatDto = _mapper.Map<CreateOrUpdateCategoryDto>(Newcategory);
                 return new resultDto<CreateOrUpdateCategoryDto> { Entity = CatDto, IsSuccess = true, Message = "Created Successfully" };
             }
-
-
         }
 
-        public async Task<listResultDto<getDto>> getAll()
+        public async Task<List<getDto>> getAll()
         {
             var q = await categoryRepository.GetAllAsync();
-            listResultDto<getDto> categorys = new listResultDto<getDto>();
-            categorys.entities = _mapper.Map<IEnumerable<getDto>>(q);
-            categorys.count = q.Count();
+           // q.Include("Subcategories");
+           List<getDto> categorys = new List<getDto>();          
+            categorys = _mapper.Map<List<getDto>>(q).ToList();
+          for (int i=0;i< categorys.Count;i++)
+            {
+                categorys[i].children = (await GetAllChildrenByCategoryId(categorys[i].Id));
+            }
             return categorys;
-            
+           
         }
 
         public async Task<resultDto<getDto>> getById(Guid ID)
@@ -72,12 +75,12 @@ namespace E_Commerce.Application.Services
            
         }
 
-        public async Task<listResultDto<getDto>> GetAllChildrenByCategoryId(Guid categoryId)
+        public async Task<List<getDto>> GetAllChildrenByCategoryId(Guid categoryId)
         {
             var q = await categoryRepository.GetAllChildrenById(categoryId);
-            listResultDto<getDto> categorys = new listResultDto<getDto>();
-            categorys.entities = _mapper.Map<IEnumerable<getDto>>(q);
-            categorys.count = q.Count();
+          
+            List<getDto> categorys = new List<getDto>();
+            categorys = _mapper.Map<List<getDto>>(q).ToList();
             return categorys;
 
         }

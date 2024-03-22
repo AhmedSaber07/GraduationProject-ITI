@@ -11,9 +11,7 @@ namespace E_Commerce.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_carts_AppUsers_UserId",
-                table: "carts");
+           
 
             migrationBuilder.DropForeignKey(
                 name: "FK_orders_AppUsers_UserId",
@@ -219,13 +217,7 @@ namespace E_Commerce.Infrastructure.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_carts_Users_UserId",
-                table: "carts",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+           
 
             migrationBuilder.AddForeignKey(
                 name: "FK_orders_Users_UserId",
@@ -239,9 +231,7 @@ namespace E_Commerce.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_carts_Users_UserId",
-                table: "carts");
+           
 
             migrationBuilder.DropForeignKey(
                 name: "FK_orders_Users_UserId",
@@ -288,13 +278,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     table.PrimaryKey("PK_AppUsers", x => x.Id);
                 });
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_carts_AppUsers_UserId",
-                table: "carts",
-                column: "UserId",
-                principalTable: "AppUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            
 
             migrationBuilder.AddForeignKey(
                 name: "FK_orders_AppUsers_UserId",

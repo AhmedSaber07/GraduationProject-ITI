@@ -44,6 +44,16 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<IuserService, UserService>();
             builder.Services.AddScoped<iuserRepository, UserRepository>();
 
+            builder.Services.AddCors(op =>
+            {
+                op.AddPolicy("Default", policy =>
+                {
+
+                    policy.AllowAnyHeader().
+                           AllowAnyMethod().
+                           AllowAnyOrigin();
+                });
+            });
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //Identity setting
@@ -109,14 +119,14 @@ namespace E_Commerce.WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+          // if (app.Environment.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+          // }
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors("Default");
 
             app.MapControllers();
 

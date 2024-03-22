@@ -12,7 +12,8 @@ namespace E_Commerce.Infrastructure.Repositories
     public class productRepository : baseRepository<Product,Guid> ,iproductRepository
     {
         public productRepository(_2B_EgyptDBContext context) :base(context)
-        {            
+        {   
+            
         }
     }
 }

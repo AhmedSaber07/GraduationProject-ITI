@@ -40,6 +40,11 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.CategoryDto.ReadCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.getDto, Category>().ReverseMap();
 
+            //shopping-cart
+            CreateMap<Domain.DTOs.CartDto.CreateOrUpdateDto, Cart>().ReverseMap();
+            CreateMap<Domain.DTOs.CartDto.GetCartWithProductsDto, Cart>().ReverseMap();
+            CreateMap<Domain.DTOs.CartDto.GetCartDto, Cart>().ReverseMap();
+
             //brand
 
             CreateMap<Domain.DTOs.BrandDto.CreateDto, Brand>().ReverseMap();

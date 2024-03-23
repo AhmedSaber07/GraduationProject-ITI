@@ -615,13 +615,13 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("E_Commerce.Domain.Models.MyUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -685,7 +685,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -696,7 +696,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasOne("E_Commerce.Domain.Models.Product", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");

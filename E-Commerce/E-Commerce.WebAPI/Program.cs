@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -43,6 +44,19 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IuserService, UserService>();
             builder.Services.AddScoped<iuserRepository, UserRepository>();
+            builder.Services.AddScoped<ishoppingCartRepository, ShoppingCartRepository>();
+            builder.Services.AddScoped<ishoppingCartService, shoppingCartService>();
+
+
+
+
+            // session 
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(
+            options =>
+        {
+            options.IdleTimeout = TimeSpan.FromHours(1);
+        });
 
             builder.Services.AddCors(op =>
             {
@@ -63,7 +77,7 @@ namespace E_Commerce.WebAPI
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme=JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(options =>
                 {
                     options.SaveToken = true;
@@ -81,7 +95,7 @@ namespace E_Commerce.WebAPI
             //Add Email Configs
             var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<MailSettings>();
             builder.Services.AddSingleton(emailConfig);
-        
+
             builder.Services.AddDbContext<_2B_EgyptDBContext>(
              op =>
              {
@@ -123,7 +137,12 @@ namespace E_Commerce.WebAPI
             //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
+<<<<<<< Updated upstream
           // }
+=======
+            }
+            app.UseSession();
+>>>>>>> Stashed changes
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors("Default");

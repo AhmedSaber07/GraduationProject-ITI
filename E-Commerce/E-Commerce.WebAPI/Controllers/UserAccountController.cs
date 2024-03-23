@@ -59,6 +59,42 @@ namespace E_Commerce.WebAPI.Controllers
                 return StatusCode(500, " Not Updated ");
 
         }
+        [HttpPut("{oldEmail}/email")]
+        public async Task<IActionResult> UpdateEmail( string oldEmail, [FromBody] string newEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(oldEmail);
+            if (user == null)
+            {
+                return NotFound(); 
+            }
+
+            user.Email = newEmail;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors); 
+            }
+
+            return Ok(); 
+        }
+        [HttpPut("{oldPhone}/UpdatePhone")]
+        public async Task<IActionResult> UpdatePhone(string oldPhone, [FromBody] string newPhone)
+        {
+            var user = await _userManager.FindByNameAsync(oldPhone);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.UserName = newPhone;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
+        }
         [HttpPost]
         public async Task<IActionResult> Logout()
         {

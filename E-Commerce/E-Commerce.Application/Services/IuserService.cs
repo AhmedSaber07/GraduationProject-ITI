@@ -12,6 +12,7 @@ namespace E_Commerce.Application.Services
     public interface IuserService
     {
         Task<bool> AddAddress(AddressDto addressDto);
+        
 
     }
 }

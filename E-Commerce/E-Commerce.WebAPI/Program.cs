@@ -66,6 +66,7 @@ namespace E_Commerce.WebAPI
                     policy.AllowAnyHeader().
                            AllowAnyMethod().
                            AllowAnyOrigin();
+               
                 });
             });
             // autoMapper

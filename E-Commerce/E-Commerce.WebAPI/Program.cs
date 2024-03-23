@@ -133,18 +133,26 @@ namespace E_Commerce.WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-          // if (app.Environment.IsDevelopment())
-            //{
+            if (app.Environment.IsDevelopment())
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+<<<<<<< Updated upstream
             // }
             app.UseHttpsRedirection();
             app.UseCors("Default");
+=======
+
+            }
+
+>>>>>>> Stashed changes
 
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
          
+
+            app.UseHttpsRedirection();
 
             app.MapControllers();
 

@@ -53,16 +53,15 @@ namespace E_Commerce.Application.Services
             {
                 foreach (var include in includes)
                 {
-                        allProductsQuery = allProductsQuery.Include(include);
+                    allProductsQuery = allProductsQuery.Include(include);
                 }
             }
-            var totalCount = await allProductsQuery.CountAsync();
             var productsPage = await allProductsQuery.Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
             //_mapper.Map<IEnumerable<GetProductDto>>(productsPage);
             listResultDto<GetProductDto> productList = new listResultDto<GetProductDto>
             {
                 entities = _mapper.Map<IEnumerable<GetProductDto>>(productsPage),
-                count = totalCount
+                count = await allProductsQuery.CountAsync()
             };
             return productList;
 
@@ -191,7 +190,7 @@ namespace E_Commerce.Application.Services
                     return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = "Id Not Found" };
 
                 }
-                var productEntity=await _productRepository.GetByIdAsync(ID);
+                var productEntity = await _productRepository.GetByIdAsync(ID);
                 productEntity.IsDeleted = true;
                 productEntity.deletedAt = DateTime.UtcNow;
                 await _productRepository.SaveChangesAsync();

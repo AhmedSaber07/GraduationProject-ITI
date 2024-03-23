@@ -1,4 +1,5 @@
-﻿using E_Commerce.Domain.Models;
+﻿using E_Commerce.Domain.DTOs.CategoryDto;
+using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace E_Commerce.Application.Contracts
         public Task<IQueryable<Category>> GetAllChildrenById(Guid id);
         public Task<bool> CheckHasChildren(Guid id);
         public Task<bool> SeaechByName(string name);
+       
     }
 }

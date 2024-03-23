@@ -46,6 +46,7 @@ namespace E_Commerce.Application.Services
         public async Task<List<getDto>> getAll()
         {
             var q = await categoryRepository.GetAllAsync();
+          
            // q.Include("Subcategories");
            List<getDto> categorys = new List<getDto>();          
             categorys = _mapper.Map<List<getDto>>(q).ToList();
@@ -55,6 +56,27 @@ namespace E_Commerce.Application.Services
             }
             return categorys;
            
+        }
+        public async Task<List<getDto>> getAll2()
+        {
+            var q = await categoryRepository.GetAllAsync();
+            // q.Include("Subcategories");
+            q = q.Where(e => e.ParentCategoryId == null);
+            List<getDto> categorys = new List<getDto>();
+            categorys = _mapper.Map<List<getDto>>(q).ToList();
+            for (int i = 0; i < categorys.Count; i++)
+            {
+                categorys[i].children = (await GetAllChildrenByCategoryId(categorys[i].Id));
+
+                if (categorys[i].children != null)
+                    for (int j = 0; j < categorys[i].children.Count; ++j)
+                    {
+                        categorys[i].children[j].children = (await GetAllChildrenByCategoryId(categorys[i].children[j].Id));
+
+                    }
+            }
+            return categorys;
+
         }
 
         public async Task<resultDto<getDto>> getById(Guid ID)

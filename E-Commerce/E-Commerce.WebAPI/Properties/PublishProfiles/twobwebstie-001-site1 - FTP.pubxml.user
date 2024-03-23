@@ -8,7 +8,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword />
     <_PublishTargetUrl>ftp://win5007.site4now.net:21/twob</_PublishTargetUrl>
-    <History>True|2024-03-22T22:30:53.1696697Z;False|2024-03-23T00:29:10.7779667+02:00;True|2024-03-23T00:25:41.5511233+02:00;False|2024-03-23T00:17:57.8463355+02:00;False|2024-03-23T00:09:42.9193457+02:00;False|2024-03-23T00:03:40.1454395+02:00;False|2024-03-23T00:02:37.9297290+02:00;False|2024-03-22T23:51:33.1404750+02:00;False|2024-03-22T23:29:07.4054655+02:00;</History>
+    <History>True|2024-03-23T01:24:46.4909522Z;False|2024-03-23T03:22:09.2175002+02:00;True|2024-03-23T03:15:20.1350656+02:00;True|2024-03-23T00:30:53.1696697+02:00;False|2024-03-23T00:29:10.7779667+02:00;True|2024-03-23T00:25:41.5511233+02:00;False|2024-03-23T00:17:57.8463355+02:00;False|2024-03-23T00:09:42.9193457+02:00;False|2024-03-23T00:03:40.1454395+02:00;False|2024-03-23T00:02:37.9297290+02:00;False|2024-03-22T23:51:33.1404750+02:00;False|2024-03-22T23:29:07.4054655+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/16/2024 23:43:08</publishTime>
     </File>
     <File Include="appsettings.json">
-      <publishTime>03/22/2024 22:27:46</publishTime>
+      <publishTime>03/23/2024 03:23:01</publishTime>
     </File>
     <File Include="AutoMapper.dll">
       <publishTime>02/07/2024 23:45:30</publishTime>
@@ -31,10 +31,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/19/2021 13:53:34</publishTime>
     </File>
     <File Include="E-Commerce.Application.dll">
-      <publishTime>03/22/2024 23:15:47</publishTime>
+      <publishTime>03/23/2024 03:13:54</publishTime>
     </File>
     <File Include="E-Commerce.Application.pdb">
-      <publishTime>03/22/2024 23:15:47</publishTime>
+      <publishTime>03/23/2024 03:13:54</publishTime>
     </File>
     <File Include="E-Commerce.Domain.dll">
       <publishTime>03/22/2024 23:15:43</publishTime>
@@ -43,22 +43,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/22/2024 23:15:42</publishTime>
     </File>
     <File Include="E-Commerce.Infrastructure.dll">
-      <publishTime>03/22/2024 23:15:51</publishTime>
+      <publishTime>03/23/2024 03:13:57</publishTime>
     </File>
     <File Include="E-Commerce.Infrastructure.pdb">
-      <publishTime>03/22/2024 23:15:51</publishTime>
+      <publishTime>03/23/2024 03:13:57</publishTime>
     </File>
     <File Include="E-Commerce.WebAPI.deps.json">
-      <publishTime>03/23/2024 00:30:04</publishTime>
+      <publishTime>03/23/2024 03:23:56</publishTime>
     </File>
     <File Include="E-Commerce.WebAPI.dll">
-      <publishTime>03/23/2024 00:29:42</publishTime>
+      <publishTime>03/23/2024 03:23:38</publishTime>
     </File>
     <File Include="E-Commerce.WebAPI.exe">
-      <publishTime>03/23/2024 00:29:42</publishTime>
+      <publishTime>03/23/2024 03:23:38</publishTime>
     </File>
     <File Include="E-Commerce.WebAPI.pdb">
-      <publishTime>03/23/2024 00:29:42</publishTime>
+      <publishTime>03/23/2024 03:23:38</publishTime>
     </File>
     <File Include="E-Commerce.WebAPI.runtimeconfig.json">
       <publishTime>03/21/2024 22:42:10</publishTime>
@@ -214,7 +214,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/23/2021 01:49:44</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>03/23/2024 00:30:04</publishTime>
+      <publishTime>03/23/2024 03:23:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

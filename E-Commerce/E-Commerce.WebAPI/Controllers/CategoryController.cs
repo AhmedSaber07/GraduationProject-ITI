@@ -21,8 +21,8 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
       
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult< resultDto<getDto>>> Get(Guid id)
+        [HttpGet("{id}", Name = "GetById")]
+        public async Task<ActionResult< resultDto<getDto>>> GetById(Guid id)
         {
             var category = await icategoryServices.getById(id);
             if (category == null)
@@ -43,10 +43,15 @@ namespace E_Commerce.WebAPI.Controllers
            
             return category;
         }
-        [HttpGet]
-        public async Task<ActionResult<listResultDto<getDto>>> Get()
-        {        
+        [HttpGet("Getall1")]
+        public async Task<ActionResult<listResultDto<getDto>>> Getall1()
+        {
             return Ok(await icategoryServices.getAll());
+        }
+        [HttpGet("UpdatedGetall")]
+        public async Task<IActionResult> UpdatedGetall ()
+        {
+            return Ok( await icategoryServices.getAll2());
         }
         [HttpPost]      
         public async Task<IActionResult> Post([FromBody] CreateOrUpdateCategoryDto category)
@@ -57,7 +62,7 @@ namespace E_Commerce.WebAPI.Controllers
             }
 
            await icategoryServices.createAsync(category);
-            return CreatedAtAction(nameof(Get), new { id = category.id }, category);
+            return CreatedAtAction(nameof(GetById), new { id = category.id }, category);
         }
         [HttpDelete("SoftDelete/{id:guid}")]
         public async Task<IActionResult> SoftDelete(Guid id)

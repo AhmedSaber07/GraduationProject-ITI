@@ -18,7 +18,7 @@ namespace E_Commerce.Application.Services
         Task<resultDto<getDto>> getById(Guid ID);
          Task<List<getDto>> getAll();
         Task<List<getDto>> GetAllChildrenByCategoryId(Guid categoryId);
-
+       Task<List<getDto>> getAll2();
 
     }
 }

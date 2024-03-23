@@ -137,15 +137,14 @@ namespace E_Commerce.WebAPI
             //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-<<<<<<< Updated upstream
-          // }
-=======
-            }
+            // }
+            app.UseHttpsRedirection();
+            app.UseCors("Default");
+
             app.UseSession();
->>>>>>> Stashed changes
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("Default");
+         
 
             app.MapControllers();
 

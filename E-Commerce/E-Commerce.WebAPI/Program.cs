@@ -66,7 +66,7 @@ namespace E_Commerce.WebAPI
                     policy.AllowAnyHeader().
                            AllowAnyMethod().
                            AllowAnyOrigin();
-               
+
                 });
             });
             // autoMapper
@@ -134,21 +134,21 @@ namespace E_Commerce.WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            //if (app.Environment.IsDevelopment())
+            //{
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             // }
             app.UseHttpsRedirection();
             app.UseCors("Default");
 
-            }
+            //}
 
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-         
+
 
             app.UseHttpsRedirection();
 

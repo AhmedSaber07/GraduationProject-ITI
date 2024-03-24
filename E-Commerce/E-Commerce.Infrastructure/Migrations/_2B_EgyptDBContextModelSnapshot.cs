@@ -3,6 +3,7 @@ using System;
 using E_Commerce.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -18,6 +19,8 @@ namespace E_Commerce.Infrastructure.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            //SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Brand", b =>
                 {
@@ -53,7 +56,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("brands", (string)null);
+                    b.ToTable("brands");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Cart", b =>
@@ -89,7 +92,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("carts", (string)null);
+                    b.ToTable("carts");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Category", b =>
@@ -127,7 +130,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.MyUser", b =>
@@ -184,23 +187,15 @@ namespace E_Commerce.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("addressLine1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("addressLine2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("city")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("postalCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -252,7 +247,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Payment", b =>
@@ -293,7 +288,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("paymentItems", (string)null);
+                    b.ToTable("paymentItems");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Product", b =>
@@ -358,7 +353,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("categoryId");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.ProductImage", b =>
@@ -390,7 +385,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("productId");
 
-                    b.ToTable("productsImage", (string)null);
+                    b.ToTable("productsImage");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Review", b =>
@@ -442,7 +437,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("reviews", (string)null);
+                    b.ToTable("reviews");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.orderItem", b =>
@@ -481,7 +476,7 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("orderItems", (string)null);
+                    b.ToTable("orderItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -518,6 +513,8 @@ namespace E_Commerce.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                 
+
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
@@ -539,6 +536,8 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    //SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");

@@ -15,19 +15,20 @@ namespace E_Commerce.Application.Services
 {
     public class brandService : ibrandService
     {
-        private readonly ibrandRepository brandRepository;
+     
+        private readonly IUnitOfWork _unit;
         private readonly IMapper _mapper;
-        iproductService productService;
-        public brandService(ibrandRepository brandRepository, IMapper mapper , iproductService iproduct)
+       
+        public brandService(IUnitOfWork _unit, IMapper mapper )
         {
-            this.brandRepository = brandRepository;
+            this._unit = _unit;
             _mapper = mapper;
-            productService = iproduct;
+          
         }
 
         public async Task<resultDto<CreateDto>> createAsync(CreateDto brand)
         {
-            bool ok = (await brandRepository.SeaechByName(brand.nameEn));
+            bool ok = (await _unit.brand.SeaechByName(brand.nameEn));
             if (ok)
             {
                 return new resultDto<CreateDto> { Entity = null, IsSuccess = false, Message = "Already Exist" };
@@ -36,8 +37,8 @@ namespace E_Commerce.Application.Services
             {
                 brand.id = Guid.NewGuid();
                 var brMapper = _mapper.Map<Brand>(brand);
-                var Newbrand = await brandRepository.CreateAsync(brMapper);
-                await brandRepository.SaveChangesAsync();
+                var Newbrand = await _unit.brand.CreateAsync(brMapper);
+                await _unit.brand.SaveChangesAsync();
                 var brandDto = _mapper.Map<CreateDto>(Newbrand);
                 return new resultDto<CreateDto> { Entity = brandDto, IsSuccess = true, Message = "Created Successfully" };
             }
@@ -45,7 +46,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<listResultDto<GetBrandDto>> getAll()
         {
-            var q = (await brandRepository.GetAllAsync());
+            var q = (await _unit.brand.GetAllAsync());
             listResultDto<GetBrandDto> brands = new listResultDto<GetBrandDto>();
             brands.entities = _mapper.Map<IEnumerable<GetBrandDto>>(q);
             brands.count = q.Count();
@@ -56,7 +57,7 @@ namespace E_Commerce.Application.Services
         {
             try
             {
-                var brand = await brandRepository.GetByIdAsync(ID);
+                var brand = await _unit.brand.GetByIdAsync(ID);
                 var Returnc = _mapper.Map<GetBrandDto>(brand);
 
 
@@ -73,9 +74,10 @@ namespace E_Commerce.Application.Services
         {
 
             bool ok = true;
-            var x=await productService.getbybrandAsync(id);
-            ok = x.count == 0 ? true : false;
-            var brand = await brandRepository.GetByIdAsync(id);
+            var x = await _unit.product.GetAllAsync();
+            x=x.Where(p => p.brandId == id);
+            ok = x.Count() == 0 ? true : false;
+            var brand = await _unit.brand.GetByIdAsync(id);
             if (brand == null) ok = false;
             if (!ok)
             {
@@ -84,7 +86,7 @@ namespace E_Commerce.Application.Services
 
             brand.IsDeleted = true;
             brand.deletedAt = DateTime.Now;
-            await brandRepository.SaveChangesAsync();
+            await _unit.brand.SaveChangesAsync();
             var Returnc = _mapper.Map<GetBrandDto>(brand);
             return new resultDto<GetBrandDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 
@@ -94,18 +96,19 @@ namespace E_Commerce.Application.Services
         {
 
             bool ok = true;
-            var x = await productService.getbybrandAsync(id);
-            ok = x.count == 0 ? true : false;
-            var brand = await brandRepository.GetByIdAsync(id);
+            var x = await _unit.product.GetAllAsync();
+            x = x.Where(p => p.brandId == id);
+            ok = x.Count() == 0 ? true : false;
+            var brand = await _unit.brand.GetByIdAsync(id);
             if (brand == null) ok = false;
             if (!ok)
             {
                 return new resultDto<GetBrandDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
             }
 
-            await brandRepository.HardDeleteAsync(brand);
+            await _unit.brand.HardDeleteAsync(brand);
             brand.deletedAt = DateTime.Now;
-            await brandRepository.SaveChangesAsync();
+            await _unit.brand.SaveChangesAsync();
             var Returnc = _mapper.Map<GetBrandDto>(brand);
             return new resultDto<GetBrandDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 

@@ -20,21 +20,20 @@ namespace E_Commerce.Application.Services
 {
     public class shoppingCartService : ishoppingCartService
     {
-        private readonly ishoppingCartRepository _shoppingRepository;
-        private readonly iproductRepository _productRepository;
+    
         private readonly IMapper _mapper;
-
-        public shoppingCartService(ishoppingCartRepository shoppingCartRepository, IMapper mapper, iproductRepository iproductRepository)
+        private readonly IUnitOfWork _unit;
+        public shoppingCartService(  IMapper mapper, IUnitOfWork _unit)
         {
-            _shoppingRepository = shoppingCartRepository;
+            this._unit = _unit;
             _mapper = mapper;
-            _productRepository = iproductRepository;
+         
         }
 
         public async Task<resultDto<CreateOrUpdateDto>> AddTOCart(Guid producid, int quantity, Guid sessionid)
         {
-            var product = await _productRepository.GetByIdAsync(producid);
-            var allCartData = await _shoppingRepository.GetAllAsync();
+            var product = await _unit.product.GetByIdAsync(producid);
+            var allCartData = await  _unit.shoppingCart.GetAllAsync();
             var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == producid && c.sessionId == sessionid);
             if (product.stockQuantity >= quantity)
             {
@@ -52,9 +51,9 @@ namespace E_Commerce.Application.Services
 
                     cartEntity.Id = Guid.NewGuid();
                     cartEntity.createdAt = DateTime.Now;
-                    await _shoppingRepository.CreateAsync(cartEntity);
+                    await  _unit.shoppingCart.CreateAsync(cartEntity);
 
-                    await _shoppingRepository.SaveChangesAsync();
+                    await  _unit.shoppingCart.SaveChangesAsync();
 
                     var cartDto = _mapper.Map<CreateOrUpdateDto>(cartEntity);
                     cartDto.ItemTotal = product.price * quantity;
@@ -64,7 +63,7 @@ namespace E_Commerce.Application.Services
                 {
                     shoppingCartitem.Quantity += quantity;
                     shoppingCartitem.updatedAt = DateTime.Now;
-                    await _shoppingRepository.SaveChangesAsync();
+                    await  _unit.shoppingCart.SaveChangesAsync();
 
                     var cartDto = _mapper.Map<CreateOrUpdateDto>(shoppingCartitem);
                     cartDto.ItemTotal = product.price * quantity;
@@ -79,7 +78,7 @@ namespace E_Commerce.Application.Services
         }
         public async Task<resultDto<GetCartDto>> DeleteCart(Guid sessionId)
         {
-            var allDataQuery = await _shoppingRepository.GetAllAsync();
+            var allDataQuery = await  _unit.shoppingCart.GetAllAsync();
             //var GuidsessionId = Guid.Parse(sessionId);
             var cartItems = await allDataQuery.Where(c => c.sessionId==sessionId).ToListAsync();
             resultDto<GetCartDto> deletedCart = new resultDto<GetCartDto>();
@@ -93,32 +92,32 @@ namespace E_Commerce.Application.Services
             }
             foreach (var item in cartItems)
             {
-                 await _shoppingRepository.HardDeleteAsync(item);
+                 await  _unit.shoppingCart.HardDeleteAsync(item);
             }
             deletedCart.IsSuccess = true;
             deletedCart.Message = "deleted Successfully";
-            await _shoppingRepository.SaveChangesAsync();
+            await  _unit.shoppingCart.SaveChangesAsync();
 
             return deletedCart;
         }
         public async Task<resultDto<CreateOrUpdateDto>> IncreaseCartProductQuantity(Guid sessionId,Guid productId)
         {
-            var product = await _productRepository.GetByIdAsync(productId);
+            var product = await _unit.product.GetByIdAsync(productId);
             if (product == null)
             {
                 return new resultDto<CreateOrUpdateDto> { Entity = null, IsSuccess = false, Message = "Product Id Not Found" };
             }
-            var allCartData = await _shoppingRepository.GetAllAsync();
+            var allCartData = await  _unit.shoppingCart.GetAllAsync();
             var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.sessionId == sessionId);
 
             if (shoppingCartitem == null)
             {
                 return new resultDto<CreateOrUpdateDto> { Entity = null, IsSuccess = false, Message = "Cart is Empty" };
             }
-
+           
             shoppingCartitem.Quantity++;
             shoppingCartitem.updatedAt = DateTime.Now;
-            await _shoppingRepository.SaveChangesAsync();
+            await  _unit.shoppingCart.SaveChangesAsync();
 
             var cartDto = _mapper.Map<CreateOrUpdateDto>(shoppingCartitem);
             return new resultDto<CreateOrUpdateDto> { Entity = cartDto, IsSuccess = true, Message = "Item Quantiy increased" };
@@ -126,12 +125,12 @@ namespace E_Commerce.Application.Services
         }
         public async Task<resultDto<CreateOrUpdateDto>> DecreaseCartProductQuantity(Guid productId, Guid sessionId)
         {
-            var product = await _productRepository.GetByIdAsync(productId);
+            var product = await _unit.product.GetByIdAsync(productId);
             if (product == null)
             {
                 return new resultDto<CreateOrUpdateDto> { Entity = null, IsSuccess = false, Message = "Product Id Not Found" };
             }
-            var allCartData = await _shoppingRepository.GetAllAsync();
+            var allCartData = await  _unit.shoppingCart.GetAllAsync();
             var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.sessionId == sessionId);
 
             if (shoppingCartitem == null)
@@ -140,7 +139,7 @@ namespace E_Commerce.Application.Services
             }
             shoppingCartitem.Quantity--;
             shoppingCartitem.updatedAt = DateTime.Now;
-            await _shoppingRepository.SaveChangesAsync();
+            await  _unit.shoppingCart.SaveChangesAsync();
 
             var cartDto = _mapper.Map<CreateOrUpdateDto>(shoppingCartitem);
             return new resultDto<CreateOrUpdateDto> { Entity = cartDto, IsSuccess = true, Message = "Item Quantiy increased" };
@@ -149,12 +148,12 @@ namespace E_Commerce.Application.Services
 
         public async Task<resultDto<GetCartDto>> RemoveCartItem(Guid productId,Guid sessionId)
         {
-            var product = await _productRepository.GetByIdAsync(productId);
+            var product = await _unit.product.GetByIdAsync(productId);
             if (product == null)
             {
                 return new resultDto<GetCartDto> { Entity = null, IsSuccess = false, Message = "Product Id Not Found" };
             }
-            var allCartData = await _shoppingRepository.GetAllAsync();
+            var allCartData = await  _unit.shoppingCart.GetAllAsync();
 
             if (allCartData == null)
             {
@@ -162,8 +161,8 @@ namespace E_Commerce.Application.Services
             }
             var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.sessionId == sessionId);
 
-            var deleteditemEntity = await _shoppingRepository.HardDeleteAsync(shoppingCartitem);
-            await _shoppingRepository.SaveChangesAsync();
+            var deleteditemEntity = await  _unit.shoppingCart.HardDeleteAsync(shoppingCartitem);
+            await  _unit.shoppingCart.SaveChangesAsync();
 
             var deleteditemDto=_mapper.Map<GetCartDto>(deleteditemEntity);
 
@@ -173,7 +172,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<listResultDto<GetCartDto>> GetAllCartItems(Guid sessionId)
         {
-            var allDataQuery = await _shoppingRepository.GetAllAsync();
+            var allDataQuery = await  _unit.shoppingCart.GetAllAsync();
             var cartItemsEntities = await allDataQuery.Include(c=>c.Product).Where(c => c.sessionId == sessionId).ToListAsync();
             decimal cartTotal = 0;
             foreach (var item in cartItemsEntities)

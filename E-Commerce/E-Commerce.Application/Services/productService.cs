@@ -18,11 +18,12 @@ namespace E_Commerce.Application.Services
 {
     public class productService : iproductService
     {
-        private readonly iproductRepository _productRepository;
+       
+        private readonly IUnitOfWork _unit;
         private readonly IMapper _mapper;
-        public productService(iproductRepository iproductRepository, IMapper mapper)
+        public productService(IUnitOfWork _unit, IMapper mapper)
         {
-            _productRepository = iproductRepository;
+            this._unit = _unit;
             _mapper = mapper;
         }
         public async Task<resultDto<createDto>> createAsync(createDto productDto)
@@ -40,15 +41,15 @@ namespace E_Commerce.Application.Services
                 image.createdAt = DateTime.Now;
             }
             productEntity.createdAt = DateTime.Now;
-            productEntity = await _productRepository.CreateAsync(productEntity);
-            await _productRepository.SaveChangesAsync();
+            productEntity = await _unit.product.CreateAsync(productEntity);
+            await _unit.product.SaveChangesAsync();
             createdProduct = _mapper.Map<createDto>(productEntity);
             return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = true, Message = "Created Sucessfully" };
 
         }
         public async Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null)
         {
-            var allProductsQuery = await _productRepository.GetAllAsync();
+            var allProductsQuery = await _unit.product.GetAllAsync();
             if (includes != null)
             {
                 foreach (var include in includes)
@@ -76,7 +77,7 @@ namespace E_Commerce.Application.Services
                 {
                     return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = "ID Not Found" };
                 }
-                var product = await _productRepository.GetByIdAsync(Id, includes);
+                var product = await _unit.product.GetByIdAsync(Id, includes);
                 returnedProduct = _mapper.Map<GetProductDto>(product);
                 return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = true, Message = "Returned Sucessfully" };
 
@@ -89,7 +90,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<listResultDto<GetProductDto>> getbyNameAr(string nameAr, string[] includes = null)
         {
-            var allProductsQuery = await _productRepository.GetAllAsync();
+            var allProductsQuery = await _unit.product.GetAllAsync();
 
             if (includes != null)
             {
@@ -108,7 +109,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<listResultDto<GetProductDto>> getbyNameEn(string nameEn, string[] includes = null)
         {
-            var allProductsQuery = await _productRepository.GetAllAsync();
+            var allProductsQuery = await _unit.product.GetAllAsync();
             if (includes != null)
             {
                 foreach (var include in includes)
@@ -124,7 +125,7 @@ namespace E_Commerce.Application.Services
         }
         public async Task<listResultDto<GetProductDto>> getbyStockQuantityAsync(int productStockQuantity, string[] includes = null)
         {
-            var allProductsQuery = await _productRepository.GetAllAsync();
+            var allProductsQuery = await _unit.product.GetAllAsync();
             if (includes != null)
             {
                 foreach (var include in includes)
@@ -140,7 +141,7 @@ namespace E_Commerce.Application.Services
         }
         public async Task<listResultDto<GetProductDto>> getbybrandAsync(Guid brandId, string[] includes = null)
         {
-            var allProductsQuery = await _productRepository.GetAllAsync();
+            var allProductsQuery = await _unit.product.GetAllAsync();
             if (includes != null)
             {
                 foreach (var include in includes)
@@ -167,10 +168,10 @@ namespace E_Commerce.Application.Services
                     return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = "Id Not Found" };
 
                 }
-                var productEntity = await _productRepository.GetByIdAsync(Id);
-                var deletedProduct = await _productRepository.HardDeleteAsync(productEntity);
+                var productEntity = await _unit.product.GetByIdAsync(Id);
+                var deletedProduct = await _unit.product.HardDeleteAsync(productEntity);
                 deletedProduct.deletedAt = DateTime.UtcNow;
-                await _productRepository.SaveChangesAsync();
+                await _unit.product.SaveChangesAsync();
                 returnedProduct = _mapper.Map<GetProductDto>(productEntity);
                 return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = true, Message = "Deleted Successfully" };
             }
@@ -190,10 +191,10 @@ namespace E_Commerce.Application.Services
                     return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = "Id Not Found" };
 
                 }
-                var productEntity = await _productRepository.GetByIdAsync(ID);
+                var productEntity = await _unit.product.GetByIdAsync(ID);
                 productEntity.IsDeleted = true;
                 productEntity.deletedAt = DateTime.UtcNow;
-                await _productRepository.SaveChangesAsync();
+                await _unit.product.SaveChangesAsync();
                 returnedProduct = _mapper.Map<GetProductDto>(productEntity);
                 return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = true, Message = "Deleted Successfully" };
             }
@@ -210,10 +211,10 @@ namespace E_Commerce.Application.Services
             {
                 return new resultDto<updateDto>() { Entity = updatedProductStockQuantity, IsSuccess = false, Message = "Id Not Found" };
             }
-            var productEntity = await _productRepository.GetByIdAsync(Id);
+            var productEntity = await _unit.product.GetByIdAsync(Id);
             productEntity.updatedAt = DateTime.Now;
             productEntity.stockQuantity += productStockQuantity;
-            await _productRepository.SaveChangesAsync();
+            await _unit.product.SaveChangesAsync();
             updatedProductStockQuantity = _mapper.Map<updateDto>(productEntity);
             return new resultDto<updateDto>() { Entity = updatedProductStockQuantity, IsSuccess = true, Message = "Updated Sucessfully" };
 
@@ -225,10 +226,10 @@ namespace E_Commerce.Application.Services
             {
                 return new resultDto<updateDto>() { Entity = updatedProductStockQuantity, IsSuccess = false, Message = "Id Not Found" };
             }
-            var productEntity = await _productRepository.GetByIdAsync(Id);
+            var productEntity = await _unit.product.GetByIdAsync(Id);
             productEntity.updatedAt = DateTime.Now;
             productEntity.price = productPrice;
-            await _productRepository.SaveChangesAsync();
+            await _unit.product.SaveChangesAsync();
             updatedProductStockQuantity = _mapper.Map<updateDto>(productEntity);
             return new resultDto<updateDto>() { Entity = updatedProductStockQuantity, IsSuccess = true, Message = "Updated Sucessfully" };
 
@@ -243,9 +244,9 @@ namespace E_Commerce.Application.Services
             }
             Product productEntity = _mapper.Map<Product>(productDto);
             productEntity.Id = Id;
-            productEntity = await _productRepository.UpdateAsync(productEntity);
+            productEntity = await _unit.product.UpdateAsync(productEntity);
             productEntity.updatedAt = DateTime.Now;
-            await _productRepository.SaveChangesAsync();
+            await _unit.product.SaveChangesAsync();
             updatedProduct = _mapper.Map<updateDto>(productEntity);
             return new resultDto<updateDto>() { Entity = updatedProduct, IsSuccess = true, Message = "Created Sucessfully" };
 
@@ -253,7 +254,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<bool> ProductExist(Guid Id)
         {
-            return await _productRepository.EntityExist(Id);
+            return await _unit.product.EntityExist(Id);
         }
     }
 }

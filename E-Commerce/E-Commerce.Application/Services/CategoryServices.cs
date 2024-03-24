@@ -15,18 +15,18 @@ namespace E_Commerce.Application.Services
 {
     public class CategoryServices : icategoryServices
     {
-
-        private readonly icategoryRepository categoryRepository;
+        private readonly IUnitOfWork _unit;
+  
         private readonly IMapper _mapper;
-        public CategoryServices(icategoryRepository categoryRepository, IMapper mapper)
+        public CategoryServices(IUnitOfWork _unit, IMapper mapper)
         {
-            this.categoryRepository = categoryRepository;
+           this._unit = _unit;
             _mapper = mapper;
         }
 
         public async Task<resultDto<CreateOrUpdateCategoryDto>> createAsync(CreateOrUpdateCategoryDto category)
         {
-            bool ok =( await categoryRepository.SeaechByName(category.NameEn));
+            bool ok =( await _unit.category.SeaechByName(category.NameEn));
             if (ok)
             {
                 return new resultDto<CreateOrUpdateCategoryDto> { Entity = null, IsSuccess = false, Message = "Already Exist" };
@@ -36,8 +36,8 @@ namespace E_Commerce.Application.Services
                 category.id = Guid.NewGuid();
                 category.CreatedAt = DateTime.Now;
                 var Cat = _mapper.Map<Category>(category);
-                var Newcategory = await categoryRepository.CreateAsync(Cat);
-                await categoryRepository.SaveChangesAsync();
+                var Newcategory = await _unit.category.CreateAsync(Cat);
+                await _unit.category.SaveChangesAsync();
                 var CatDto = _mapper.Map<CreateOrUpdateCategoryDto>(Newcategory);
                 return new resultDto<CreateOrUpdateCategoryDto> { Entity = CatDto, IsSuccess = true, Message = "Created Successfully" };
             }
@@ -45,7 +45,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<List<getDto>> getAll()
         {
-            var q = await categoryRepository.GetAllAsync();
+            var q = await _unit.category.GetAllAsync();
           
            // q.Include("Subcategories");
            List<getDto> categorys = new List<getDto>();          
@@ -59,7 +59,7 @@ namespace E_Commerce.Application.Services
         }
         public async Task<List<getDto>> getAll2()
         {
-            var q = await categoryRepository.GetAllAsync();
+            var q = await _unit.category.GetAllAsync();
             // q.Include("Subcategories");
             q = q.Where(e => e.ParentCategoryId == null);
             List<getDto> categorys = new List<getDto>();
@@ -83,7 +83,7 @@ namespace E_Commerce.Application.Services
         {
             try
             {
-                var category = await categoryRepository.GetByIdAsync(ID);
+                var category = await _unit.category.GetByIdAsync(ID);
                 var Returnc = _mapper.Map<getDto>(category);
              
         
@@ -99,7 +99,7 @@ namespace E_Commerce.Application.Services
 
         public async Task<List<getDto>> GetAllChildrenByCategoryId(Guid categoryId)
         {
-            var q = await categoryRepository.GetAllChildrenById(categoryId);
+            var q = await _unit.category.GetAllChildrenById(categoryId);
           
             List<getDto> categorys = new List<getDto>();
             categorys = _mapper.Map<List<getDto>>(q).ToList();
@@ -109,17 +109,17 @@ namespace E_Commerce.Application.Services
         public async Task<resultDto<ReadCategoryDto>> HardDeleteAsync(Guid category)
         {
             bool ok = true;
-            ok = !(await categoryRepository.CheckHasChildren(category));
-            var categ = await categoryRepository.GetByIdAsync(category);
+            ok = !(await _unit.category.CheckHasChildren(category));
+            var categ = await _unit.category.GetByIdAsync(category);
             if (categ == null) ok = false;
             if (!ok)
             {
                 return new resultDto<ReadCategoryDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
             }
 
-            await categoryRepository.HardDeleteAsync(categ);
+            await _unit.category.HardDeleteAsync(categ);
             categ.deletedAt = DateTime.Now;
-            await categoryRepository.SaveChangesAsync();
+            await _unit.category.SaveChangesAsync();
             var Returnc = _mapper.Map<ReadCategoryDto>(categ);
             return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 
@@ -129,8 +129,8 @@ namespace E_Commerce.Application.Services
         public async Task<resultDto<ReadCategoryDto>> softDeleteAsync(Guid category)
         {
             bool ok = true;
-            ok =! (await categoryRepository.CheckHasChildren(category));
-            var categ = await categoryRepository.GetByIdAsync(category);
+            ok =! (await _unit.category.CheckHasChildren(category));
+            var categ = await _unit.category.GetByIdAsync(category);
             if (categ == null) ok = false;
             if(!ok)
             {
@@ -139,7 +139,7 @@ namespace E_Commerce.Application.Services
 
             categ.IsDeleted = true;
             categ.deletedAt = DateTime.Now;
-           await categoryRepository.SaveChangesAsync();
+           await _unit.category.SaveChangesAsync();
             var Returnc = _mapper.Map<ReadCategoryDto>(categ);
             return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 

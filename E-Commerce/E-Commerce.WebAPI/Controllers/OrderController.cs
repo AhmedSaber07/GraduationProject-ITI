@@ -34,8 +34,9 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (UserId == Guid.Empty || paymentId == Guid.Empty)
             {
-
+                return Ok();
             }
+            return Ok();
         }
 
         // PUT api/<OrderController>/5

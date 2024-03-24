@@ -46,7 +46,7 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<iuserRepository, UserRepository>();
             builder.Services.AddScoped<ishoppingCartRepository, ShoppingCartRepository>();
             builder.Services.AddScoped<ishoppingCartService, shoppingCartService>();
-
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 
@@ -89,7 +89,7 @@ namespace E_Commerce.WebAPI
                         ValidateAudience = true,
                         ValidAudience = builder.Configuration["JWT:ValidAudience"],
                         ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                     };
                 });
 

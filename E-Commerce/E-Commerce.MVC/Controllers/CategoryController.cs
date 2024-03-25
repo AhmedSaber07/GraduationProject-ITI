@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using E_Commerce.MVC.DTOs.CategoryDto;
+using E_Commerce.MVC.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 
 namespace E_Commerce.MVC.Controllers
 {
@@ -14,31 +17,33 @@ namespace E_Commerce.MVC.Controllers
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("http://twobwebstie-001-site1.ftempurl.com");
         }
-
-        public async Task<IActionResult> IndexAsync()
+        private void Auth()
         {
             string username = "11168799";
             string password = "60-dayfreetrial";
             string base64Auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64Auth);
-           
-            HttpResponseMessage response = await _httpClient.GetAsync("api/Category/UpdatedGetall");
+        }
+        public async Task<IActionResult> IndexAsync()
+        {
 
-
+           Auth();
+            HttpResponseMessage response = await _httpClient.GetAsync("api/Category/Getall1");
             // Check if the request was successful
             if (response.IsSuccessStatusCode)
             {
-                // Read the response content as a string
-                string responseData = await response.Content.ReadAsStringAsync();
-                // Process responseData as needed
-                return Content(responseData);
+                
+                var responseData = await response.Content.ReadAsStringAsync();
+                var dtoList = JsonSerializer.Deserialize<List<CreateOrUpdateCategoryDto>>(responseData); 
+                return View(dtoList);
             }
             else
             {
-                // Handle error response
-                return Content("Error: " + response.StatusCode);
+             return View("Error: " + response.StatusCode);
             }
           
         }
+
+
     }
 }

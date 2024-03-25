@@ -87,5 +87,16 @@ namespace E_Commerce.WebAPI.Controllers
            var result= await icategoryServices.HardDeleteAsync(Id);
             return Ok(result);
         }
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] CreateOrUpdateCategoryDto category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await icategoryServices.updateAsync(category);
+            return CreatedAtAction(nameof(GetById), new { id = category.id }, category);
+        }
     }
 }

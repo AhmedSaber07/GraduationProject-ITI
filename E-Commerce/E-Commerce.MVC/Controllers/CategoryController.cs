@@ -13,10 +13,10 @@ namespace E_Commerce.MVC.Controllers
 
 
        public CategoryController()
-        {
+       {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("http://twobwebstie-001-site1.ftempurl.com");
-        }
+       }
         private void Auth()
         {
             string username = "11168799";
@@ -43,6 +43,111 @@ namespace E_Commerce.MVC.Controllers
             }
           
         }
+        public async Task<IActionResult> DeleteCategory(Guid id)
+        {
+            Auth();
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/Category/SoftDelete/{id}");
+           
+            if (response.IsSuccessStatusCode)
+            {
+
+                var responseData = await response.Content.ReadAsStringAsync();
+                return View("Index",responseData);
+             
+            }
+            else
+            {
+                return View("Index", "Error: " + response.StatusCode);
+            }
+        }
+        public async Task<IActionResult> Update(CreateOrUpdateCategoryDto categoryDto)
+        {
+            Auth();
+            try
+            {
+                
+                var jsonContent = JsonSerializer.Serialize(categoryDto);
+                var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+       
+                HttpResponseMessage response;
+                if (categoryDto.id == Guid.Empty)
+                {
+                    response = await _httpClient.PostAsync("api/Category", stringContent); 
+                }
+                else
+                {
+                    response = await _httpClient.PutAsync("api/Category", stringContent);
+                }
+
+             
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    return View("Index", responseData);
+                }
+                else
+                {
+                    return View("Error: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync("Errror"+ex);
+            }
+            return View("Index");
+        }
+        public async Task Add(CreateOrUpdateCategoryDto dto)
+        {
+            try
+            {
+                
+                var jsonContent = JsonSerializer.Serialize(dto);
+                var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync("api/Category", stringContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                   
+                    Console.WriteLine("DTO added successfully.");
+                }
+                else
+                {
+                   
+                    Console.WriteLine($"Failed to add DTO. Status code: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {               
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

@@ -136,22 +136,25 @@ namespace E_Commerce.Application.Services
             {
                 return new resultDto<ReadCategoryDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
             }
-
             categ.IsDeleted = true;
             categ.deletedAt = DateTime.Now;
-           await _unit.category.SaveChangesAsync();
+            await _unit.category.SaveChangesAsync();
             var Returnc = _mapper.Map<ReadCategoryDto>(categ);
             return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 
-           
-
         }
 
-        public Task<resultDto<CreateOrUpdateCategoryDto>> updateAsync(CreateOrUpdateCategoryDto category)
+        public async Task<resultDto<CreateOrUpdateCategoryDto>> updateAsync(CreateOrUpdateCategoryDto category)
         {
-            throw new NotImplementedException();
+            var category2 = _mapper.Map<Category>(category);
+            category2 = await _unit.category.UpdateAsync(category2);
+            category2.updatedAt = DateTime.Now;
+            await _unit.category.SaveChangesAsync();
+            CreateOrUpdateCategoryDto categoryDto = _mapper.Map<CreateOrUpdateCategoryDto>(category2);
+            return new resultDto<CreateOrUpdateCategoryDto>() { Entity = categoryDto, IsSuccess = true, Message = "Created Sucessfully" };
+
         }
 
-    
+
     }
 }

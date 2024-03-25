@@ -1,0 +1,54 @@
+<<<<<<< Updated upstream:E-Commerce/E-Commerce.MVC/Views/Category/Index.cshtml
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    <h1>sjdkjsdksjdksd</h1>
+}
+=======
+﻿@model List<E_Commerce.MVC.DTOs.CategoryDto.CreateOrUpdateCategoryDto>
+
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <title>Categories</title>
+</head>
+<body>
+    <h1>Categories</h1>
+
+    <table>
+        <thead>
+            <tr>
+              
+                <th>Name (Arabic)</th>
+                <th></th>
+                <th>Name (English)</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    
+                    <td>@category.nameAr</td>
+                    <td> </td>
+                    <td>@category.nameEn</td>
+                    <td>
+
+                     <a asp-action="Edit" asp-route-id="" class="btn btn-dark">Edit</a> |
+
+                      <a asp-action="Delete" asp-route-id="" class="btn btn-danger">Delete</a> 
+                    </td>
+                </tr>
+            }
+
+
+       
+        </tbody>
+    </table>
+</body>
+</html>
+>>>>>>> Stashed changes:E-Commerce/E-Commerce.MVC/Views/Category/CategoryList.cshtml

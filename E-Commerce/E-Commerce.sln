@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Commerce.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Commerce.WebAPI", "E-Commerce.WebAPI\E-Commerce.WebAPI.csproj", "{5AC98B15-B8A8-465C-8A65-628674681852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce.MVC", "E-Commerce.MVC\E-Commerce.MVC.csproj", "{CCF035ED-A9E6-40D6-B5E0-30689C1A52CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Commerce.MVC", "E-Commerce.MVC\E-Commerce.MVC.csproj", "{CCF035ED-A9E6-40D6-B5E0-30689C1A52CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

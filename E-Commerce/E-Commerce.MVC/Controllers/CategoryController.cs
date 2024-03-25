@@ -43,6 +43,7 @@ namespace E_Commerce.MVC.Controllers
             }
           
         }
+<<<<<<< Updated upstream
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
             Auth();
@@ -148,6 +149,9 @@ namespace E_Commerce.MVC.Controllers
 
 
 
+=======
+        
+>>>>>>> Stashed changes
 
 
     }

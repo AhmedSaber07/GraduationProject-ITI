@@ -54,7 +54,7 @@ namespace E_Commerce.WebAPI.Controllers
             return Ok( await icategoryServices.getAll2());
         }
         [HttpGet("GetAllproductsforCategoryname")]
-        public async Task<IActionResult> GetAllproductsforCategoryname()
+        public async Task<ActionResult<List<getCategorywithProducts>>> GetAllproductsforCategoryname()
         {
             return Ok(await icategoryServices.getAllProductes());
         }

@@ -79,24 +79,25 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
-        public async Task<Dictionary<string,List<GetProductDto>>> getAllProductes()
+        public async Task<List<getCategorywithProducts>> getAllProductes()
         {
 
-
-
-
             var q = await _unit.category.GetAllAsync();
-            var prod= await _unit.product.GetAllAsync();
-
-            Dictionary<string, List<GetProductDto>> home = new Dictionary<string, List<GetProductDto>>();
+            var prod = await _unit.product.GetAllAsync();
+            List<getCategorywithProducts> resultedcategoryproducts = new List<getCategorywithProducts>();
             foreach (var category in await q.ToListAsync())
             {
-                List<Product> products = await prod.Where(p=>p.categoryId==category.Id).Take(10).ToListAsync();
-                home.Add(category.nameEn, _mapper.Map<List<GetProductDto>>(products));
+
+                List<Product> products = await prod.Include(e=>e.Images).Include(e=>e.Reviews).Where(p => p.categoryId == category.Id).Take(10).ToListAsync();
+                getCategorywithProducts categoryproducts = new getCategorywithProducts()
+                {
+                    nameEn = category.nameEn,
+                    nameAr = category.nameAr,
+                    Products = _mapper.Map<List<GetProductDto>>(products)
+                };
+                resultedcategoryproducts.Add(categoryproducts);
             }
-            return home;
-            
-            
+            return resultedcategoryproducts;
         }
 
         public async Task<resultDto<getDto>> getById(Guid ID)

@@ -165,6 +165,20 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+        [HttpPut("{id:guid}/Product")]
+        public async Task<ActionResult<resultDto<updateDto>>> UpdateProduct([FromBody] updateDto update,Guid Id)
+        {
+
+            if (await _productService.ProductExist(Id))
+            {
+                if (ModelState.IsValid)
+                {
+                    var resultProduct = await _productService.updateAsync(update,Id);
+                    return Created("Product", resultProduct);
+                }
+            }
+            return BadRequest(ModelState);
+        }
         [HttpPut("{id:guid}/stockQuantity")]
         public async Task<ActionResult<resultDto<updateDto>>> updateStockQuantityAsync(Guid Id, int productStockQuantity)
         {

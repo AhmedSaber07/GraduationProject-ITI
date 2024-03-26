@@ -162,11 +162,6 @@ namespace E_Commerce.Application.Services
             var Returnc = _mapper.Map<ReadCategoryDto>(categ);
             return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
         }
 
         public async Task<resultDto<CreateOrUpdateCategoryDto>> updateAsync(CreateOrUpdateCategoryDto category)

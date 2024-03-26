@@ -18,6 +18,8 @@ namespace E_Commerce.Application.Contracts
         Task<resultDto<GetProductDto>> hardDeleteAsync(Guid Id); //Done
         Task<resultDto<GetProductDto>> softDeleteAsync(Guid Id); //Done
         Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null); //Done
+        Task<IEnumerable<GetProductDto>> GetAllAsync(string[] includes = null); //Done
+        Task<List<GetProductDto>> GetAllPaginationAsyncByCategoryID(int items, int pagenumber,Guid categoryId, string[] includes = null); //Done
         Task<resultDto<GetProductDto>> getById(Guid ID, string[] includes = null); //Done
         Task<listResultDto<GetProductDto>> getbyNameAr(string nameAr, string[] includes = null); //Done
         Task<listResultDto<GetProductDto>> getbyNameEn(string nameEn, string[] includes = null); //Done

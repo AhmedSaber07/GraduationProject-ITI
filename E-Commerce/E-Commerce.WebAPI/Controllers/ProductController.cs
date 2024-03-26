@@ -21,9 +21,14 @@ namespace E_Commerce.WebAPI.Controllers
         }
         // GET
         [HttpGet]
-        public async Task<ActionResult<listResultDto<GetProductDto>>> Getall(int items, int pagenumber, [FromBody] string[] includes = null)
+        public async Task<ActionResult<listResultDto<GetProductDto>>> GetallPagination(int items, int pagenumber, [FromBody] string[] includes = null)
         {
             return Ok(await _productService.GetAllPaginationAsync(items, pagenumber, includes));
+        }
+        [HttpGet("/getall",Name = "Getall")]
+        public async Task<ActionResult<List<GetProductDto>>> Getall(string[] includes = null)
+        {
+            return Ok(await _productService.GetAllAsync(includes));
         }
 
         [HttpGet("{id:guid}", Name = "GetByProductId")]

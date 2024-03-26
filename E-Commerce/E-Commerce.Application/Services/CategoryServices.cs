@@ -16,17 +16,18 @@ namespace E_Commerce.Application.Services
     public class CategoryServices : icategoryServices
     {
         private readonly IUnitOfWork _unit;
-  
+        private readonly iproductService _productService;
+
         private readonly IMapper _mapper;
         public CategoryServices(IUnitOfWork _unit, IMapper mapper)
         {
-           this._unit = _unit;
+            this._unit = _unit;
             _mapper = mapper;
         }
 
         public async Task<resultDto<CreateOrUpdateCategoryDto>> createAsync(CreateOrUpdateCategoryDto category)
         {
-            bool ok =( await _unit.category.SeaechByName(category.NameEn));
+            bool ok = (await _unit.category.SeaechByName(category.NameEn));
             if (ok)
             {
                 return new resultDto<CreateOrUpdateCategoryDto> { Entity = null, IsSuccess = false, Message = "Already Exist" };
@@ -46,16 +47,16 @@ namespace E_Commerce.Application.Services
         public async Task<List<getDto>> getAll()
         {
             var q = await _unit.category.GetAllAsync();
-          
-           // q.Include("Subcategories");
-           List<getDto> categorys = new List<getDto>();          
+
+            // q.Include("Subcategories");
+            List<getDto> categorys = new List<getDto>();
             categorys = _mapper.Map<List<getDto>>(q).ToList();
-          for (int i=0;i< categorys.Count;i++)
+            for (int i = 0; i < categorys.Count; i++)
             {
                 categorys[i].children = (await GetAllChildrenByCategoryId(categorys[i].Id));
             }
             return categorys;
-           
+
         }
         public async Task<List<getDto>> getAll2()
         {
@@ -78,6 +79,25 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
+        public async Task<Dictionary<string,List<GetProductDto>>> getAllProductes()
+        {
+
+
+
+
+            var q = await _unit.category.GetAllAsync();
+            var prod= await _unit.product.GetAllAsync();
+
+            Dictionary<string, List<GetProductDto>> home = new Dictionary<string, List<GetProductDto>>();
+            foreach (var category in await q.ToListAsync())
+            {
+                List<Product> products = await prod.Where(p=>p.categoryId==category.Id).Take(10).ToListAsync();
+                home.Add(category.nameEn, _mapper.Map<List<GetProductDto>>(products));
+            }
+            return home;
+            
+            
+        }
 
         public async Task<resultDto<getDto>> getById(Guid ID)
         {
@@ -85,8 +105,8 @@ namespace E_Commerce.Application.Services
             {
                 var category = await _unit.category.GetByIdAsync(ID);
                 var Returnc = _mapper.Map<getDto>(category);
-             
-        
+
+
                 return new resultDto<getDto> { Entity = Returnc, IsSuccess = true, Message = "there is exist" };
             }
             catch (Exception ex)
@@ -94,13 +114,13 @@ namespace E_Commerce.Application.Services
                 return new resultDto<getDto> { Entity = null, IsSuccess = false, Message = ex.Message };
 
             }
-           
+
         }
 
         public async Task<List<getDto>> GetAllChildrenByCategoryId(Guid categoryId)
         {
             var q = await _unit.category.GetAllChildrenById(categoryId);
-          
+
             List<getDto> categorys = new List<getDto>();
             categorys = _mapper.Map<List<getDto>>(q).ToList();
             return categorys;
@@ -129,10 +149,10 @@ namespace E_Commerce.Application.Services
         public async Task<resultDto<ReadCategoryDto>> softDeleteAsync(Guid category)
         {
             bool ok = true;
-            ok =! (await _unit.category.CheckHasChildren(category));
+            ok = !(await _unit.category.CheckHasChildren(category));
             var categ = await _unit.category.GetByIdAsync(category);
             if (categ == null) ok = false;
-            if(!ok)
+            if (!ok)
             {
                 return new resultDto<ReadCategoryDto>() { Entity = null, IsSuccess = false, Message = "Not Deleted" };
             }
@@ -142,6 +162,11 @@ namespace E_Commerce.Application.Services
             var Returnc = _mapper.Map<ReadCategoryDto>(categ);
             return new resultDto<ReadCategoryDto>() { Entity = Returnc, IsSuccess = true, Message = "Deleted Successfully" };
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
         }
 
         public async Task<resultDto<CreateOrUpdateCategoryDto>> updateAsync(CreateOrUpdateCategoryDto category)

@@ -53,6 +53,11 @@ namespace E_Commerce.WebAPI.Controllers
         {
             return Ok( await icategoryServices.getAll2());
         }
+        [HttpGet("GetAllproductsforCategoryname")]
+        public async Task<IActionResult> GetAllproductsforCategoryname()
+        {
+            return Ok(await icategoryServices.getAllProductes());
+        }
         [HttpPost]      
         public async Task<IActionResult> Post([FromBody] CreateOrUpdateCategoryDto category)
         {

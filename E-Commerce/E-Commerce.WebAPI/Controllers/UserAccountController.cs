@@ -55,8 +55,8 @@ namespace E_Commerce.WebAPI.Controllers
             var result = await _userService.AddAddress(addressDto);
             if (result)
                 return StatusCode(200, "Updated successfuly");
-            else
-                return StatusCode(500, " Not Updated ");
+            else 
+                return StatusCode(401, "Unauthorized");
 
         }
         [HttpPut("{oldEmail}/email")]
@@ -135,7 +135,7 @@ namespace E_Commerce.WebAPI.Controllers
                 }
                 else 
                 {
-                    await _userManager.AddToRoleAsync(user, "user");
+                    await _userManager.AddToRoleAsync(user, role);
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action(nameof(ConfirmEmail), "UserAccount", new { token, email = user.Email }, Request.Scheme);
                     var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink);
@@ -172,6 +172,7 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto logindto)
         {
+
             var isValidEmail = new EmailAddressAttribute().IsValid(logindto.UserName);
             MyUser user;
             if(isValidEmail)
@@ -181,6 +182,10 @@ namespace E_Commerce.WebAPI.Controllers
 
             if (user != null && await _userManager.CheckPasswordAsync(user, logindto.Password))
             {
+                if (!user.EmailConfirmed)
+                {
+                    return Unauthorized("Email is not confirmed.");
+                }
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),

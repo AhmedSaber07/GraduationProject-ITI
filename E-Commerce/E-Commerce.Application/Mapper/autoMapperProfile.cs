@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_Commerce.Domain.DTOs.ProductImageDto;
 using E_Commerce.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,16 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.productDto.createDto, Product>().ReverseMap();
             CreateMap<Domain.DTOs.productDto.updateDto, Product>().ReverseMap();
             CreateMap<Domain.DTOs.productDto.GetProductDto, Product>().ReverseMap();
+            CreateMap<Product, Domain.DTOs.productDto.getProductwithImage>().ForMember(dest => dest.listImages,
+                opt => opt.MapFrom(src=>
+                           src.Images.Select(image => image.imageUrl).ToList()));
 
             // product-Image
             CreateMap<Domain.DTOs.ProductImageDto.CreateDto, ProductImage>().ReverseMap();
             CreateMap<Domain.DTOs.ProductImageDto.CreateWithProductDto, ProductImage>().ReverseMap();
             CreateMap<Domain.DTOs.ProductImageDto.UpdateDto, ProductImage>().ReverseMap();
             CreateMap<Domain.DTOs.ProductImageDto.GetProductImageDto, ProductImage>().ReverseMap();
+            CreateMap<Domain.DTOs.ProductImageDto.getImage, ProductImage>().ReverseMap();
 
             // review
             CreateMap<Domain.DTOs.ReviewDto.CreateDto, Review>().ReverseMap();

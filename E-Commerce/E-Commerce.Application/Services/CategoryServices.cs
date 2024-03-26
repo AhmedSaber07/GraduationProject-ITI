@@ -88,12 +88,12 @@ namespace E_Commerce.Application.Services
             foreach (var category in await q.ToListAsync())
             {
 
-                List<Product> products = await prod.Include(e=>e.Images).Include(e=>e.Reviews).Where(p => p.categoryId == category.Id).Take(10).ToListAsync();
+                List<Product> products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Take(10).ToListAsync();
                 getCategorywithProducts categoryproducts = new getCategorywithProducts()
                 {
                     nameEn = category.nameEn,
                     nameAr = category.nameAr,
-                    Products = _mapper.Map<List<GetProductDto>>(products)
+                    Products = _mapper.Map<List<getProductwithImage>>(products)
                 };
                 resultedcategoryproducts.Add(categoryproducts);
             }

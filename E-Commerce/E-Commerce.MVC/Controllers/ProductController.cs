@@ -51,24 +51,24 @@ namespace E_Commerce.MVC.Controllers
                 return View("Index", "Error: " + response.StatusCode);
             }
         }
-        public async Task<IActionResult> Update(updateDto categoryDto,Guid id)
+        public async Task<IActionResult> Update(updateDto ProductDto, Guid id)
         {
            
             try
             {
 
-                var jsonContent = JsonSerializer.Serialize(categoryDto);
+                var jsonContent = JsonSerializer.Serialize(ProductDto);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
 
                 HttpResponseMessage response;
                 if (id == Guid.Empty)
                 {
-                    response = await _httpClient.PostAsync("api/Category", stringContent);
+                    response = await _httpClient.PostAsync($"api/Product/{id}", stringContent);
                 }
                 else
                 {
-                    response = await _httpClient.PutAsync("api/Category", stringContent);
+                    response = await _httpClient.PutAsync($"api/Product/{id}", stringContent);
                 }
 
 

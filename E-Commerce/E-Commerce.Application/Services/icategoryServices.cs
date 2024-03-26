@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Company.Dtos.ViewResult;
 using E_Commerce.Domain.DTOs.CategoryDto;
+using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 namespace E_Commerce.Application.Services
@@ -19,6 +20,7 @@ namespace E_Commerce.Application.Services
          Task<List<getDto>> getAll();
         Task<List<getDto>> GetAllChildrenByCategoryId(Guid categoryId);
        Task<List<getDto>> getAll2();
+        Task<Dictionary<string, List<GetProductDto>>> getAllProductes();
 
     }
 }

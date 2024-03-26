@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
+using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
@@ -47,6 +48,25 @@ namespace E_Commerce.Application.Services
             return new resultDto<createDto>() { Entity = createdProduct, IsSuccess = true, Message = "Created Sucessfully" };
 
         }
+        public async Task<IEnumerable<GetProductDto>> GetAllAsync(string[] includes = null)
+        {
+            var allProductsQuery = await _unit.product.GetAllAsync();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    allProductsQuery = allProductsQuery.Include(include);
+                }
+            }
+            //listResultDto<GetProductDto> productList = new listResultDto<GetProductDto>
+            //{
+            //    entities = _mapper.Map<IEnumerable<GetProductDto>>(await allProductsQuery.ToListAsync()),
+            //    count = await allProductsQuery.CountAsync()
+            //};
+            var resultProducts = _mapper.Map<IEnumerable<GetProductDto>>(await allProductsQuery.ToListAsync());
+            return resultProducts;
+
+        }
         public async Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null)
         {
             var allProductsQuery = await _unit.product.GetAllAsync();
@@ -65,6 +85,28 @@ namespace E_Commerce.Application.Services
                 count = await allProductsQuery.CountAsync()
             };
             return productList;
+
+        }
+        
+        public async Task<List<GetProductDto>> GetAllPaginationAsyncByCategoryID(int items, int pagenumber,Guid categoryid, string[] includes = null)
+        {
+            var allProductsQuery = await _unit.product.GetAllAsync();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    allProductsQuery = allProductsQuery.Include(include).Where(p=>p.categoryId==categoryid);
+                }
+            }
+            var productsPage = await allProductsQuery.Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
+            //_mapper.Map<IEnumerable<GetProductDto>>(productsPage);
+            //listResultDto<GetProductDto> productList = new listResultDto<GetProductDto>
+            //{
+            //    entities = _mapper.Map<IEnumerable<GetProductDto>>(productsPage),
+            //    count = await allProductsQuery.CountAsync()
+            //};
+            List<GetProductDto> productListDto = _mapper.Map<List<GetProductDto>>(productsPage);
+            return productListDto;
 
         }
 
@@ -256,5 +298,7 @@ namespace E_Commerce.Application.Services
         {
             return await _unit.product.EntityExist(Id);
         }
+
+        
     }
 }

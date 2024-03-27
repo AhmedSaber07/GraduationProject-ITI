@@ -35,7 +35,7 @@ namespace E_Commerce.Application.Services
             var product = await _unit.product.GetByIdAsync(producid);
             var allCartData = await  _unit.shoppingCart.GetAllAsync();
             var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == producid && c.SessionId == sessionid);
-            if (product.stockQuantity >= quantity)
+            if (product.stockQuantity >= quantity && quantity > 0)
             {
                 if (shoppingCartitem == null)
                 {
@@ -61,13 +61,21 @@ namespace E_Commerce.Application.Services
                 }
                 else
                 {
-                    shoppingCartitem.Quantity += quantity;
-                    shoppingCartitem.updatedAt = DateTime.Now;
-                    await  _unit.shoppingCart.SaveChangesAsync();
+                    if (product.stockQuantity >= (shoppingCartitem.Quantity + quantity) && quantity > 0)
+                    {
+                        shoppingCartitem.Quantity += quantity;
+                        shoppingCartitem.updatedAt = DateTime.Now;
+                        await _unit.shoppingCart.SaveChangesAsync();
 
-                    var cartDto = _mapper.Map<CreateOrUpdateDto>(shoppingCartitem);
-                    cartDto.ItemTotal = product.price * quantity;
-                    return new resultDto<CreateOrUpdateDto> { Entity = cartDto, IsSuccess = true, Message = "Item Quantiy increased" };
+                        var cartDto = _mapper.Map<CreateOrUpdateDto>(shoppingCartitem);
+                        cartDto.ItemTotal = product.price * quantity;
+                        return new resultDto<CreateOrUpdateDto> { Entity = cartDto, IsSuccess = true, Message = "Item Quantiy increased" };
+                    }
+                    else
+                    {
+                        var cartDto = _mapper.Map<CreateOrUpdateDto>(shoppingCartitem);
+                        return new resultDto<CreateOrUpdateDto> { Entity = cartDto, IsSuccess = false, Message = "Quantity is more than Stock Quantity" };
+                    }
                 }
             }
             else
@@ -173,7 +181,7 @@ namespace E_Commerce.Application.Services
         public async Task<listResultDto<GetCartDto>> GetAllCartItems(Guid sessionId)
         {
             var allDataQuery = await  _unit.shoppingCart.GetAllAsync();
-            var cartItemsEntities = await allDataQuery.Include(c=>c.Product).Where(c => c.SessionId == sessionId).ToListAsync();
+            var cartItemsEntities = await allDataQuery.Where(c => c.SessionId == sessionId).Include(c => c.Product).Include(c => c.Product.Images).ToListAsync();
             decimal cartTotal = 0;
             foreach (var item in cartItemsEntities)
             {

@@ -38,11 +38,11 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         [HttpPost(Name = "AddItemToCart")]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> AddItemToCart(Guid prodid, int quantity)
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> AddItemToCart(Guid productid, int quantity)
         {
             var _ShoppingCartSessionId = createIfNullsessionId();
 
-            var resultCartitem = await _cartService.AddTOCart(prodid, quantity, _ShoppingCartSessionId);
+            var resultCartitem = await _cartService.AddTOCart(productid, quantity, _ShoppingCartSessionId);
             return Created("Product", resultCartitem);
             //if(ModelState.IsValid)
             //{
@@ -86,12 +86,12 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         // DELETE api/<CartController>/5
-        [HttpDelete("DeleteCart/{id:Guid}")]
-        public async Task<ActionResult<resultDto<GetCartWithProductsDto>>> DeleteCart(Guid id)
+        [HttpDelete("DeleteCart")]
+        public async Task<ActionResult<resultDto<GetCartWithProductsDto>>> DeleteCart()
         {
-            //var _ShoppingCartSessionId = sessionId();
+            var _ShoppingCartSessionId = getsessionId();
 
-            var cart = await _cartService.DeleteCart(id);
+            var cart = await _cartService.DeleteCart(_ShoppingCartSessionId);
             if (cart is not null)
             {
                 return Ok(cart);

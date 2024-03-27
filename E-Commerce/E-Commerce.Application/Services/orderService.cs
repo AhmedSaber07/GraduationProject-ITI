@@ -2,6 +2,7 @@
 using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Domain.DTOs.OrderDto;
+using E_Commerce.Domain.Enums;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -53,8 +54,8 @@ namespace E_Commerce.WebAPI.Controllers
                 UserId = userId,
                 TotalAmount = orderTotal,
                 OrderItems = orderitemProducts,
-                status_ar = "قيد انتظار الشحن",
-                status_en = "Pending For Delivary"
+                status_ar = OrderStateAr.في_انتظار,
+                status_en = OrderStateEn.Pending
             };
             
             var orderEntity = _mapper.Map<Order>(ordercreation);
@@ -99,7 +100,7 @@ namespace E_Commerce.WebAPI.Controllers
             return new resultDto<GetOrderDto> { Entity = OrderDto, IsSuccess = true, Message = "order Retrived Successfully" };
 
         }
-        public async Task<listResultDto<GetOrderDto>> userOrder(Guid userId)
+        public async Task<listResultDto<GetOrderDto>> userOrders(Guid userId)
         {
             var allordersData= await _unit.order.GetAllAsync();
 

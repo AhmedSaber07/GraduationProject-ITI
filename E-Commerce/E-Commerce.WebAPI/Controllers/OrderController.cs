@@ -1,4 +1,5 @@
 ﻿using Company.Dtos.ViewResult;
+using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,11 @@ namespace E_Commerce.WebAPI.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        //public OrderController()
-        //{
-            
-        //}
+        private readonly iorderService _orderservice;
+        public OrderController(iorderService orderService)
+        {
+            _orderservice = orderService;
+        }
         //// GET: api/<OrderController>
         //[HttpGet]
         //public IEnumerable<string> Get()
@@ -32,12 +34,14 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(Guid UserId, Guid paymentId)
         {
+            var _ShoppingCartSessionId = getsessionId();
             if (UserId == Guid.Empty || paymentId == Guid.Empty)
             {
-                return Ok();
+                var resultOrder = await _orderservice.createOrder(UserId,paymentId, _ShoppingCartSessionId);
+                return Ok(resultOrder);
             }
-            return Ok();
-
+            return BadRequest();
+            
         }
 
         //// PUT api/<OrderController>/5

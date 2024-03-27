@@ -11,5 +11,6 @@ namespace E_Commerce.Domain.Models
         public string? city { get; set; }
         public string? country { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
+        public virtual ICollection<Payment>? Payments { get; set; }
     }
 }

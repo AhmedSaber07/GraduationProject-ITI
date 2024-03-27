@@ -110,23 +110,23 @@ namespace E_Commerce.Application.Services
 
         }
 
-        public async Task<resultDto<GetProductDto>> getById(Guid Id, string[] includes = null)
+        public async Task<resultDto<getProductwithImage>> getById(Guid Id)
         {
-            GetProductDto returnedProduct = null;
+            getProductwithImage returnedProduct = null;
             try
             {
                 if (Id == Guid.Empty)
                 {
-                    return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = "ID Not Found" };
+                    return new resultDto<getProductwithImage>() { Entity = returnedProduct, IsSuccess = false, Message = "ID Not Found" };
                 }
-                var product = await _unit.product.GetByIdAsync(Id, includes);
-                returnedProduct = _mapper.Map<GetProductDto>(product);
-                return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = true, Message = "Returned Sucessfully" };
+                var product = await _unit.product.GetByIdAsync(Id, ["Images", "Reviews"]);
+                returnedProduct = _mapper.Map<getProductwithImage>(product);
+                return new resultDto<getProductwithImage>() { Entity = returnedProduct, IsSuccess = true, Message = "Returned Sucessfully" };
 
             }
             catch (Exception ex)
             {
-                return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = true, Message = ex.Message };
+                return new resultDto<getProductwithImage>() { Entity = returnedProduct, IsSuccess = true, Message = ex.Message };
             }
         }
 

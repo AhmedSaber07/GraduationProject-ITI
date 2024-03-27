@@ -32,11 +32,11 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         [HttpGet("{id:guid}", Name = "GetByProductId")]
-        public async Task<ActionResult<resultDto<GetProductDto>>> GetOneById(Guid id, [FromBody] string[] includes = null)
+        public async Task<ActionResult<resultDto<GetProductDto>>> GetOneById(Guid id)
         {
             if (id != Guid.Empty)
             {
-                var product = await _productService.getById(id, includes);
+                var product = await _productService.getById(id);
                 if (product is not null)
                 {
                     return Ok(product);

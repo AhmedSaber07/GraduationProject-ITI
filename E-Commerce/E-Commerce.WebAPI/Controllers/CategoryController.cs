@@ -2,6 +2,7 @@
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.CategoryDto;
+using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,10 +54,15 @@ namespace E_Commerce.WebAPI.Controllers
         {
             return Ok( await icategoryServices.getAll2());
         }
-        [HttpGet("GetAllproductsforCategoryname")]
-        public async Task<ActionResult<List<getCategorywithProducts>>> GetAllproductsforCategoryname()
+        [HttpGet("getAllCattegoriesWtihProducts")]
+        public async Task<ActionResult<List<getCategorywithProducts>>> getAllCattegoriesWtihProducts()
         {
-            return Ok(await icategoryServices.getAllProductes());
+            return Ok(await icategoryServices.getAllCattegoriesWtihProducts());
+        }
+        [HttpGet("getAllProductsByCategoryId/{id:guid}")]
+        public async Task<ActionResult<List<getProductwithImage>>> getAllProductsByCategoryId(Guid id)
+        {
+            return Ok(await icategoryServices.getAllProductsByCategoryId(id));
         }
         [HttpPost]      
         public async Task<IActionResult> Post([FromBody] CreateOrUpdateCategoryDto category)

@@ -34,7 +34,7 @@ namespace E_Commerce.Application.Services
         {
             var product = await _unit.product.GetByIdAsync(producid);
             var allCartData = await  _unit.shoppingCart.GetAllAsync();
-            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == producid && c.sessionId == sessionid);
+            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == producid && c.SessionId == sessionid);
             if (product.stockQuantity >= quantity)
             {
                 if (shoppingCartitem == null)
@@ -80,7 +80,7 @@ namespace E_Commerce.Application.Services
         {
             var allDataQuery = await  _unit.shoppingCart.GetAllAsync();
             //var GuidsessionId = Guid.Parse(sessionId);
-            var cartItems = await allDataQuery.Where(c => c.sessionId==sessionId).ToListAsync();
+            var cartItems = await allDataQuery.Where(c => c.SessionId==sessionId).ToListAsync();
             resultDto<GetCartDto> deletedCart = new resultDto<GetCartDto>();
 
             if (cartItems is null)
@@ -108,7 +108,7 @@ namespace E_Commerce.Application.Services
                 return new resultDto<CreateOrUpdateDto> { Entity = null, IsSuccess = false, Message = "Product Id Not Found" };
             }
             var allCartData = await  _unit.shoppingCart.GetAllAsync();
-            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.sessionId == sessionId);
+            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.SessionId == sessionId);
 
             if (shoppingCartitem == null)
             {
@@ -131,7 +131,7 @@ namespace E_Commerce.Application.Services
                 return new resultDto<CreateOrUpdateDto> { Entity = null, IsSuccess = false, Message = "Product Id Not Found" };
             }
             var allCartData = await  _unit.shoppingCart.GetAllAsync();
-            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.sessionId == sessionId);
+            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.SessionId == sessionId);
 
             if (shoppingCartitem == null)
             {
@@ -159,7 +159,7 @@ namespace E_Commerce.Application.Services
             {
                 return new resultDto<GetCartDto> { Entity = null, IsSuccess = false, Message = "Cart is Empty" };
             }
-            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.sessionId == sessionId);
+            var shoppingCartitem = allCartData.FirstOrDefault(c => c.ProductId == productId && c.SessionId == sessionId);
 
             var deleteditemEntity = await  _unit.shoppingCart.HardDeleteAsync(shoppingCartitem);
             await  _unit.shoppingCart.SaveChangesAsync();
@@ -173,7 +173,7 @@ namespace E_Commerce.Application.Services
         public async Task<listResultDto<GetCartDto>> GetAllCartItems(Guid sessionId)
         {
             var allDataQuery = await  _unit.shoppingCart.GetAllAsync();
-            var cartItemsEntities = await allDataQuery.Include(c=>c.Product).Where(c => c.sessionId == sessionId).ToListAsync();
+            var cartItemsEntities = await allDataQuery.Include(c=>c.Product).Where(c => c.SessionId == sessionId).ToListAsync();
             decimal cartTotal = 0;
             foreach (var item in cartItemsEntities)
             {

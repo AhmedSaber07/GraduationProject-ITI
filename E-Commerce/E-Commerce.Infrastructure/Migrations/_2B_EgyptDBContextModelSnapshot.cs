@@ -74,7 +74,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("SessionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("createdAt")
@@ -89,8 +89,6 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("carts");
                 });
@@ -152,6 +150,14 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -220,6 +226,9 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18, 2)");
 
@@ -232,13 +241,11 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.Property<DateTime>("deletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("status_ar")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("status_ar")
+                        .HasColumnType("int");
 
-                    b.Property<string>("status_en")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("status_en")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
@@ -256,29 +263,31 @@ namespace E_Commerce.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Status")
+                    b.Property<decimal>("OrderPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PaymentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("deletedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("transactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
@@ -287,6 +296,8 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.HasIndex("OrderId")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("paymentItems");
                 });
@@ -449,11 +460,11 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<decimal>("ItemTotalPrice")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -513,7 +524,7 @@ namespace E_Commerce.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                 
+                    //SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -618,15 +629,7 @@ namespace E_Commerce.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("E_Commerce.Domain.Models.MyUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Category", b =>
@@ -658,7 +661,15 @@ namespace E_Commerce.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("E_Commerce.Domain.Models.MyUser", "User")
+                        .WithMany("Payments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Order");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Product", b =>
@@ -787,6 +798,8 @@ namespace E_Commerce.Infrastructure.Migrations
             modelBuilder.Entity("E_Commerce.Domain.Models.MyUser", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Order", b =>

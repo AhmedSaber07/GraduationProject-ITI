@@ -79,28 +79,45 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
-        public async Task<List<getDto>> getAllProductstoCategory()
+        public async Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id)
         {
-            var q = await _unit.category.GetAllAsync();
-            // q.Include("Subcategories");
-            q = q.Where(e => e.ParentCategoryId == null);
-            List<getDto> categorys = new List<getDto>();
-            categorys = _mapper.Map<List<getDto>>(q).ToList();
-            for (int i = 0; i < categorys.Count; i++)
+            var prod = await _unit.product.GetAllAsync();
+            List<Product> products = new List<Product>();
+            List<getProductwithImage> productsToReturn = new List<getProductwithImage>();
+
+            var hasChild = await GetAllChildrenByCategoryId(id);
+
+            if (hasChild.Count > 0)
             {
-                categorys[i].children = (await GetAllChildrenByCategoryId(categorys[i].Id));
-
-                if (categorys[i].children != null)
-                    for (int j = 0; j < categorys[i].children.Count; ++j)
+                foreach (var category in hasChild)
+                {
+                    var hasSubChild = await GetAllChildrenByCategoryId(category.Id);
+                    if (hasSubChild.Count >0 )
                     {
-                        categorys[i].children[j].children = (await GetAllChildrenByCategoryId(categorys[i].children[j].Id));
+                        foreach (var subcategory in hasSubChild)
+                        {
+                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).ToListAsync();
+                            var productsDto2 = _mapper.Map<List<getProductwithImage>>(products);
+                            productsToReturn.AddRange(productsDto2);
 
+                        }
                     }
+                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).ToListAsync();
+                    var productsDto = _mapper.Map<List<getProductwithImage>>(products);
+
+                    productsToReturn.AddRange(productsDto);
+
+                }
             }
-            return categorys;
+            else
+            {
+                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).ToListAsync();
+                productsToReturn = _mapper.Map<List<getProductwithImage>>(products);
+            }
+            return productsToReturn;
 
         }
-        public async Task<List<getCategorywithProducts>> getAllProductes()
+        public async Task<List<getCategorywithProducts>> getAllCattegoriesWtihProducts()
         {
 
             var q = await _unit.category.GetAllAsync();

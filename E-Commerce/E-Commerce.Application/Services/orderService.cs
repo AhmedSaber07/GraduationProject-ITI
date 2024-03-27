@@ -17,11 +17,11 @@ namespace E_Commerce.WebAPI.Controllers
            this._unit = _unit;
             _mapper = mapper;
         }
-        public async Task<resultDto<CreateOrUpdateDto>> createOrder(Guid userId, Guid paymentId, Guid sessionId)
+        public async Task<resultDto<CreateOrUpdateDto>> createOrder(Guid userId, Guid paymentId, Guid SessionId)
         {
             CreateOrUpdateDto orderDto = null;
             var allCartData = await _unit.shoppingCart.GetAllAsync();
-            var cartItems = await allCartData.Include(c => c.Product).Where(c => c.sessionId == sessionId).ToListAsync();
+            var cartItems = await allCartData.Include(c => c.Product).Where(c => c.SessionId == SessionId).ToListAsync();
 
             List<Domain.DTOs.OrderItemDto.CreateDto> orderitemProducts = new List<Domain.DTOs.OrderItemDto.CreateDto>();
 

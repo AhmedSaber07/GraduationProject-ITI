@@ -20,7 +20,8 @@ namespace E_Commerce.Application.Services
          Task<List<getDto>> getAll();
         Task<List<getDto>> GetAllChildrenByCategoryId(Guid categoryId);
        Task<List<getDto>> getAll2();
-        Task<List<getCategorywithProducts>> getAllProductes();
+        Task<List<getCategorywithProducts>> getAllCattegoriesWtihProducts();
+        Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id);
 
     }
 }

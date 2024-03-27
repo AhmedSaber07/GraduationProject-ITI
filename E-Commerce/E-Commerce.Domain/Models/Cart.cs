@@ -6,8 +6,9 @@ namespace E_Commerce.Domain.Models
     {
         [Required(ErrorMessage = "Product Id Required")]
         public Guid ProductId { get; set; }
+        [Required(ErrorMessage = "Product Id Required")]
+        public Guid SessionId { get; set; }
 
-        public Guid sessionId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive number.")]
         public int Quantity { get; set; }
 

@@ -125,15 +125,17 @@ namespace E_Commerce.WebAPI.Controllers
             }
             /////
             MyUser user = new MyUser() { FirstName= registerDto.FirstName,LastName= registerDto.LastName, Email = registerDto.Email, UserName = registerDto.Phone ,SecurityStamp=Guid.NewGuid().ToString()};
-            if (await _roleManager.RoleExistsAsync(role))
+            var result1 = await _roleManager.RoleExistsAsync(role);
+
+            if (result1)
             {
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
-               
+
                 if (!result.Succeeded)
                 {
-                    return StatusCode(500, result);
+                    return StatusCode(500, result.Errors);
                 }
-                else 
+                else
                 {
                     await _userManager.AddToRoleAsync(user, role);
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -142,8 +144,11 @@ namespace E_Commerce.WebAPI.Controllers
                     _emailService.SendEmail(message);
                     return Ok("Created Successfuly");
                 }
-            }         
-            return StatusCode(500, "Error exist");
+            }
+            else
+            {
+                return StatusCode(500, "You Enter Role Not found");
+            }
 
         }
 

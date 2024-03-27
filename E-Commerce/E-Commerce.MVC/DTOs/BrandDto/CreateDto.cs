@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain.DTOs.BrandDto
+namespace E_Commerce.MVC.DTOs.BrandDto
 {
     public class CreateDto
     {

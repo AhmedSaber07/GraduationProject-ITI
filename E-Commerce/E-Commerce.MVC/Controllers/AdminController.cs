@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using E_Commerce.MVC.DTOs.UserAccount;
+using Microsoft.AspNetCore.Identity;
 
 public class AdminController : Controller
 {
@@ -15,6 +16,15 @@ public class AdminController : Controller
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri("https://2b.somee.com"); 
     }
+    // GET: User/Register
+    public ActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+
     public ActionResult AddAddress()
     {
         return View();

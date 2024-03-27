@@ -124,7 +124,7 @@ namespace E_Commerce.WebAPI.Controllers
                 return StatusCode(500, "The Phone already exist");
             }
             /////
-            MyUser user = new MyUser() { Email = registerDto.Email, UserName = registerDto.Phone ,SecurityStamp=Guid.NewGuid().ToString()};
+            MyUser user = new MyUser() { FirstName= registerDto.FirstName,LastName= registerDto.LastName, Email = registerDto.Email, UserName = registerDto.Phone ,SecurityStamp=Guid.NewGuid().ToString()};
             if (await _roleManager.RoleExistsAsync(role))
             {
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -189,6 +189,8 @@ namespace E_Commerce.WebAPI.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                     new Claim(ClaimTypes.Name, user.FirstName),
+                      new Claim(ClaimTypes.Name, user.LastName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
                 var userRoles = await _userManager.GetRolesAsync(user);

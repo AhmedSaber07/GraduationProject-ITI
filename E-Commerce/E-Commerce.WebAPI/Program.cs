@@ -69,6 +69,14 @@ namespace E_Commerce.WebAPI
 
                 });
             });
+            builder.Services.AddAuthentication()
+             .AddGoogle(options =>
+             {
+                 IConfigurationSection googleAuthSection = builder.Configuration.GetSection("Authentication:Google");
+
+                 options.ClientId = googleAuthSection["ClientId"];
+                 options.ClientSecret = googleAuthSection["ClientSecret"];
+             });
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //Identity setting

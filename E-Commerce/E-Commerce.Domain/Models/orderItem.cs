@@ -12,7 +12,7 @@ namespace E_Commerce.Domain.Models
 
         [Required(ErrorMessage = "Price is required")]
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal ItemPrice { get; set; }
+        public decimal ItemTotalPrice { get; set; }
 
         public virtual Product Product { get; set; }
 

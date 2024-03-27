@@ -79,7 +79,45 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
-        public async Task<List<getCategorywithProducts>> getAllProductes()
+        public async Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id)
+        {
+            var prod = await _unit.product.GetAllAsync();
+            List<Product> products = new List<Product>();
+            List<getProductwithImage> productsToReturn = new List<getProductwithImage>();
+
+            var hasChild = await GetAllChildrenByCategoryId(id);
+
+            if (hasChild.Count > 0)
+            {
+                foreach (var category in hasChild)
+                {
+                    var hasSubChild = await GetAllChildrenByCategoryId(category.Id);
+                    if (hasSubChild.Count >0 )
+                    {
+                        foreach (var subcategory in hasSubChild)
+                        {
+                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).ToListAsync();
+                            var productsDto2 = _mapper.Map<List<getProductwithImage>>(products);
+                            productsToReturn.AddRange(productsDto2);
+
+                        }
+                    }
+                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).ToListAsync();
+                    var productsDto = _mapper.Map<List<getProductwithImage>>(products);
+
+                    productsToReturn.AddRange(productsDto);
+
+                }
+            }
+            else
+            {
+                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).ToListAsync();
+                productsToReturn = _mapper.Map<List<getProductwithImage>>(products);
+            }
+            return productsToReturn;
+
+        }
+        public async Task<List<getCategorywithProducts>> getAllCattegoriesWtihProducts()
         {
 
             var q = await _unit.category.GetAllAsync();
@@ -88,12 +126,12 @@ namespace E_Commerce.Application.Services
             foreach (var category in await q.ToListAsync())
             {
 
-                List<Product> products = await prod.Include(e=>e.Images).Include(e=>e.Reviews).Where(p => p.categoryId == category.Id).Take(10).ToListAsync();
+                List<Product> products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Take(10).ToListAsync();
                 getCategorywithProducts categoryproducts = new getCategorywithProducts()
                 {
                     nameEn = category.nameEn,
                     nameAr = category.nameAr,
-                    Products = _mapper.Map<List<GetProductDto>>(products)
+                    Products = _mapper.Map<List<getProductwithImage>>(products)
                 };
                 resultedcategoryproducts.Add(categoryproducts);
             }

@@ -11,6 +11,6 @@ namespace E_Commerce.Domain.DTOs.CategoryDto
     {
         public string nameAr { get; set; }
         public string nameEn { get; set; }
-        public List<GetProductDto> Products { get; set; }
+        public List<getProductwithImage> Products { get; set; }
     }
 }

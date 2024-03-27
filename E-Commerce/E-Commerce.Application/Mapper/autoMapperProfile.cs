@@ -21,6 +21,9 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Product, Domain.DTOs.productDto.getProductwithImage>().ForMember(dest => dest.Images,
                 opt => opt.MapFrom(src=>
                            src.Images.Select(image => image.imageUrl).ToList()));
+            CreateMap<Product,Domain.DTOs.productDto.getProductCartDto>().ForMember(dest => dest.Images,
+                opt => opt.MapFrom(src =>
+                           src.Images.Select(image => image.imageUrl).ToList())).ReverseMap();
 
             // product-Image
             CreateMap<Domain.DTOs.ProductImageDto.CreateDto, ProductImage>().ReverseMap();

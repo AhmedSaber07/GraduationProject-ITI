@@ -179,7 +179,7 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
-        [HttpPut("{id:guid}/stockQuantity")]
+        [HttpPut("{Id:guid}/stockQuantity/{productStockQuantity:int}")]
         public async Task<ActionResult<resultDto<updateDto>>> updateStockQuantityAsync(Guid Id, int productStockQuantity)
         {
 

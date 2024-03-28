@@ -25,10 +25,10 @@ namespace E_Commerce.WebAPI.Controllers
 
 
         // GET api/<CartController>/5
-        [HttpGet]
-        public async Task<ActionResult<listResultDto<GetCartDto>>> Get()
+        [HttpGet("{_ShoppingCartSessionId:guid}")]
+        public async Task<ActionResult<listResultDto<GetCartDto>>> Get(Guid _ShoppingCartSessionId)
         {
-            var _ShoppingCartSessionId = getsessionId();
+           // var _ShoppingCartSessionId = getsessionId();
             if (_ShoppingCartSessionId != Guid.Empty)
             {
                 var RemovedProduct = await _cartService.GetAllCartItems(_ShoppingCartSessionId);
@@ -37,10 +37,10 @@ namespace E_Commerce.WebAPI.Controllers
             return NotFound();
         }
 
-        [HttpPost(Name = "AddItemToCart")]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> AddItemToCart(Guid productid, int quantity)
+        [HttpPost("{_ShoppingCartSessionId:guid}", Name = "AddItemToCart")]
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> AddItemToCart(Guid productid, int quantity, Guid _ShoppingCartSessionId)
         {
-            var _ShoppingCartSessionId = createIfNullsessionId();
+           // var _ShoppingCartSessionId = createIfNullsessionId();
 
             var resultCartitem = await _cartService.AddTOCart(productid, quantity, _ShoppingCartSessionId);
             return Created("Product", resultCartitem);
@@ -50,10 +50,10 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         // PUT api/<CartController>/5
-        [HttpPut("IncreaseQuantity")]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> IncreaseQuantity(Guid productId)
+        [HttpPut("IncreaseQuantity/{_ShoppingCartSessionId:guid}")]
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> IncreaseQuantity(Guid productId, Guid _ShoppingCartSessionId)
         {
-            var _ShoppingCartSessionId = getsessionId();
+            //var _ShoppingCartSessionId = getsessionId();
             if (_ShoppingCartSessionId != Guid.Empty)
             {
                 var increasedProduct = await _cartService.IncreaseCartProductQuantity(_ShoppingCartSessionId, productId);
@@ -61,10 +61,10 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return NotFound();
         }
-        [HttpPut("DecreaseQuantity")]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> DecreaseQuantity(Guid productId)
+        [HttpPut("DecreaseQuantity/{_ShoppingCartSessionId:guid}")]
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> DecreaseQuantity(Guid productId, Guid _ShoppingCartSessionId)
         {
-            var _ShoppingCartSessionId = getsessionId();
+            //var _ShoppingCartSessionId = getsessionId();
             if (_ShoppingCartSessionId != Guid.Empty)
             {
                 var decreasedProduct = await _cartService.DecreaseCartProductQuantity(productId, _ShoppingCartSessionId);
@@ -72,11 +72,11 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return NotFound();
         }
-        [HttpPut("RemoveItem")]
-        public async Task<ActionResult<resultDto<GetCartDto>>> RemoveItem(Guid productId)
+        [HttpPut("RemoveItem/{_ShoppingCartSessionId:guid}")]
+        public async Task<ActionResult<resultDto<GetCartDto>>> RemoveItem(Guid productId, Guid _ShoppingCartSessionId)
         {
 
-            var _ShoppingCartSessionId = getsessionId();
+            //var _ShoppingCartSessionId = getsessionId();
             if (_ShoppingCartSessionId != Guid.Empty)
             {
                 var RemovedProduct = await _cartService.RemoveCartItem(productId, _ShoppingCartSessionId);
@@ -86,10 +86,10 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         // DELETE api/<CartController>/5
-        [HttpDelete("DeleteCart")]
-        public async Task<ActionResult<resultDto<GetCartWithProductsDto>>> DeleteCart()
+        [HttpDelete("DeleteCart{_ShoppingCartSessionId:guid}")]
+        public async Task<ActionResult<resultDto<GetCartWithProductsDto>>> DeleteCart(Guid _ShoppingCartSessionId)
         {
-            var _ShoppingCartSessionId = getsessionId();
+            //var _ShoppingCartSessionId = getsessionId();
 
             var cart = await _cartService.DeleteCart(_ShoppingCartSessionId);
             if (cart is not null)

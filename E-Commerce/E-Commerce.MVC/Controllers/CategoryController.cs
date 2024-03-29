@@ -97,7 +97,12 @@ namespace E_Commerce.MVC.Controllers
             }
             return View("Index");
         }
-        public async Task Add(CreateOrUpdateCategoryDto dto)
+        public IActionResult create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> create(CreateOrUpdateCategoryDto dto)
         {
             try
             {
@@ -122,6 +127,7 @@ namespace E_Commerce.MVC.Controllers
             {               
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
+            return View();
         }
 
 

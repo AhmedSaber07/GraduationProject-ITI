@@ -18,6 +18,6 @@ namespace E_Commerce.Application.Services
         Task<resultDto<CreateOrUpdateDto>> IncreaseCartProductQuantity(Guid productId, Guid sessionId);
         Task<resultDto<CreateOrUpdateDto>> DecreaseCartProductQuantity(Guid productId, Guid sessionId);
         Task<resultDto<GetCartDto>> RemoveCartItem(Guid sessionId, Guid productId);
-        Task<listResultDto<GetCartDto>> GetAllCartItems(Guid sessionId);
+        Task<CartListDto<GetCartDto>> GetAllCartItems(Guid sessionId);
     }
 }

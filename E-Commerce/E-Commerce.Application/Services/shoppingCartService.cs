@@ -178,7 +178,7 @@ namespace E_Commerce.Application.Services
         }
 
 
-        public async Task<listResultDto<GetCartDto>> GetAllCartItems(Guid sessionId)
+        public async Task<CartListDto<GetCartDto>> GetAllCartItems(Guid sessionId)
         {
             var allDataQuery = await  _unit.shoppingCart.GetAllAsync();
             var cartItemsEntities = await allDataQuery.Where(c => c.SessionId == sessionId).Include(c => c.Product).Include(c => c.Product.Images).ToListAsync();
@@ -188,7 +188,7 @@ namespace E_Commerce.Application.Services
                 cartTotal += item.Product.price * item.Quantity;
             }
             var cartItemsDtos = _mapper.Map<IEnumerable<GetCartDto>>(cartItemsEntities);
-            return new listResultDto<GetCartDto> { entities = cartItemsDtos, count = cartTotal };
+            return new CartListDto<GetCartDto> { entities = cartItemsDtos, count = cartItemsEntities.Count, TotalPrice = cartTotal };
         }
 
     }

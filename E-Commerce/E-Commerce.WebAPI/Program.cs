@@ -5,6 +5,7 @@ using E_Commerce.Application.Settings;
 using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Context;
 using E_Commerce.Infrastructure.Repositories;
+using E_Commerce.WebAPI.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,9 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<iuserRepository, UserRepository>();
             builder.Services.AddScoped<ishoppingCartRepository, ShoppingCartRepository>();
             builder.Services.AddScoped<ishoppingCartService, shoppingCartService>();
+            builder.Services.AddScoped<iorderRepository, OrderRepository>();
+            builder.Services.AddScoped<iorderService, orderService>();
+            
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

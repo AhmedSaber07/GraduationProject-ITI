@@ -1,7 +1,11 @@
 ﻿using Company.Dtos.ViewResult;
+using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
+using E_Commerce.Domain.listResultDto;
+using E_Commerce.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using static Azure.Core.HttpHeader;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,45 +20,72 @@ namespace E_Commerce.WebAPI.Controllers
         {
             _orderservice = orderService;
         }
-        //// GET: api/<OrderController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET api/<OrderController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        // POST api/<OrderController>
-        [HttpPost]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(Guid UserId, Guid paymentId)
+        [HttpGet("GetUserOrders")]
+        public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(Guid userId)
         {
-            var _ShoppingCartSessionId = getsessionId();
-            if (UserId == Guid.Empty || paymentId == Guid.Empty)
+            if (userId != Guid.Empty)
             {
-                var resultOrder = await _orderservice.createOrder(UserId,paymentId, _ShoppingCartSessionId);
+                var orders = await _orderservice.getUserOrders(userId);
+                if (orders is not null)
+                {
+                    return Ok(orders);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
+        [HttpGet("GetOrderById")]
+        public async Task<ActionResult<resultDto<GetOrderDto>>> getOrderById(Guid orderId)
+        {
+            if (orderId != Guid.Empty)
+            {
+                var orders = await _orderservice.getOrderById(orderId);
+                if (orders is not null)
+                {
+                    return Ok(orders);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(Guid UserId, Guid paymentId,Guid _ShoppingCartSessionId)
+        {
+            //var _ShoppingCartSessionId = getsessionId();
+            if (UserId != Guid.Empty || paymentId != Guid.Empty)
+            {
+                    var resultOrder = await _orderservice.createOrder(UserId,paymentId, _ShoppingCartSessionId);
                 return Ok(resultOrder);
             }
             return BadRequest();
-            
         }
 
-        //// PUT api/<OrderController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{orderId}/{productId}/{quantity}")]
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> updateOrderItemQuantity(Guid orderId, Guid productId, int quantity)
+        {
+            if (orderId != Guid.Empty || productId != Guid.Empty || quantity < 0)
+            {
+                var resultOrder = await _orderservice.updateOrderItemQuantity(orderId, productId, quantity);
+                return Ok(resultOrder);
+            }
+            return BadRequest();
+        }
 
-        //// DELETE api/<OrderController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<resultDto<GetOrderDto>>> DeleteOrder(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                return (await _orderservice.deleteOrder(id));
+            }
+            return NotFound();
+        }
         private Guid getsessionId()
         {
             string getSessionId = HttpContext.Session.GetString("SessionCartId");

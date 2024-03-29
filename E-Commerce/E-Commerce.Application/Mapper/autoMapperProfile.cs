@@ -56,6 +56,7 @@ namespace E_Commerce.Application.Mapper
             // order
             CreateMap<Domain.DTOs.OrderDto.CreateOrUpdateDto, Order>().ReverseMap();
             CreateMap<Domain.DTOs.OrderDto.GetOrderDto, Order>().ReverseMap();
+            CreateMap<Domain.DTOs.OrderDto.GetOrderISDeletedDto, Order>().ReverseMap();
 
             //brand
 

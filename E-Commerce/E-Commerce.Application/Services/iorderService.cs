@@ -14,16 +14,16 @@ namespace E_Commerce.Application.Services
     {
         Task<resultDto<CreateOrUpdateDto>> createOrder(Guid userId, Guid paymentId, Guid SessionId);
 
-
+        Task<resultDto<CreateOrUpdateDto>> updateOrderItemQuantity(Guid orderId, Guid productId, int quantity);
         Task<resultDto<GetOrderDto>> deleteOrder(Guid orderId);
 
         //public  async Task<resultDto<CreateOrUpdateDto>> updateOrder(Guid orderId)
         //{
 
         //}
-        Task<resultDto<GetOrderDto>> orderById(Guid orderId);
+        Task<resultDto<GetOrderISDeletedDto>> getOrderById(Guid orderId);
 
-        Task<listResultDto<GetOrderDto>> userOrders(Guid userId);
+        Task<listResultDto<GetOrderDto>> getUserOrders(Guid userId);
         
     }
 }

@@ -8,6 +8,7 @@ namespace E_Commerce.Domain.DTOs.productDto
 {
     public class getProductCartDto
     {
+        public Guid Id { get; set; }
         public string nameAr { get; set; }
         public string nameEn { get; set; }
         public string descriptionAr { get; set; }

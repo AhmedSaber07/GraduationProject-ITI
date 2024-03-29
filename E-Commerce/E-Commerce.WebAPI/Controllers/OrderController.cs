@@ -20,6 +20,11 @@ namespace E_Commerce.WebAPI.Controllers
         {
             _orderservice = orderService;
         }
+        [HttpGet]
+        public async Task<ActionResult<listResultDto<getOrdersWithoutItems>>> GetallOrders()
+        {
+            return Ok(await _orderservice.GetAllOrders());
+        }
         [HttpGet("GetUserOrders")]
         public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(Guid userId)
         {

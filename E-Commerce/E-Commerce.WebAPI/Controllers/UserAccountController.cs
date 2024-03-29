@@ -511,5 +511,16 @@ namespace E_Commerce.WebAPI.Controllers
 
             return Ok(new { Email = email });
         }
+        [HttpGet("userid")]
+        public async Task<IActionResult> GetUserIdByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound(); 
+            }
+
+            return Ok(user.Id);
+        }
     }
 }

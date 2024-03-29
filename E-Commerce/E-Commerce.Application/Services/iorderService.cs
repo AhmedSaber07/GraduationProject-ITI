@@ -12,6 +12,7 @@ namespace E_Commerce.Application.Services
 {
     public interface iorderService
     {
+        Task<listResultDto<getOrdersWithoutItems>> GetAllOrders();
         Task<resultDto<CreateOrUpdateDto>> createOrder(Guid userId, Guid paymentId, Guid SessionId);
 
         Task<resultDto<CreateOrUpdateDto>> updateOrderItemQuantity(Guid orderId, Guid productId, int quantity);

@@ -157,5 +157,12 @@ namespace E_Commerce.WebAPI.Controllers
             return new listResultDto<GetOrderDto> { entities = OrderDto, count = await userOrderEntity.CountAsync() };
 
         }
+
+        public async Task<listResultDto<getOrdersWithoutItems>> GetAllOrders()
+        {
+            var allordersData = await _unit.order.GetAllAsync();
+            var ordersDto = _mapper.Map<List<getOrdersWithoutItems>>(await allordersData.ToListAsync());
+            return new listResultDto<getOrdersWithoutItems> { entities = ordersDto, count = ordersDto.Count()};
+        }
     }
 }

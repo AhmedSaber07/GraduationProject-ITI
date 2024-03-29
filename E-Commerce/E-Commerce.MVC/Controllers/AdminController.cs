@@ -14,7 +14,7 @@ public class AdminController : Controller
     public AdminController(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://2b.somee.com"); 
+        _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/"); 
     }
     // GET: User/Register
     public ActionResult Register()
@@ -70,14 +70,24 @@ public class AdminController : Controller
         return View();
     }
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDto loginDto)
+    public async Task<ActionResult> Login(LoginDto loginDto)
     {
         var jsonContent = JsonSerializer.Serialize(loginDto);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PostAsync("api/UserAccount/login", stringContent);
 
-        return await HandleResponse(response);
+        if (response.IsSuccessStatusCode)
+        {
+
+          //  return View("~/Home/Index");
+        }
+        else 
+        {
+            ViewBag.ErrorMessage = "An error occurred: " + (await response.Content.ReadAsStringAsync());
+         //   return View("Unauthorized");
+        }
+        return View();
     }
 
     [HttpGet("reset-password")]
@@ -117,7 +127,7 @@ public class AdminController : Controller
         else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
         {
         
-            return RedirectToAction("Unauthorized"); 
+            return View("Unauthorized"); 
         }
         else
         {

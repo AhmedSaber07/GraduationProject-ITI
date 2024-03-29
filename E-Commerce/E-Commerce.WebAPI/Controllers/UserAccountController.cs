@@ -241,7 +241,7 @@ namespace E_Commerce.WebAPI.Controllers
 
 
 
-
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("AddAddress")]
         public async Task<IActionResult> AddAddress(AddressDto addressDto)
         {
@@ -258,6 +258,7 @@ namespace E_Commerce.WebAPI.Controllers
                 return StatusCode(401, "Unauthorized");
 
         }
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("{oldEmail}/email")]
         public async Task<IActionResult> UpdateEmail( string oldEmail, [FromBody] string newEmail)
         {
@@ -276,6 +277,7 @@ namespace E_Commerce.WebAPI.Controllers
 
             return Ok(); 
         }
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("{oldPhone}/UpdatePhone")]
         public async Task<IActionResult> UpdatePhone(string oldPhone, [FromBody] string newPhone)
         {
@@ -316,15 +318,15 @@ namespace E_Commerce.WebAPI.Controllers
             {
                 return StatusCode(500, "The email already exist");
             }
-            exist = await _userManager.FindByNameAsync(registerDto.Phone);
+            exist = await _userManager.FindByNameAsync(registerDto.PhoneNumber);
 
             if (exist != null)
             {
                 
-                return StatusCode(501, "The Phone already exist");
+                return StatusCode(501, "The PhoneNumber already exist");
             }
             /////
-            MyUser user = new MyUser() { FirstName= registerDto.FirstName,LastName= registerDto.LastName, Email = registerDto.Email, UserName = registerDto.Phone ,SecurityStamp=Guid.NewGuid().ToString()};
+            MyUser user = new MyUser() { FirstName= registerDto.FirstName,LastName= registerDto.LastName, Email = registerDto.Email, UserName = registerDto.PhoneNumber ,SecurityStamp=Guid.NewGuid().ToString()};
             var result1 = await _roleManager.RoleExistsAsync(role);
 
             if (result1)
@@ -351,8 +353,31 @@ namespace E_Commerce.WebAPI.Controllers
             }
 
         }
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("changepassword")]
+        public async Task<IActionResult> ChangePassword(string Email, string NewPassword,  string oldPassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-       
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, oldPassword, NewPassword);
+
+            if (!changePasswordResult.Succeeded)
+            {
+                return BadRequest(changePasswordResult.Errors);
+            }
+
+            return Ok("Password changed successfully");
+        }
+
         [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
@@ -397,7 +422,7 @@ namespace E_Commerce.WebAPI.Controllers
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, role));
                 }
-                RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, Phone = user.PhoneNumber, Password = null };
+                RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, PhoneNumber = user.PhoneNumber, Password = null };
 
                 var jwtToken = GetToken(authClaims);
                
@@ -434,8 +459,7 @@ namespace E_Commerce.WebAPI.Controllers
             var model = new ResetPasswordDto { token = token, Email = email };
 
             return Ok(new { model });
-        }
-        //ResetPasswordDto
+        }       
         [HttpPost("reset-password")]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
@@ -457,7 +481,6 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return StatusCode(500, "Error exist");
         }
-        //ResetPasswordDto
         [HttpPost("forget-password")]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(string email)

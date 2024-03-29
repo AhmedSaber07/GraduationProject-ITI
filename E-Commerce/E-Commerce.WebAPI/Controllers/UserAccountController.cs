@@ -454,66 +454,12 @@ namespace E_Commerce.WebAPI.Controllers
             return token;
         }
         #region Oldreset
-        //[HttpGet("reset-password")]
-        //public async Task<IActionResult> ResetPassword(string email,string token)
-        //{
-        //    var model = new ResetPasswordDto { token = token, Email = email };
-
-        //    return Ok(new { model });
-        //}       
-        //[HttpPost("reset-password")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
-
-        //    if (user != null)
-        //    {
-        //        var resetPasswordRes = await _userManager.ResetPasswordAsync(user, resetPasswordDto.token, resetPasswordDto.Password);
-        //        if (resetPasswordRes.Succeeded)
-        //        {
-        //            foreach (var item in resetPasswordRes.Errors)
-        //            {
-        //                ModelState.AddModelError(item.Code, item.Description);
-        //            }
-        //            return Ok(ModelState);
-        //        }
-        //        return StatusCode(200, "Password has been changed");
-        //    }
-        //    return StatusCode(500, "Error exist");
-        //}
-        //[HttpPost("forget-password")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ForgotPassword(string email)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(email);
-        //    if (user != null)
-        //    {
-        //        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //        var link = Url.Action(nameof(ResetPassword), "UserAccount", new { token, email = user.Email }, Request.Scheme);
-        //        var message = new Message(new string[] { user.Email }, "reset password link", link!);
-        //        _emailService.SendEmail(message);
-        //        return StatusCode(200, "Password change request is sent on email");
-        //    }
-        //    return StatusCode(500, "Error exist");
-        //}
-        #endregion
-        [HttpPost("forget-password")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(string email)
+        [HttpGet("reset-password")]
+        public async Task<IActionResult> ResetPassword(string email, string token)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user != null)
-            {
-                //    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                /// var link = Url.Action(nameof(ResetPassword), "UserAccount", new { token, email = user.Email }, Request.Scheme);
-                Random random = new Random();
-                int randomNumber = random.Next();
-                var message = new Message(new string[] { user.Email }, "reset password code", randomNumber.ToString());
-                _emailService.SendEmail(message);
-                return StatusCode(200, "Password change request is sent on email");
-            }
-            return StatusCode(500, "Error exist");
+            var model = new ResetPasswordDto { token = token, Email = email };
+
+            return Ok(new { model });
         }
         [HttpPost("reset-password")]
         [AllowAnonymous]
@@ -536,6 +482,23 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return StatusCode(500, "Error exist");
         }
+        [HttpPost("forget-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var link = Url.Action(nameof(ResetPassword), "UserAccount", new { token, email = user.Email }, Request.Scheme);
+                var message = new Message(new string[] { user.Email }, "reset password link", link!);
+                _emailService.SendEmail(message);
+                return StatusCode(200, "Password change request is sent on email");
+            }
+            return StatusCode(500, "Error exist");
+        }
+        #endregion
+
         [HttpGet("{userId}/email")]
         public async Task<IActionResult> GetUserEmailById(string userId)
         {

@@ -73,14 +73,7 @@ namespace E_Commerce.WebAPI
 
                 });
             });
-            builder.Services.AddAuthentication()
-             .AddGoogle(options =>
-             {
-                 IConfigurationSection googleAuthSection = builder.Configuration.GetSection("Authentication:Google");
-
-                 options.ClientId = googleAuthSection["ClientId"];
-                 options.ClientSecret = googleAuthSection["ClientSecret"];
-             });
+         
             // autoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //Identity setting
@@ -103,12 +96,20 @@ namespace E_Commerce.WebAPI
                         ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                     };
+                }            
+                ).AddGoogle(
+                options =>
+                {
+                    IConfigurationSection googleAuthSection = builder.Configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthSection["ClientId"];
+                    options.ClientSecret = googleAuthSection["ClientSecret"];
                 });
 
             //Add Email Configs
             var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<MailSettings>();
             builder.Services.AddSingleton(emailConfig);
-
+ 
             builder.Services.AddDbContext<_2B_EgyptDBContext>(
              op =>
              {

@@ -25,14 +25,13 @@ namespace E_Commerce.MVC.Controllers
             }
             else
             {
-                return View("Error");
+                return View("Error404");
             }
         }
         public IActionResult Create()
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Create(CreateDto brand)
         {
@@ -47,7 +46,7 @@ namespace E_Commerce.MVC.Controllers
             }
             else
             {
-                return View("Error");
+                return View("Error404");
             }
         }
         public async Task<IActionResult> Delete(Guid id)

@@ -80,14 +80,14 @@ public class AdminController : Controller
         if (response.IsSuccessStatusCode)
         {
 
-          //  return View("~/Home/Index");
+            return View("~/Home/Index");
         }
         else 
         {
             ViewBag.ErrorMessage = "An error occurred: " + (await response.Content.ReadAsStringAsync());
-         //   return View("Unauthorized");
+           return View();
         }
-        return View();
+        
     }
 
     [HttpGet("reset-password")]

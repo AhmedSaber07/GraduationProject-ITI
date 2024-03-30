@@ -101,21 +101,5 @@ namespace E_Commerce.WebAPI.Controllers
                 return NotFound();
             }
         }
-
-        private Guid createIfNullsessionId()
-        {
-            string getSessionId = HttpContext.Session.GetString("SessionCartId") ?? Guid.NewGuid().ToString();
-            HttpContext.Session.SetString("SessionCartId", getSessionId);
-            return Guid.Parse(getSessionId);
-        }
-        private Guid getsessionId()
-        {
-            string getSessionId = HttpContext.Session.GetString("SessionCartId");
-            if (getSessionId != null)
-            {
-                return Guid.Parse(getSessionId);
-            }
-            return Guid.Empty;
-        }
-    }
+   }
 }

@@ -3,9 +3,11 @@ using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
+using E_Commerce.Domain.DTOs.OrderItemDto;
 using E_Commerce.Domain.Enums;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.WebAPI.Controllers
@@ -13,25 +15,26 @@ namespace E_Commerce.WebAPI.Controllers
     public class orderService : iorderService
     {
         private readonly IUnitOfWork _unit;
+        private readonly UserManager<MyUser> _userManager;
         private readonly ishoppingCartService _shoppingCartService;
         private readonly IMapper _mapper;
-        public orderService(IUnitOfWork unit, IMapper mapper,ishoppingCartService shoppingCartService)
+        public orderService(IUnitOfWork unit, IMapper mapper, ishoppingCartService shoppingCartService, UserManager<MyUser> userManager)
         {
             _unit = unit;
             _mapper = mapper;
             _shoppingCartService = shoppingCartService;
+            _userManager = userManager;
         }
-        public async Task<resultDto<CreateOrUpdateDto>> createOrder(Guid userId, Guid paymentId, Guid SessionId)
+        public async Task<resultDto<CreateOrUpdateDto>> createOrder(string email, Guid paymentId, Guid SessionId)
         {
             CreateOrUpdateDto orderDto = null;
             var allCartData = await _unit.shoppingCart.GetAllAsync();
+            var user = await _userManager.FindByEmailAsync(email);
             var cartItems = await allCartData.Where(c => c.SessionId == SessionId).Include(c => c.Product).ToListAsync();
             if (cartItems.Count <= 0)
             {
                 return new resultDto<CreateOrUpdateDto> { Entity = null, IsSuccess = false, Message = "cart not found" };
             }
-            
-
             List<Domain.DTOs.OrderItemDto.CreateDto> orderitemProducts = new List<Domain.DTOs.OrderItemDto.CreateDto>();
 
             decimal orderTotal = 0;
@@ -62,13 +65,13 @@ namespace E_Commerce.WebAPI.Controllers
             CreateOrUpdateDto ordercreation = new CreateOrUpdateDto()
             {
                 PaymentId = paymentId,
-                UserId = userId,
+                UserId = user.Id,
                 TotalAmount = orderTotal,
                 OrderItems = orderitemProducts,
                 status_ar = OrderStateAr.في_انتظار,
                 status_en = OrderStateEn.Pending
             };
-            
+
             var orderEntity = _mapper.Map<Order>(ordercreation);
             orderEntity.createdAt = DateTime.Now;
             await _unit.order.CreateAsync(orderEntity);
@@ -79,26 +82,26 @@ namespace E_Commerce.WebAPI.Controllers
         }
         public async Task<resultDto<GetOrderDto>> deleteOrder(Guid orderId)
         {
-            var orderEntity =await _unit.order.GetByIdAsync(orderId, ["OrderItems"]);
+            var orderEntity = await _unit.order.GetByIdAsync(orderId, ["OrderItems"]);
             if (orderEntity is null || orderEntity.IsDeleted == true)
             {
                 return new resultDto<GetOrderDto> { Entity = null, IsSuccess = false, Message = "Order not Found" };
             }
             orderEntity.IsDeleted = true;
-            orderEntity.deletedAt= DateTime.Now;
+            orderEntity.deletedAt = DateTime.Now;
 
-            foreach(var orderitem in orderEntity.OrderItems)
+            foreach (var orderitem in orderEntity.OrderItems)
             {
                 var product = await _unit.product.GetByIdAsync(orderitem.ProductId);
                 orderitem.IsDeleted = true;
                 product.stockQuantity += orderitem.Quantity;
             }
             await _unit.order.SaveChangesAsync();
-            var deletedOrderDto =_mapper.Map<GetOrderDto>(orderEntity);
+            var deletedOrderDto = _mapper.Map<GetOrderDto>(orderEntity);
 
             return new resultDto<GetOrderDto> { Entity = deletedOrderDto, IsSuccess = true, Message = "Deleted Successfully" };
         }
-        public async Task<resultDto<CreateOrUpdateDto>> updateOrderItemQuantity(Guid orderId,Guid productId,int quantity)
+        public async Task<resultDto<CreateOrUpdateDto>> updateOrderItemQuantity(Guid orderId, Guid productId, int quantity)
         {
             var allOrderData = await _unit.order.GetAllAsync();
             var orderEntity = await allOrderData.Where(o => o.Id == orderId).Include(o => o.OrderItems).ToListAsync();
@@ -143,18 +146,46 @@ namespace E_Commerce.WebAPI.Controllers
             return new resultDto<GetOrderISDeletedDto> { Entity = OrderDto, IsSuccess = true, Message = "order Retrived Successfully" };
 
         }
-        public async Task<listResultDto<GetOrderDto>> getUserOrders(Guid userId)
+        public async Task<listResultDto<GetOrderDto>> getUserOrders(string email)
         {
-            var allordersData= await _unit.order.GetAllAsync();
-
-            var userOrderEntity= allordersData.Where(o=>o.UserId == userId).Include(o => o.OrderItems);
+            var allordersData = await _unit.order.GetAllAsync();
+            var user = await _userManager.FindByEmailAsync(email);
+            var userOrderEntity = await allordersData.Where(o => o.UserId == user.Id).Include(o => o.OrderItems).ToListAsync();
             if (userOrderEntity is null)
             {
-                return new listResultDto<GetOrderDto> { entities = null, count=0 };
+                return new listResultDto<GetOrderDto> { entities = null, count = 0 };
             }
-            var OrderDto = _mapper.Map<IEnumerable<GetOrderDto>>(userOrderEntity);
+            List<GetOrderDto> listorderdto = new List<GetOrderDto>();
+            foreach (var _order in userOrderEntity)
+            {
+                List<getOrderItemwithprice> orderitemsdto = new List<getOrderItemwithprice>();
+                foreach (var _orderItem in _order.OrderItems)
+                {
+                    var product = await _unit.product.GetByIdAsync(_orderItem.ProductId);
+                    getOrderItemwithprice orderitemdto = new getOrderItemwithprice()
+                    {
+                        price = product.price,
+                        productName = product.nameEn,
+                        ItemTotalPrice = product.price * _orderItem.Quantity,
+                        quantity = _orderItem.Quantity
+                    };
+                    orderitemsdto.Add(orderitemdto);
+                }
+                GetOrderDto orderDto = new GetOrderDto();
+                orderDto.Id = _order.Id;
+                orderDto.createdAt = (DateTime)_order.createdAt;
+                orderDto.PaymentId = _order.PaymentId;
+                orderDto.status_ar = _order.status_ar;
+                orderDto.status_en = _order.status_en;
+                orderDto.TotalAmount = _order.TotalAmount;
+                orderDto.OrderItems = orderitemsdto;
+                listorderdto.Add(orderDto);
+            }
 
-            return new listResultDto<GetOrderDto> { entities = OrderDto, count = await userOrderEntity.CountAsync() };
+            //var OrderDto = _mapper.Map<IEnumerable<GetOrderDto>>(userOrderEntity);
+
+
+            return new listResultDto<GetOrderDto> { entities = listorderdto, count = listorderdto.Count() };
 
         }
 
@@ -162,7 +193,7 @@ namespace E_Commerce.WebAPI.Controllers
         {
             var allordersData = await _unit.order.GetAllAsync();
             var ordersDto = _mapper.Map<List<getOrdersWithoutItems>>(await allordersData.ToListAsync());
-            return new listResultDto<getOrdersWithoutItems> { entities = ordersDto, count = ordersDto.Count()};
+            return new listResultDto<getOrdersWithoutItems> { entities = ordersDto, count = ordersDto.Count() };
         }
     }
 }

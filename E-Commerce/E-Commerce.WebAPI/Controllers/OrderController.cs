@@ -1,11 +1,8 @@
 ﻿using Company.Dtos.ViewResult;
-using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
 using E_Commerce.Domain.listResultDto;
-using E_Commerce.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using static Azure.Core.HttpHeader;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,11 +23,11 @@ namespace E_Commerce.WebAPI.Controllers
             return Ok(await _orderservice.GetAllOrders());
         }
         [HttpGet("GetUserOrders")]
-        public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(Guid userId)
+        public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(string email)
         {
-            if (userId != Guid.Empty)
+            if (email != string.Empty)
             {
-                var orders = await _orderservice.getUserOrders(userId);
+                var orders = await _orderservice.getUserOrders(email);
                 if (orders is not null)
                 {
                     return Ok(orders);
@@ -60,12 +57,12 @@ namespace E_Commerce.WebAPI.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(Guid UserId, Guid paymentId,Guid _ShoppingCartSessionId)
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(string email, Guid transactionId, Guid sessionId)
         {
             //var _ShoppingCartSessionId = getsessionId();
-            if (UserId != Guid.Empty || paymentId != Guid.Empty)
+            if (email != string.Empty || transactionId != Guid.Empty)
             {
-                    var resultOrder = await _orderservice.createOrder(UserId,paymentId, _ShoppingCartSessionId);
+                var resultOrder = await _orderservice.createOrder(email, transactionId, sessionId);
                 return Ok(resultOrder);
             }
             return BadRequest();
@@ -90,15 +87,6 @@ namespace E_Commerce.WebAPI.Controllers
                 return (await _orderservice.deleteOrder(id));
             }
             return NotFound();
-        }
-        private Guid getsessionId()
-        {
-            string getSessionId = HttpContext.Session.GetString("SessionCartId");
-            if (getSessionId != null)
-            {
-                return Guid.Parse(getSessionId);
-            }
-            return Guid.Empty;
         }
     }
 }

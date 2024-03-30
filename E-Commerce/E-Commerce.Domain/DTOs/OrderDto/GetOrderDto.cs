@@ -1,23 +1,16 @@
-﻿using E_Commerce.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using E_Commerce.Domain.DTOs.OrderItemDto;
+﻿using E_Commerce.Domain.DTOs.OrderItemDto;
+using E_Commerce.Domain.Enums;
 
 namespace E_Commerce.Domain.DTOs.OrderDto
 {
     public class GetOrderDto
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
         public Guid PaymentId { get; set; }
-        public string status_ar { get; set; }
-        public string status_en { get; set; }
+        public DateTime createdAt { get; set; }
+        public OrderStateAr status_ar { get; set; }
+        public OrderStateEn status_en { get; set; }
         public decimal TotalAmount { get; set; }
-        public virtual ICollection<GetOrderItemDto> OrderItems { get; set; }
+        public virtual ICollection<getOrderItemwithprice> OrderItems { get; set; }
     }
 }

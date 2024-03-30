@@ -85,7 +85,7 @@ public class AdminController : Controller
         else 
         {
             ViewBag.ErrorMessage = "An error occurred: " + (await response.Content.ReadAsStringAsync());
-           return View();
+           return View("Unauthorized");
         }
         
     }

@@ -12,8 +12,6 @@ namespace E_Commerce.MVC.Controllers
     public class CategoryController : Controller
     {
         private readonly HttpClient _httpClient;
-
-
        public CategoryController()
        {
             _httpClient = new HttpClient();

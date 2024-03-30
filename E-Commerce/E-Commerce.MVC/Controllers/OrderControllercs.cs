@@ -5,13 +5,13 @@ using System.Text.Json;
 
 namespace E_Commerce.MVC.Controllers
 {
-    public class OrderControllercs : Controller
+    public class OrderController : Controller
     {
         private readonly HttpClient _httpClient;
-        OrderControllercs()
+       public OrderController()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://twobwebstie-001-site1.ftempurl.com");
+            _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
         }
         public async Task<IActionResult> Index()
         {
@@ -24,7 +24,7 @@ namespace E_Commerce.MVC.Controllers
             }
             else
             {
-                return View("Error404");
+                return View("Forbidden");
             }
         }
 

@@ -6,8 +6,27 @@ using System.Text.Json;
 
 namespace E_Commerce.MVC.Controllers
 {
+
     public class ProductController : Controller
     {
+        public async Task<IActionResult> ProductsList()
+        {
+            return View();
+        }
+        public async Task<IActionResult> UpdateProduct()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Details()
+        {
+            return View();
+        }
+        public async Task<IActionResult> CreateProduct()
+        {
+            return View();
+        }
+
+
         private readonly HttpClient _httpClient;
 
         public ProductController()

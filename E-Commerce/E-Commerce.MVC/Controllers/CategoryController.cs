@@ -9,6 +9,14 @@ namespace E_Commerce.MVC.Controllers
 {
     public class CategoryController : Controller
     {
+        public async Task<IActionResult> CreateCategory()
+        {
+            return View();
+        }
+        public async Task<IActionResult> UpdateCategory()
+        {
+            return View();
+        }
         private readonly HttpClient _httpClient;
 
 

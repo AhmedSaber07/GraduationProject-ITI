@@ -8,6 +8,19 @@ namespace E_Commerce.MVC.Controllers
 {
     public class BrandController : Controller
     {
+
+        public async Task<IActionResult> BransList()
+        {
+            return View();
+        }
+        public async Task<IActionResult> CreateBrand()
+        {
+            return View();
+        }
+        public async Task<IActionResult> UpdateBrand()
+        {
+            return View();
+        }
         private readonly HttpClient _httpClient;
         public BrandController()
         {

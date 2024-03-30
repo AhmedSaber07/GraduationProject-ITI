@@ -65,15 +65,16 @@ namespace E_Commerce.WebAPI.Controllers
             return Ok(await icategoryServices.getAllProductsByCategoryId(id));
         }
         [HttpPost]      
-        public async Task<IActionResult> Post([FromBody] CreateOrUpdateCategoryDto category)
+        public async Task<ActionResult<resultDto<CreateOrUpdateCategoryDto>>> Post([FromBody] CreateOrUpdateCategoryDto category)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-           await icategoryServices.createAsync(category);
-            return CreatedAtAction(nameof(GetById), new { id = category.id }, category);
+         var x= await icategoryServices.createAsync(category);
+            return x;
+          
         }
         [HttpDelete("SoftDelete/{id:guid}")]
         public async Task<IActionResult> SoftDelete(Guid id)

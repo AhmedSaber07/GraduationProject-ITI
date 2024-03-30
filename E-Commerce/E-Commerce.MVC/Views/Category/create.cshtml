@@ -1,0 +1,80 @@
+﻿@model E_Commerce.MVC.DTOs.CategoryDto.CreateOrUpdateCategoryDto
+
+@{
+    ViewData["Title"] = "create";
+}
+
+<h1>create</h1>
+
+<h4>CreateOrUpdateCategoryDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         
+            <div class="form-group">
+                <label asp-for="nameAr" class="control-label"></label>
+                <input asp-for="nameAr" class="form-control" />
+                <span asp-validation-for="nameAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nameEn" class="control-label"></label>
+                <input asp-for="nameEn" class="form-control" />
+                <span asp-validation-for="nameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentCategoryId" class="control-label"></label>
+                <input asp-for="ParentCategoryId" class="form-control" />
+                <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            
+            
+
+        </form>
+    </div>
+</div>
+@if (ViewBag.ErrorMessage != null )
+{
+    <div class="alert alert-danger"  role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Category Added Successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your Category has been added successfully!
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="CategoryList">Back to List</a>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- JavaScript to show the modal -->
+@if (ViewBag.CategoryAdded != null && ViewBag.CategoryAdded)
+{
+    <script>
+        $(document).ready(function () {
+            $('#successModal').modal('show');
+        });
+    </script>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

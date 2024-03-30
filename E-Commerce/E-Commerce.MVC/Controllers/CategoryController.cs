@@ -17,25 +17,7 @@ namespace E_Commerce.MVC.Controllers
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
        }
-        public async Task<IActionResult> Index()
-        {
-
-
-            HttpResponseMessage response = await _httpClient.GetAsync("api/Category/Getall1");
-
-            if (response.IsSuccessStatusCode)
-            {
-
-                var responseData = await response.Content.ReadAsStringAsync();
-                var dtoList = System.Text.Json.JsonSerializer.Deserialize<List<CreateOrUpdateCategoryDto>>(responseData);
-                return View(dtoList);
-            }
-            else
-            {
-                return View("Error: " + response.StatusCode);
-            }
-
-        }
+   
         public async Task<IActionResult> CategoryList()
         {
 
@@ -150,17 +132,22 @@ namespace E_Commerce.MVC.Controllers
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("api/Category", stringContent);
-
-                if (response.IsSuccessStatusCode)
+                var categoryData = await response.Content.ReadAsStringAsync();
+                var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData);
+                if (category.IsSuccess)
                 {
-                   
-                    Console.WriteLine("DTO added successfully.");
+                    ViewBag.CategoryAdded = true;
+                    return View();
                 }
+
                 else
                 {
-                   
-                    Console.WriteLine($"Failed to add DTO. Status code: {response.StatusCode}");
+                    ViewBag.CategoryAdded = false;
+                    ViewBag.ErrorMessage = category.Message;
+
+                    return View();
                 }
+               
             }
             catch (Exception ex)
             {               

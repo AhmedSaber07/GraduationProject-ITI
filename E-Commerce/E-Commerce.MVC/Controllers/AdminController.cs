@@ -16,12 +16,7 @@ public class AdminController : Controller
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/"); 
     }
-    // GET: User/Register
-    public ActionResult Register()
-    {
-        return View();
-    }
-
+  
     [HttpPost]
     [ValidateAntiForgeryToken]
 
@@ -84,8 +79,8 @@ public class AdminController : Controller
         }
         else 
         {
-            ViewBag.ErrorMessage = "An error occurred: " + (await response.Content.ReadAsStringAsync());
-           return View("Unauthorized");
+            ViewBag.ErrorMessage = "Wrong UserName Or password";
+           return View();
         }
         
     }

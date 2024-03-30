@@ -23,14 +23,14 @@ namespace E_Commerce.WebAPI.Controllers
 
       
         [HttpGet("{id}", Name = "GetById")]
-        public async Task<ActionResult< resultDto<getDto>>> GetById(Guid id)
+        public async Task<ActionResult< resultDto<CreateOrUpdateCategoryDto>>> GetById(Guid id)
         {
             var category = await icategoryServices.getById(id);
             if (category == null)
             {
                 return NotFound();
             }
-            category.Entity.children = await icategoryServices.GetAllChildrenByCategoryId(id);
+            
             return category;
         }
         [HttpGet("GetAllChildrenById/{id:guid}")]

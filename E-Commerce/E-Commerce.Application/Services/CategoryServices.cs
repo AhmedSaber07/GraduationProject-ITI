@@ -138,19 +138,19 @@ namespace E_Commerce.Application.Services
             return resultedcategoryproducts;
         }
 
-        public async Task<resultDto<getDto>> getById(Guid ID)
+        public async Task<resultDto<CreateOrUpdateCategoryDto>> getById(Guid ID)
         {
             try
             {
                 var category = await _unit.category.GetByIdAsync(ID);
-                var Returnc = _mapper.Map<getDto>(category);
+                var Returnc = _mapper.Map<CreateOrUpdateCategoryDto>(category);
 
 
-                return new resultDto<getDto> { Entity = Returnc, IsSuccess = true, Message = "there is exist" };
+                return new resultDto<CreateOrUpdateCategoryDto> { Entity = Returnc, IsSuccess = true, Message = "there is exist" };
             }
             catch (Exception ex)
             {
-                return new resultDto<getDto> { Entity = null, IsSuccess = false, Message = ex.Message };
+                return new resultDto<CreateOrUpdateCategoryDto> { Entity = null, IsSuccess = false, Message = ex.Message };
 
             }
 

@@ -25,7 +25,7 @@ namespace E_Commerce.MVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Brand}/{action=BransList}/{id?}");
+                pattern: "{controller=Admin}/{action=Login}/{id?}");
 
             app.Run();
         }

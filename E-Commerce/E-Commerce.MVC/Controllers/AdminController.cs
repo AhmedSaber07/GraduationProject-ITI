@@ -80,7 +80,7 @@ public class AdminController : Controller
         if (response.IsSuccessStatusCode)
         {
 
-            return View("~/Home/Index");
+             return RedirectToAction("CategoryList", "Category");
         }
         else 
         {

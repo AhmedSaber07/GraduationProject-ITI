@@ -1,6 +1,8 @@
 ﻿using E_Commerce.MVC.DTOs.CategoryDto;
+using E_Commerce.MVC.DTOs.listResultDto;
 using E_Commerce.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -9,40 +11,44 @@ namespace E_Commerce.MVC.Controllers
 {
     public class CategoryController : Controller
     {
-        public async Task<IActionResult> CreateCategory()
-        {
-            return View();
-        }
-        public async Task<IActionResult> UpdateCategory()
-        {
-            return View();
-        }
         private readonly HttpClient _httpClient;
 
 
        public CategoryController()
        {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://twobwebstie-001-site1.ftempurl.com");
+            _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
        }
-        private void Auth()
-        {
-            string username = "11168799";
-            string password = "60-dayfreetrial";
-            string base64Auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64Auth);
-        }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
 
-           Auth();
+
             HttpResponseMessage response = await _httpClient.GetAsync("api/Category/Getall1");
-            // Check if the request was successful
+
+            if (response.IsSuccessStatusCode)
+            {
+
+                var responseData = await response.Content.ReadAsStringAsync();
+                var dtoList = System.Text.Json.JsonSerializer.Deserialize<List<CreateOrUpdateCategoryDto>>(responseData);
+                return View(dtoList);
+            }
+            else
+            {
+                return View("Error: " + response.StatusCode);
+            }
+
+        }
+        public async Task<IActionResult> CategoryList()
+        {
+
+          
+            HttpResponseMessage response = await _httpClient.GetAsync("api/Category/Getall1");
+          
             if (response.IsSuccessStatusCode)
             {
                 
                 var responseData = await response.Content.ReadAsStringAsync();
-                var dtoList = JsonSerializer.Deserialize<List<CreateOrUpdateCategoryDto>>(responseData); 
+                var dtoList = System.Text.Json.JsonSerializer.Deserialize<List<CreateOrUpdateCategoryDto>>(responseData); 
                 return View(dtoList);
             }
             else
@@ -51,35 +57,62 @@ namespace E_Commerce.MVC.Controllers
             }
           
         }
-        public async Task<IActionResult> DeleteCategory(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            Auth();
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/Category/SoftDelete/{id}");
            
-            if (response.IsSuccessStatusCode)
-            {
+            string apiUrl = $"api/Category/SoftDelete/{id}";
 
-                var responseData = await response.Content.ReadAsStringAsync();
-                return View("Index",responseData);
-             
-            }
-            else
+            var request = new HttpRequestMessage(HttpMethod.Delete, apiUrl);
+
+            using (var response = await _httpClient.SendAsync(request))
             {
-                return View("Index", "Error: " + response.StatusCode);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("CategoryList");
+                }
+                else 
+                {
+                    return View("Error404");
+                }
+              
             }
         }
+        public async Task<IActionResult> Update(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var apiUrl = $"api/Category/{id}"; 
+            var response = await _httpClient.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var categoryData = await response.Content.ReadAsStringAsync();
+                var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData); // Deserialize JSON response to your category model
+                return View(category.Entity);
+            }
+          
+            else
+            {
+                return View("Error404");
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Update(CreateOrUpdateCategoryDto categoryDto)
         {
-            Auth();
+          
             try
             {
                 
-                var jsonContent = JsonSerializer.Serialize(categoryDto);
+                var jsonContent = System.Text.Json.JsonSerializer.Serialize(categoryDto);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
        
                 HttpResponseMessage response;
-                if (categoryDto.id == Guid.Empty)
+                if (categoryDto == null)
                 {
                     response = await _httpClient.PostAsync("api/Category", stringContent); 
                 }
@@ -92,18 +125,18 @@ namespace E_Commerce.MVC.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    return View("Index", responseData);
+                    return View("CategoryList", responseData);
                 }
                 else
                 {
-                    return View("Error: " + response.StatusCode);
+                    return View("Error404");
                 }
             }
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync("Errror"+ex);
             }
-            return View("Index");
+            return View("CategoryList");
         }
         public IActionResult create()
         {
@@ -115,7 +148,7 @@ namespace E_Commerce.MVC.Controllers
             try
             {
                 
-                var jsonContent = JsonSerializer.Serialize(dto);
+                var jsonContent = System.Text.Json.JsonSerializer.Serialize(dto);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("api/Category", stringContent);

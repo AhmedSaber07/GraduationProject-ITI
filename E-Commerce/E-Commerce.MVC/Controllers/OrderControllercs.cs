@@ -20,7 +20,7 @@ namespace E_Commerce.MVC.Controllers
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var Order = JsonSerializer.Deserialize<listResultDto<getOrdersWithoutItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                return View(Order);
+                return View(Order.entities);
             }
             else
             {

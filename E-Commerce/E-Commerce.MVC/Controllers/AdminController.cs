@@ -84,7 +84,6 @@ public class AdminController : Controller
         }
         
     }
-
     [HttpGet("reset-password")]
     public async Task<IActionResult> ResetPassword(string email, string token)
     {
@@ -92,7 +91,6 @@ public class AdminController : Controller
 
         return await HandleResponse(response);
     }
-
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {

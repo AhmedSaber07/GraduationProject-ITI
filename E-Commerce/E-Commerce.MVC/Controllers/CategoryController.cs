@@ -61,7 +61,7 @@ namespace E_Commerce.MVC.Controllers
         {
             if (id == Guid.Empty)
             {
-                return NotFound();
+                return View("Error404");
             }
 
             var apiUrl = $"api/Category/{id}"; 
@@ -89,8 +89,6 @@ namespace E_Commerce.MVC.Controllers
                 
                 var jsonContent = System.Text.Json.JsonSerializer.Serialize(categoryDto);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-       
                 HttpResponseMessage response;
                 if (categoryDto == null)
                 {
@@ -99,9 +97,7 @@ namespace E_Commerce.MVC.Controllers
                 else
                 {
                     response = await _httpClient.PutAsync("api/Category", stringContent);
-                }
-
-             
+                }        
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();

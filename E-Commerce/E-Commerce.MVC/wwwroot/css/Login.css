@@ -191,9 +191,7 @@ img {
     color:white;
 }
 
-.login__register a:hover {
- text-decoration: underline;
-}
+
 
 /* Input focus move up label */
 .login__input:focus + .login__label {

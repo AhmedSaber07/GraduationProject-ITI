@@ -104,7 +104,7 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return StatusCode(500,"Enter Vaild Data");
             }
 
             await icategoryServices.updateAsync(category);

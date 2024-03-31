@@ -12,6 +12,7 @@ namespace E_Commerce.Domain.Models
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalAmount { get; set; }
+        public int OrderNumber { get; set; }
         public Guid PaymentId { get; set; }
         [ForeignKey("PaymentId")]
         public virtual Payment Payment { get; set; }

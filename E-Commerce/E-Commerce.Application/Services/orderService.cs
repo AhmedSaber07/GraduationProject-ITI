@@ -150,15 +150,27 @@ namespace E_Commerce.WebAPI.Controllers
         {
             var allordersData = await _unit.order.GetAllAsync();
             var user = await _userManager.FindByEmailAsync(email);
-            var userOrderEntity = await allordersData.Where(o => o.UserId == user.Id).Include(o => o.OrderItems).ToListAsync();
+            var userOrderEntity = await allordersData.Where(o => o.UserId == user.Id).ToListAsync();
             if (userOrderEntity is null)
             {
                 return new listResultDto<GetOrderDto> { entities = null, count = 0 };
             }
-            List<GetOrderDto> listorderdto = new List<GetOrderDto>();
+            var OrderDto = _mapper.Map<IEnumerable<GetOrderDto>>(userOrderEntity);
+
+            return new listResultDto<GetOrderDto> { entities = OrderDto, count = OrderDto.Count() };
+
+        }
+        public async Task<listResultDto<getOrderItemwithprice>> getItemsOfOrder(int ordernumber)
+        {
+            var allordersData = await _unit.order.GetAllAsync();
+            var userOrderEntity = await allordersData.Where(o => o.OrderNumber == ordernumber).Include(E=>E.OrderItems).ToListAsync();
+            if (userOrderEntity is null)
+            {
+                return new listResultDto<getOrderItemwithprice> { entities = null, count = 0 };
+            }
+            List<getOrderItemwithprice> orderitemsdto = new List<getOrderItemwithprice>();
             foreach (var _order in userOrderEntity)
             {
-                List<getOrderItemwithprice> orderitemsdto = new List<getOrderItemwithprice>();
                 foreach (var _orderItem in _order.OrderItems)
                 {
                     var product = await _unit.product.GetByIdAsync(_orderItem.ProductId);
@@ -171,21 +183,8 @@ namespace E_Commerce.WebAPI.Controllers
                     };
                     orderitemsdto.Add(orderitemdto);
                 }
-                GetOrderDto orderDto = new GetOrderDto();
-                orderDto.Id = _order.Id;
-                orderDto.createdAt = (DateTime)_order.createdAt;
-                orderDto.PaymentId = _order.PaymentId;
-                orderDto.status_ar = _order.status_ar;
-                orderDto.status_en = _order.status_en;
-                orderDto.TotalAmount = _order.TotalAmount;
-                orderDto.OrderItems = orderitemsdto;
-                listorderdto.Add(orderDto);
             }
-
-            //var OrderDto = _mapper.Map<IEnumerable<GetOrderDto>>(userOrderEntity);
-
-
-            return new listResultDto<GetOrderDto> { entities = listorderdto, count = listorderdto.Count() };
+            return new listResultDto<getOrderItemwithprice> { entities = orderitemsdto, count = orderitemsdto.Count() };
 
         }
 

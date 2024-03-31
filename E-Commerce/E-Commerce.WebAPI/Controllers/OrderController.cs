@@ -2,6 +2,7 @@
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
 using E_Commerce.Domain.listResultDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,6 +11,7 @@ namespace E_Commerce.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   // [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly iorderService _orderservice;
@@ -23,6 +25,7 @@ namespace E_Commerce.WebAPI.Controllers
             return Ok(await _orderservice.GetAllOrders());
         }
         [HttpGet("GetUserOrders")]
+       // [Authorize(Roles ="Admin")]
         public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(string email)
         {
             if (email != string.Empty)
@@ -74,10 +77,10 @@ namespace E_Commerce.WebAPI.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(string email, Guid transactionId, Guid sessionId)
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> CreateOrder(string email, string transactionId, Guid sessionId)
         {
             //var _ShoppingCartSessionId = getsessionId();
-            if (email != string.Empty || transactionId != Guid.Empty)
+            if (email != string.Empty || transactionId != string.Empty)
             {
                 var resultOrder = await _orderservice.createOrder(email, transactionId, sessionId);
                 return Ok(resultOrder);

@@ -13,7 +13,7 @@ namespace E_Commerce.Domain.DTOs.OrderDto
     public class CreateOrUpdateDto
     {
         public Guid UserId { get; set; }
-        public Guid PaymentId { get; set; }
+        public string transactionid { get; set; }
         public OrderStateAr status_ar { get; set; }
         public OrderStateEn status_en { get; set; }
         public decimal TotalAmount { get; set; }

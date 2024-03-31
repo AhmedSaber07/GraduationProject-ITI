@@ -25,7 +25,7 @@ namespace E_Commerce.WebAPI.Controllers
             _shoppingCartService = shoppingCartService;
             _userManager = userManager;
         }
-        public async Task<resultDto<CreateOrUpdateDto>> createOrder(string email, Guid paymentId, Guid SessionId)
+        public async Task<resultDto<CreateOrUpdateDto>> createOrder(string email, string transactionid, Guid SessionId)
         {
             CreateOrUpdateDto orderDto = null;
             var allCartData = await _unit.shoppingCart.GetAllAsync();
@@ -64,7 +64,7 @@ namespace E_Commerce.WebAPI.Controllers
 
             CreateOrUpdateDto ordercreation = new CreateOrUpdateDto()
             {
-                PaymentId = paymentId,
+                transactionid = transactionid,
                 UserId = user.Id,
                 TotalAmount = orderTotal,
                 OrderItems = orderitemProducts,

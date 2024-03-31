@@ -9,7 +9,7 @@ namespace E_Commerce.Application.Services
     public interface iorderService
     {
         Task<listResultDto<getOrdersWithoutItems>> GetAllOrders();
-        Task<resultDto<CreateOrUpdateDto>> createOrder(string email, Guid paymentId, Guid SessionId);
+        Task<resultDto<CreateOrUpdateDto>> createOrder(string email, string transactionId, Guid SessionId);
         Task<resultDto<CreateOrUpdateDto>> updateOrderItemQuantity(Guid orderId, Guid productId, int quantity);
         Task<resultDto<GetOrderDto>> deleteOrder(Guid orderId);
         Task<resultDto<GetOrderISDeletedDto>> getOrderById(Guid orderId);

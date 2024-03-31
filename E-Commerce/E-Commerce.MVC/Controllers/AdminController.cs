@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using E_Commerce.MVC.DTOs.UserAccount;
 using Microsoft.AspNetCore.Identity;
+using NuGet.Common;
 
 public class AdminController : Controller
 {
@@ -71,11 +72,17 @@ public class AdminController : Controller
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PostAsync("api/UserAccount/login", stringContent);
-
+        string responseContent = await response.Content.ReadAsStringAsync();
+        var LoginDto = JsonSerializer.Deserialize<LoginResponse>(responseContent);
+        
         if (response.IsSuccessStatusCode)
         {
-
-             return RedirectToAction("CategoryList", "Category");
+           
+          //  string hisName= (LoginDto.userDate.FirstName + " " + LoginDto.userDate.LastName);
+            //HttpContext.Session.SetString("AdminName", hisName);
+            //HttpContext.Session.SetString("AuthToken", LoginDto.token);
+            //TempData["AdminName"] = hisName;
+            return RedirectToAction("CategoryList", "Category");
         }
         else 
         {

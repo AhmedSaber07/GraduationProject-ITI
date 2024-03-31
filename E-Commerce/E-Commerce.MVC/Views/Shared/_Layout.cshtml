@@ -65,18 +65,23 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Products:</h6>
-                        <a class="collapse-item" asp-action="CreateProduct">Create Product</a>
-                        <a class="collapse-item" asp-action="UpdateProduct">Update Product</a>
-                        <a class="collapse-item" asp-action="Details">Details Product</a>
+                        <a class="collapse-item" asp-controller="Product" asp-action="ProductsList">Create Product</a>
+                        <a class="collapse-item" asp-controller="Product" asp-action="ProductsList">Update Product</a>
+                        <a class="collapse-item" asp-controller="Product" asp-action="ProductsList">Details Product</a>
                        
                         <h6 class="collapse-header">Category:</h6>
-                        <a class="collapse-item" asp-action="CreateCategory"> Create Category</a>
-                        <a class="collapse-item" asp-action="UpdateCategory"> Update  Category</a>
+                        <a class="collapse-item" asp-controller="Category" asp-action="CategoryList"> View Category List</a>
+
+                        <a class="collapse-item" asp-controller="Category" asp-action="create"> Create Category</a>
+                        <a class="collapse-item" asp-controller="Category" asp-action="Update"> Update  Category</a>
                        
-                        <h6 class="collapse-header">Brands:</h6>
+                     @*    <h6 class="collapse-header">Brands:</h6>
                         <a class="collapse-item" asp-action="CreateBrand"> Create Brand </a>
-                        <a class="collapse-item" asp-action="UpdateBrand"> Update  Brand</a>
-                       
+                        <a class="collapse-item" asp-action="UpdateBrand"> Update  Brand</a> *@
+
+                        <h6 class="collapse-header">Order:</h6>
+                        <a class="collapse-item" asp-controller="Order" asp-action="Index"> View Orders </a>
+                    
 
                     </div>
                 </div>
@@ -153,11 +158,11 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Sara Emad</span>
                                 <img class="img-profile rounded-circle"
                                      src="@Url.Content("~/img/undraw_profile.svg")">
                             </a>
-                            <!-- Dropdown - User Information -->
+                         
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mail;
@@ -521,6 +522,37 @@ namespace E_Commerce.WebAPI.Controllers
             }
 
             return Ok(user.Id);
+        }
+       
+        [HttpPost("SendCode")]
+        public async Task<IActionResult> SendCode( string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            int code = Generate4DigitNumber();
+            user.ResetCode = code;
+           await _userManager.UpdateAsync(user);
+                  var message = new Message(new string[] { user.Email }, "reset password code", code.ToString());
+            _emailService.SendEmail(message);
+            return StatusCode(200, "Password change request is sent on email");
+        }
+        private static readonly Random _random = new Random();
+        private static int Generate4DigitNumber()
+        {
+            return _random.Next(1000, 10000); 
+        }
+        [HttpPost("CheckCode")]
+        public async Task< bool> CheckCode(int code,string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return false;
+            }
+            return (user.ResetCode == code);
         }
     }
 }

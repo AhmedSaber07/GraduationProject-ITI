@@ -11,20 +11,21 @@ namespace E_Commerce.MVC.Controllers
     {
         public async Task<IActionResult> ProductsList()
         {
+            return View("Forbidden");
             return View();
         }
-        public async Task<IActionResult> UpdateProduct()
-        {
-            return View();
-        }
-        public async Task<IActionResult> Details()
-        {
-            return View();
-        }
-        public async Task<IActionResult> CreateProduct()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> UpdateProduct()
+        //{
+        //    return View();
+        //}
+        //public async Task<IActionResult> Details()
+        //{
+        //    return View();
+        //}
+        //public async Task<IActionResult> CreateProduct()
+        //{
+        //    return View();
+        //}
 
 
         private readonly HttpClient _httpClient;
@@ -32,25 +33,25 @@ namespace E_Commerce.MVC.Controllers
         public ProductController()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://2b.somee.com");
+            _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
         }
-        public async Task<IActionResult> IndexAsync()
+        public  IActionResult IndexAsync()
         {
+            return View("Forbidden");
 
+            //HttpResponseMessage response = await _httpClient.GetAsync("/getall");
            
-            HttpResponseMessage response = await _httpClient.GetAsync("/getall");
-           
-            if (response.IsSuccessStatusCode)
-            {
+            //if (response.IsSuccessStatusCode)
+            //{
 
-                var responseData = await response.Content.ReadAsStringAsync();
-                var dtoList = JsonSerializer.Deserialize<List<GetProductDto>>(responseData);
-                return View(dtoList);
-            }
-            else
-            {
-                return View("Error: " + response.StatusCode);
-            }
+            //    var responseData = await response.Content.ReadAsStringAsync();
+            //    var dtoList = JsonSerializer.Deserialize<List<GetProductDto>>(responseData);
+            //    return View(dtoList);
+            //}
+            //else
+            //{
+            //    return View("Forbidden");
+            //}
 
         }
         public async Task<IActionResult> DeleteProduct(Guid id)

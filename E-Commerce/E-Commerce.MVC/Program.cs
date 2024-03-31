@@ -9,6 +9,8 @@ namespace E_Commerce.MVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient();
+            builder.Services.AddSession();
+           
             builder.Services.AddTransient<AdminController>();
             var app = builder.Build();
 
@@ -18,9 +20,9 @@ namespace E_Commerce.MVC
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
+           
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(

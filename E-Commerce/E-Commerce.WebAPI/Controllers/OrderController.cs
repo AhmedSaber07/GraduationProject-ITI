@@ -39,6 +39,23 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return NotFound();
         }
+        [HttpGet("GetItemsOfOrder")]
+        public async Task<ActionResult<listResultDto<GetOrderDto>>> GetItemsOfOrder(int OrderNumber)
+        {
+            if (OrderNumber > 10000000-1)
+            {
+                var orderItems = await _orderservice.getItemsOfOrder(OrderNumber);
+                if (orderItems is not null)
+                {
+                    return Ok(orderItems);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
         [HttpGet("GetOrderById")]
         public async Task<ActionResult<resultDto<GetOrderDto>>> getOrderById(Guid orderId)
         {

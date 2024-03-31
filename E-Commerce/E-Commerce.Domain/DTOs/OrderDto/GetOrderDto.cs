@@ -5,12 +5,10 @@ namespace E_Commerce.Domain.DTOs.OrderDto
 {
     public class GetOrderDto
     {
-        public Guid Id { get; set; }
-        public Guid PaymentId { get; set; }
+        public int OrderNumber { get; set; }
         public DateTime createdAt { get; set; }
-        public OrderStateAr status_ar { get; set; }
-        public OrderStateEn status_en { get; set; }
+        public string status_ar { get; set; }
+        public string status_en { get; set; }
         public decimal TotalAmount { get; set; }
-        public virtual ICollection<getOrderItemwithprice> OrderItems { get; set; }
     }
 }

@@ -11,6 +11,10 @@ namespace E_Commerce.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence<int>(
+                name: "YourSequence",
+                startValue: 10000000L);
+
             migrationBuilder.CreateTable(
                 name: "brands",
                 columns: table => new
@@ -77,6 +81,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     addressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     city = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResetCode = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -182,6 +187,7 @@ namespace E_Commerce.Infrastructure.Migrations
                     status_ar = table.Column<int>(type: "int", nullable: false),
                     status_en = table.Column<int>(type: "int", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OrderNumber = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR YourSequence"),
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -541,6 +547,9 @@ namespace E_Commerce.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "categories");
+
+            migrationBuilder.DropSequence(
+                name: "YourSequence");
         }
     }
 }

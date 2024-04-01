@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce.Infrastructure.Migrations
 {
     [DbContext(typeof(_2B_EgyptDBContext))]
-    [Migration("20240327154044_initial")]
+    [Migration("20240401033707_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -24,6 +24,9 @@ namespace E_Commerce.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             //SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.HasSequence<int>("YourSequence")
+                .StartsAt(10000000L);
 
             modelBuilder.Entity("E_Commerce.Domain.Models.Brand", b =>
                 {
@@ -185,6 +188,9 @@ namespace E_Commerce.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ResetCode")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -228,6 +234,11 @@ namespace E_Commerce.Infrastructure.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("OrderNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR YourSequence");
 
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");

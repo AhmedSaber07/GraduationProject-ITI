@@ -43,7 +43,15 @@ namespace E_Commerce.Infrastructure.Context
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(ut => new { ut.UserId, ut.LoginProvider, ut.Name });
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-           
+
+            modelBuilder.HasSequence<int>("YourSequence").StartsAt(10000000).IncrementsBy(1);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.OrderNumber)
+                .HasDefaultValueSql("NEXT VALUE FOR YourSequence")
+                .IsRequired();
+
+
         }
         public _2B_EgyptDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
     }

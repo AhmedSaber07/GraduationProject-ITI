@@ -11,7 +11,7 @@ namespace E_Commerce.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+   [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly iorderService _orderservice;
@@ -25,7 +25,7 @@ namespace E_Commerce.WebAPI.Controllers
             return Ok(await _orderservice.GetAllOrders());
         }
         [HttpGet("GetUserOrders")]
-       // [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(string email)
         {
             if (email != string.Empty)

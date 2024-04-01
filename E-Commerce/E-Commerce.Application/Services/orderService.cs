@@ -74,18 +74,14 @@ namespace E_Commerce.WebAPI.Controllers
 
             var orderEntity = _mapper.Map<Order>(ordercreation);
             orderEntity.createdAt = DateTime.Now;
-
-            // Ensure orderEntity.Id is generated properly as a GUID
             orderEntity.Id = Guid.NewGuid();
 
             foreach (var item in orderEntity.OrderItems)
             {
-                item.Id = Guid.NewGuid(); // Assuming OrderItemId is a GUID
-                                          // Set the foreign key to orderEntity.Id
+                item.Id = Guid.NewGuid();
+                item.createdAt= DateTime.Now;
                 item.OrderId = orderEntity.Id;
             }
-
-            // Save changes
             await _unit.order.CreateAsync(orderEntity);
             await _unit.order.SaveChangesAsync();
             await _shoppingCartService.DeleteCart(SessionId);

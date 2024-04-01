@@ -64,8 +64,7 @@ public class AdminController : Controller
         var response = await _httpClient.PostAsync("api/UserAccount/Logout", null);
 
         return await HandleResponse(response);
-    }
-  
+    }  
     public ActionResult Login()
     {
         return View();

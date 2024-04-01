@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -500,6 +502,29 @@ namespace E_Commerce.WebAPI.Controllers
         }
         #endregion
 
+        [HttpPost("NewResetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> NewResetPassword([FromBody] Domain.DTOs.UserAccount.ResetPasswordRequest request)
+        {
+           
+                var user = await _userManager.FindByEmailAsync(request.Email);
+                if (user == null)
+                  { 
+                    return NotFound("User not found");
+                }
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+                if (!result.Succeeded)
+                {
+                return BadRequest(result.Errors);
+                }
+
+                return Ok("Password reset successfully");
+            
+        }
+    
         [HttpGet("{userId}/email")]
         public async Task<IActionResult> GetUserEmailById(string userId)
         {
@@ -553,6 +578,24 @@ namespace E_Commerce.WebAPI.Controllers
                 return false;
             }
             return (user.ResetCode == code);
+        }
+        [HttpGet("GetUsersData")]
+        public async Task<IActionResult> GetUsersData()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var usersData = users.Select(u => new GetUsersData
+            {
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                phone = u.UserName,
+                addressLine1 = u.addressLine1,
+                addressLine2 = u.addressLine2,
+                city = u.city,
+                country = u.country
+            }).ToList();
+
+            return Ok(usersData);
         }
     }
 }

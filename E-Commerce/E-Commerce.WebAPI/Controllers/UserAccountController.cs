@@ -425,7 +425,7 @@ namespace E_Commerce.WebAPI.Controllers
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, role));
                 }
-                RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, PhoneNumber = user.PhoneNumber, Password = null };
+                RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, PhoneNumber = user.UserName, Password = null };
 
                 var jwtToken = GetToken(authClaims);
                
@@ -560,7 +560,11 @@ namespace E_Commerce.WebAPI.Controllers
             int code = Generate4DigitNumber();
             user.ResetCode = code;
            await _userManager.UpdateAsync(user);
-                  var message = new Message(new string[] { user.Email }, "reset password code", code.ToString());
+            string m = "A request was made to change your password recently." +
+                " If you are the one who made this request, this is the code that you can use\n"+
+                $"<br><b>{code}</b><br>"
+                + "\nIf you do not make this request, you can ignore this email and your password will remain as it is.";
+                  var message = new Message(new string[] { user.Email }, "reset password code", m);
             _emailService.SendEmail(message);
             return StatusCode(200, "Password change request is sent on email");
         }

@@ -16,11 +16,27 @@ namespace E_Commerce.Application.Services
         private MimeMessage CreateEmailMessage(Message message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("email", _emailConfig.From));
+            emailMessage.From.Add(new MailboxAddress("2B Website", _emailConfig.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = $@"
+                <html>
+                <body>
+                    
+                    <img src='https://smhttp-ssl-73217.nexcesscdn.net/pub/media/logo/stores/2/logo.png'>
+                       <p>{message.Content}</p>
+                </body>
+                </html>";
+            ///string logoPath = "";
+            // Attach the logo as a Content-ID attachment
+            //if (!string.IsNullOrEmpty(logoPath) && File.Exists(logoPath))
+            //{
+            //    var image = bodyBuilder.LinkedResources.Add(logoPath);
+            //    image.ContentId = $"<{Guid.NewGuid()}>";
+            //}
 
+            emailMessage.Body = bodyBuilder.ToMessageBody();
             return emailMessage;
         }
 

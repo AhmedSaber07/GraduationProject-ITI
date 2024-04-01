@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using E_Commerce.MVC.DTOs.UserAccount;
 using Microsoft.AspNetCore.Identity;
 using NuGet.Common;
+using System.Net.Http.Headers;
 
 public class AdminController : Controller
 {
@@ -15,20 +16,24 @@ public class AdminController : Controller
     public AdminController(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/"); 
+        _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
   
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    
 
     public ActionResult AddAddress()
     {
         return View();
     }
-
+    //Zara@123423
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAddress(AddressDto addressDto)
     {
+         string token = HttpContext.Session.GetString("AuthToken");
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         var jsonContent = JsonSerializer.Serialize(addressDto);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -77,10 +82,10 @@ public class AdminController : Controller
         
         if (response.IsSuccessStatusCode)
         {
-           
-          //  string hisName= (LoginDto.userDate.FirstName + " " + LoginDto.userDate.LastName);
-            //HttpContext.Session.SetString("AdminName", hisName);
-            //HttpContext.Session.SetString("AuthToken", LoginDto.token);
+
+           // string hisName = (LoginDto.userDate.FirstName + " " + LoginDto.userDate.LastName);
+          //  HttpContext.Session.SetString("AdminName", hisName);
+            HttpContext.Session.SetString("AuthToken", LoginDto.token);
             //TempData["AdminName"] = hisName;
             return RedirectToAction("CategoryList", "Category");
         }

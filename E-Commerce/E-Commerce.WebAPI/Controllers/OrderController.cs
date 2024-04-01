@@ -20,12 +20,12 @@ namespace E_Commerce.WebAPI.Controllers
             _orderservice = orderService;
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<listResultDto<getOrdersWithoutItems>>> GetallOrders()
         {
             return Ok(await _orderservice.GetAllOrders());
         }
         [HttpGet("GetUserOrders")]
-        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(string email)
         {
             if (email != string.Empty)

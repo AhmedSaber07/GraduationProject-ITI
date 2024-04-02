@@ -19,6 +19,7 @@ namespace E_Commerce.Infrastructure.Repositories
         public iorderRepository order { get; }
         public iorderItemRepository orderItem { get; }
         public ipaymentRepository payment { get; }
+        public ireviewRepository review { get; }
         private readonly _2B_EgyptDBContext _2B_EgyptDBContext;
         public UnitOfWork(_2B_EgyptDBContext DBContext)
         {
@@ -30,6 +31,7 @@ namespace E_Commerce.Infrastructure.Repositories
             order = new OrderRepository(_2B_EgyptDBContext);
             orderItem = new OrderItemRepository(_2B_EgyptDBContext);
             payment=new PaymentRepository(_2B_EgyptDBContext);
+            review = new ReviewRepository(_2B_EgyptDBContext);
         }
         public async Task<bool> Complete()
         {

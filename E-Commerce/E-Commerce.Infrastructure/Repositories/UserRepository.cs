@@ -19,7 +19,8 @@ namespace E_Commerce.Infrastructure.Repositories
        
         public async Task<bool>  addAddress(AddressDto addressDto)
         {
-            var user = await _userManager.FindByIdAsync(addressDto.id.ToString());
+
+            var user = await _userManager.FindByEmailAsync(addressDto.Email);
            if (user != null) {             
                 if(addressDto.addressLine1!=null)
                     user.addressLine1=addressDto.addressLine1;

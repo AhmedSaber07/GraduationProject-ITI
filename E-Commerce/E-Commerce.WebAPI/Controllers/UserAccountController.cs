@@ -248,8 +248,6 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpPost("AddAddress")]
         public async Task<IActionResult> AddAddress(AddressDto addressDto)
         {
-
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -280,9 +278,15 @@ namespace E_Commerce.WebAPI.Controllers
 
             return Ok(); 
         }
+        /// <summary>
+        ///     [Authorize(Roles = "Admin, User")]
+        /// </summary>
+        /// <param name="oldPhone"></param>
+        /// <param name="newPhone"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, User")]
-        [HttpPut("{oldPhone}/UpdatePhone")]
-        public async Task<IActionResult> UpdatePhone(string oldPhone, [FromBody] string newPhone)
+        [HttpPost("UpdatePhone")]
+        public async Task<IActionResult> UpdatePhone(string oldPhone,  string newPhone)
         {
             var user = await _userManager.FindByNameAsync(oldPhone);
             if (user == null)
@@ -297,9 +301,9 @@ namespace E_Commerce.WebAPI.Controllers
                 return BadRequest(result.Errors);
             }
 
-            return Ok();
+            return Ok("The phone updated");
         }
-        [HttpPost]
+        [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -356,6 +360,7 @@ namespace E_Commerce.WebAPI.Controllers
             }
 
         }
+   
         [Authorize(Roles = "Admin, User")]
         [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword(string Email, string NewPassword,  string oldPassword)

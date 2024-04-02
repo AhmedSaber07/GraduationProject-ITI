@@ -3,8 +3,10 @@ using E_Commerce.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure.Context
 {
-    public class _2B_EgyptDBContext :IdentityDbContext<MyUser,IdentityRole<Guid>,Guid>   //                    bug was here
+    public class _2B_EgyptDBContext : IdentityDbContext<MyUser, IdentityRole<Guid>, Guid>   //                    bug was here
     {
 
         public DbSet<Brand> brands { get; set; }
@@ -22,10 +24,10 @@ namespace E_Commerce.Infrastructure.Context
         public DbSet<Order> orders { get; set; }
         public DbSet<orderItem> orderItems { get; set; }
         public DbSet<Payment> paymentItems { get; set; }
-        public DbSet<Product> products { get; set; }    
+        public DbSet<Product> products { get; set; }
         public DbSet<ProductImage> productsImage { get; set; }
         public DbSet<Review> reviews { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -53,6 +55,6 @@ namespace E_Commerce.Infrastructure.Context
 
 
         }
-        public _2B_EgyptDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
-    }
+    public _2B_EgyptDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
+}
 }

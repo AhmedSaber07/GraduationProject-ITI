@@ -14,6 +14,6 @@ namespace E_Commerce.Domain.listResultDto
         public listResultDto()
         {
             entities = new List<TEntity>();
-        }
+            }
     }
 }

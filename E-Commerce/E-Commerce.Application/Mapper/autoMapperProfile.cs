@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_Commerce.Domain.DTOs.ProductImageDto;
+using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,9 @@ namespace E_Commerce.Application.Mapper
 
            
 
+            CreateMap< listResultDto<Domain.DTOs.BrandDto.GetBrandDto>,listResultDto<Domain.DTOs.BrandDto.GetBrandDtoArabic>> ().ReverseMap();
+            CreateMap< listResultDto<Domain.DTOs.BrandDto.GetBrandDto>,listResultDto<Domain.DTOs.BrandDto.GetBrandDtoEnglish>> ().ReverseMap();
+           // CreateMap<Domain.DTOs.BrandDto.GetBrandDto,Domain.DTOs.BrandDto.GetBrandDtoEnglish> ().ReverseMap();
 
         }
     }

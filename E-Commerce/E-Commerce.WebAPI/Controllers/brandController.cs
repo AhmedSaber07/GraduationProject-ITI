@@ -1,4 +1,5 @@
-﻿using Company.Dtos.ViewResult;
+﻿using AutoMapper;
+using Company.Dtos.ViewResult;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.BrandDto;
 using E_Commerce.Domain.DTOs.CategoryDto;
@@ -13,10 +14,12 @@ namespace E_Commerce.WebAPI.Controllers
     public class brandController : ControllerBase
     {
         private readonly ibrandService _brandService;
+        private readonly IMapper _mapper;
 
-        public brandController(ibrandService brandService)
+        public brandController(ibrandService brandService, IMapper mapper)
         {
             this._brandService = brandService;
+            _mapper = mapper;
         }
 
 
@@ -31,7 +34,17 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<listResultDto<GetBrandDto>>> Get()
         {
-            return Ok(await _brandService.getAll());
+            var lan = HttpContext.Request?.Headers["Accept-Language"];
+
+            var allresult = await _brandService.getAll();
+            if (lan.Equals("ar"))
+            {
+                return Ok(_mapper.Map<listResultDto<GetBrandDtoArabic>>(allresult));
+            }
+            else
+            {
+                return Ok(_mapper.Map<listResultDto<GetBrandDtoEnglish>>(allresult));
+            }
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateDto brand)

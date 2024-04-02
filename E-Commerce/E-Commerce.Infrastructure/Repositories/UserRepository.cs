@@ -21,6 +21,7 @@ namespace E_Commerce.Infrastructure.Repositories
         {
 
             var user = await _userManager.FindByEmailAsync(addressDto.Email);
+
            if (user != null) {             
                 if(addressDto.addressLine1!=null)
                     user.addressLine1=addressDto.addressLine1;
@@ -34,6 +35,16 @@ namespace E_Commerce.Infrastructure.Repositories
                 return true;
            }
             return false;
+        }
+        public async Task<bool> DeleteAddress( string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+                    user.addressLine1 =null;
+                    user.addressLine2 = null;          
+                    user.country = null;            
+                    user.city = null;
+               var x= await _context.SaveChangesAsync();
+            return (x >= 1);
         }
 
         public Task<IQueryable<MyUser>> GetAllAsync()

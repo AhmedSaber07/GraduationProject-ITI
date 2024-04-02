@@ -12,5 +12,6 @@ namespace E_Commerce.Application.Contracts
     public interface iuserRepository : ibaseRepository<MyUser, Guid>
     {
         Task<bool> addAddress(AddressDto addressDto);
+        Task<bool> DeleteAddress(string Email);
     }
 }

@@ -8,7 +8,7 @@ namespace E_Commerce.MVC.DTOs.UserAccount
 {
     public class AddressDto
     {
-        public Guid id { get; set; }
+        public string Email { get; set; }
         public string? addressLine1 { get; set; }
         public string? addressLine2 { get; set; }
         public string? city { get; set; }

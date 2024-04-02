@@ -8,6 +8,7 @@ using E_Commerce.MVC.DTOs.UserAccount;
 using Microsoft.AspNetCore.Identity;
 using NuGet.Common;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 public class AdminController : Controller
 {
@@ -32,14 +33,26 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAddress(AddressDto addressDto)
     {
-         string token = HttpContext.Session.GetString("AuthToken");
+
+        addressDto.Email= HttpContext.Session.GetString("Email");
+        
+        string token = HttpContext.Session.GetString("AuthToken");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         var jsonContent = JsonSerializer.Serialize(addressDto);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
+       
         var response = await _httpClient.PostAsync("api/UserAccount/AddAddress", stringContent);
 
-        return await HandleResponse(response);
+
+        if (response.IsSuccessStatusCode)
+        {
+
+            return RedirectToAction("CategoryList", "Category");
+        }
+        else
+        {
+            return View("Error404");
+        }
     }
 
     [HttpPut("{oldEmail}/UpdateEmail")]
@@ -70,9 +83,9 @@ public class AdminController : Controller
         return View();
     }
     [HttpPost("login")]
-    public async Task<ActionResult> Login(LoginDto loginDto)
+    public async Task<ActionResult> Login(LoginDto loginDtoo)
     {
-        var jsonContent = JsonSerializer.Serialize(loginDto);
+        var jsonContent = JsonSerializer.Serialize(loginDtoo);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PostAsync("api/UserAccount/login", stringContent);
@@ -85,6 +98,7 @@ public class AdminController : Controller
            // string hisName = (LoginDto.userDate.FirstName + " " + LoginDto.userDate.LastName);
           //  HttpContext.Session.SetString("AdminName", hisName);
             HttpContext.Session.SetString("AuthToken", LoginDto.token);
+            HttpContext.Session.SetString("Email", loginDtoo.UserName);
             //TempData["AdminName"] = hisName;
             return RedirectToAction("CategoryList", "Category");
         }

@@ -4,6 +4,6 @@
     {
         public string token { get; set; }
        public DateTime expiration { get; set; }
-        public RegisterDto userDate { get; set; }   
+        public RegisterDto _user { get; set; }   
     }
 }

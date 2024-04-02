@@ -27,7 +27,7 @@ namespace E_Commerce.WebAPI.Controllers
     [ApiController]
     public class UserAccountController : ControllerBase
     {
-       
+
         private readonly UserManager<MyUser> _userManager;
         private readonly SignInManager<MyUser> _signInManager;
         private readonly IConfiguration _configuration;
@@ -35,9 +35,9 @@ namespace E_Commerce.WebAPI.Controllers
         private readonly IEmailService _emailService;
         private readonly IuserService _userService;
         private readonly ILogger<LoginDto> _logger;
-      
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-        public UserAccountController(SignInManager<MyUser> signInManager, 
+
+
+        public UserAccountController(SignInManager<MyUser> signInManager,
             UserManager<MyUser> userManager, IConfiguration configuration,
             RoleManager<IdentityRole<Guid>> roleManager
             , IEmailService emailService
@@ -51,97 +51,98 @@ namespace E_Commerce.WebAPI.Controllers
             _emailService = emailService;
             _userService = userService;
         }
-        [HttpGet("ExternalLoginCallback")]
-        [AllowAnonymous]
-        public async Task<IActionResult>ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        {
-            returnUrl = returnUrl ?? Url.Content("~/");
+        #region ExternalLogin
+        //[HttpGet("ExternalLoginCallback")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult>ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        //{
+        //    returnUrl = returnUrl ?? Url.Content("~/");
 
 
-            ExternalLogins =
-            (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
-
-            if (remoteError != null)
-            {
-                ModelState.AddModelError(string.Empty,
-                    $"Error from external provider: {remoteError}");
-                return Ok(returnUrl);
-            }
-
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                ModelState.AddModelError(string.Empty,
-                    "Error loading external login information.");
-
-                return Ok(ExternalLogins);
-            }
-
-            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-            MyUser user = null;
-
-            if (email != null)
-            {
-                user = await _userManager.FindByEmailAsync(email);
-
-                if (user != null && !user.EmailConfirmed)
-                {
-                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
-                    return Ok(ExternalLogins);
-                }
-            }
-
-            var signInResult = await _signInManager.ExternalLoginSignInAsync(
-                                        info.LoginProvider, info.ProviderKey,
-                                        isPersistent: false, bypassTwoFactor: true);
-
-            if (signInResult.Succeeded)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                if (email != null)
-                {
-                    if (user == null)
-                    {
-                        user = new MyUser
-                        {
-                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                        };
-
-                        await _userManager.CreateAsync(user);
-
-                        // After a local user account is created, generate and log the
-                        // email confirmation link
-                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                        var confirmationLink = Url.Action("ConfirmEmail", "Account",
-                                        new { userId = user.Id, token = token }, Request.Scheme);
-
-                      
-                        //ViewBag.ErrorTitle = "Registration successful";
-                        //ViewBag.ErrorMessage = "Before you can Login, please confirm your " +
-                        //    "email, by clicking on the confirmation link we have emailed you";
-                        //return View("Error");
-                    }
-
-                    await _userManager.AddLoginAsync(user, info);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return LocalRedirect(returnUrl);
-                }
+        //    ExternalLogins =
+        //    (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
 
-                //ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
-                //ViewBag.ErrorMessage = "Please contact support on Pragim@PragimTech.com";
+        //    if (remoteError != null)
+        //    {
+        //        ModelState.AddModelError(string.Empty,
+        //            $"Error from external provider: {remoteError}");
+        //        return Ok(returnUrl);
+        //    }
 
-                //return View("Error");
-            }
-            return Ok();
-        }
+        //    var info = await _signInManager.GetExternalLoginInfoAsync();
+        //    if (info == null)
+        //    {
+        //        ModelState.AddModelError(string.Empty,
+        //            "Error loading external login information.");
+
+        //    return Ok(ExternalLogins);
+        //}
+
+        //var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+        //MyUser user = null;
+
+        //if (email != null)
+        //{
+        //    user = await _userManager.FindByEmailAsync(email);
+
+        //    if (user != null && !user.EmailConfirmed)
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+        //        return Ok(ExternalLogins);
+        //    }
+        //}
+
+        //var signInResult = await _signInManager.ExternalLoginSignInAsync(
+        //                            info.LoginProvider, info.ProviderKey,
+        //                            isPersistent: false, bypassTwoFactor: true);
+
+        //if (signInResult.Succeeded)
+        //{
+        //    return LocalRedirect(returnUrl);
+        //}
+        //else
+        //{
+        //if (email != null)
+        //{
+        //    if (user == null)
+        //    {
+        //        user = new MyUser
+        //        {
+        //            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+        //            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+        //        };
+
+        //        await _userManager.CreateAsync(user);
+
+        //        // After a local user account is created, generate and log the
+        //        // email confirmation link
+        //        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        //        var confirmationLink = Url.Action("ConfirmEmail", "Account",
+        //                        new { userId = user.Id, token = token }, Request.Scheme);
+
+
+        //ViewBag.ErrorTitle = "Registration successful";
+        //ViewBag.ErrorMessage = "Before you can Login, please confirm your " +
+        //    "email, by clicking on the confirmation link we have emailed you";
+        //return View("Error");
+
+
+        //    await _userManager.AddLoginAsync(user, info);
+        //    await _signInManager.SignInAsync(user, isPersistent: false);
+
+        //    return LocalRedirect(returnUrl);
+        //}
+
+
+        //ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
+        //ViewBag.ErrorMessage = "Please contact support on Pragim@PragimTech.com";
+
+        //        //return View("Error");
+        //    }
+        //    return Ok();
+        //}
         //[HttpGet("external-logins")]
         //[AllowAnonymous]
         //public async Task<IActionResult> GetExternalLogins(string returnUrl = null)
@@ -238,13 +239,75 @@ namespace E_Commerce.WebAPI.Controllers
         //{
         //    return Redirect(Url.IsLocalUrl(returnTo) ? returnTo : "/");
         //}
+        #endregion
 
 
+        private async Task<List<AuthenticationScheme>> ExternalLoginAsync()
+      => (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        private AuthenticationProperties AuthenticationProperties(string provider, string returnUrl)
+       => (_signInManager.ConfigureExternalAuthenticationProperties(provider, returnUrl));
+        private async Task<bool> CreateUserWithExternalLoginCallBackAsync()
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+                return false;
+            var result = await _signInManager
+                .ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+                return true;
+            else
+            {
+                string email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                if (email is not null)
+                {
+                    MyUser user = await _userManager.FindByEmailAsync(email);
+                    if (user != null)
+                    {
+                        await _userManager.AddLoginAsync(user, info);
+                        await _signInManager.SignInAsync(user, false);
+                        return true;
+                    }
+                    else
+                    {
+                        user = new MyUser()
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
+                            Email = email,
+                        };
+                        IdentityResult createuserResult = await _userManager.CreateAsync(user);
+                        if (createuserResult.Succeeded)
+                        {
+                            createuserResult = await _userManager.AddToRoleAsync(user, "User");
+                            IdentityResult createuserLogins = await _userManager.AddLoginAsync(user, info);
+                            if (createuserLogins.Succeeded)
+                            {
+                                await _signInManager.SignInAsync(user, false);
+                                return true;
+                            }
+                        }
+                        return createuserResult.Succeeded;
+                    }
+                }
+            }
+            return false;
+        }
+
+        [HttpGet("ExternalLogin")]
+        public async Task<IActionResult> ExternalLogin()
+        {
+            var ex = await ExternalLoginAsync();
+            var properties = AuthenticationProperties(ex.FirstOrDefault().Name, "./api/UserAccount/Callback");//redirectUrl);
+            return new ChallengeResult(ex.FirstOrDefault().Name, properties);
+        }
+        [HttpGet("Callback")]
+        public async Task<IActionResult> Callback()
+        {
+            bool result = await CreateUserWithExternalLoginCallBackAsync();
+            return Ok(result);
+        }
 
 
-
-
-        [Authorize(Roles = "Admin, User")]
+        [Authorize]
         [HttpPost("AddAddress")]
         public async Task<IActionResult> AddAddress(AddressDto addressDto)
         {
@@ -255,28 +318,41 @@ namespace E_Commerce.WebAPI.Controllers
             var result = await _userService.AddAddress(addressDto);
             if (result)
                 return StatusCode(200, "Updated successfuly");
-            else 
+            else
                 return StatusCode(401, "Unauthorized");
+
+        }
+       // [Authorize]
+        [HttpDelete("DeleteAddress")]
+        public async  Task<IActionResult> DeleteAddress(string  Email)
+        {
+          
+               bool x=await _userService.DeleteAddress(Email);
+              if(x)
+                return StatusCode(200, " Deleted successfuly");
+              else
+                return StatusCode(500, "Not  Deleted ");
+
 
         }
         [Authorize(Roles = "Admin, User")]
         [HttpPut("{oldEmail}/email")]
-        public async Task<IActionResult> UpdateEmail( string oldEmail, [FromBody] string newEmail)
+        public async Task<IActionResult> UpdateEmail(string oldEmail, [FromBody] string newEmail)
         {
             var user = await _userManager.FindByEmailAsync(oldEmail);
             if (user == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             user.Email = newEmail;
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
-                return BadRequest(result.Errors); 
+                return BadRequest(result.Errors);
             }
 
-            return Ok(); 
+            return Ok();
         }
         /// <summary>
         ///     [Authorize(Roles = "Admin, User")]
@@ -286,7 +362,7 @@ namespace E_Commerce.WebAPI.Controllers
         /// <returns></returns>
         [Authorize(Roles = "Admin, User")]
         [HttpPost("UpdatePhone")]
-        public async Task<IActionResult> UpdatePhone(string oldPhone,  string newPhone)
+        public async Task<IActionResult> UpdatePhone(string oldPhone, string newPhone)
         {
             var user = await _userManager.FindByNameAsync(oldPhone);
             if (user == null)
@@ -308,12 +384,12 @@ namespace E_Commerce.WebAPI.Controllers
         {
             await _signInManager.SignOutAsync();
             return StatusCode(200, "Logout successfuly");
-            
-              
+
+
 
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDto registerDto,string role)
+        public async Task<IActionResult> Register(RegisterDto registerDto, string role)
         {
             if (!ModelState.IsValid)
             {
@@ -329,11 +405,11 @@ namespace E_Commerce.WebAPI.Controllers
 
             if (exist != null)
             {
-                
+
                 return StatusCode(501, "The PhoneNumber already exist");
             }
             /////
-            MyUser user = new MyUser() { FirstName= registerDto.FirstName,LastName= registerDto.LastName, Email = registerDto.Email, UserName = registerDto.PhoneNumber ,SecurityStamp=Guid.NewGuid().ToString()};
+            MyUser user = new MyUser() { FirstName = registerDto.FirstName, LastName = registerDto.LastName, Email = registerDto.Email, UserName = registerDto.PhoneNumber, SecurityStamp = Guid.NewGuid().ToString() };
             var result1 = await _roleManager.RoleExistsAsync(role);
 
             if (result1)
@@ -351,7 +427,7 @@ namespace E_Commerce.WebAPI.Controllers
                     var confirmationLink = Url.Action(nameof(ConfirmEmail), "UserAccount", new { token, email = user.Email }, Request.Scheme);
                     var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink);
                     _emailService.SendEmail(message);
-                    return StatusCode(200,"Created Successfuly");
+                    return StatusCode(200, "Created Successfuly");
                 }
             }
             else
@@ -360,10 +436,10 @@ namespace E_Commerce.WebAPI.Controllers
             }
 
         }
-   
+
         [Authorize(Roles = "Admin, User")]
         [HttpPost("changepassword")]
-        public async Task<IActionResult> ChangePassword(string Email, string NewPassword,  string oldPassword)
+        public async Task<IActionResult> ChangePassword(string Email, string NewPassword, string oldPassword)
         {
             if (!ModelState.IsValid)
             {
@@ -395,11 +471,11 @@ namespace E_Commerce.WebAPI.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    return StatusCode(200, "Email Verified Successfully");                
+                    return StatusCode(200, "Email Verified Successfully");
                 }
             }
             return StatusCode(500, "This User Doesnot exist!");
-          
+
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto logindto)
@@ -407,8 +483,8 @@ namespace E_Commerce.WebAPI.Controllers
 
             var isValidEmail = new EmailAddressAttribute().IsValid(logindto.UserName);
             MyUser user;
-            if(isValidEmail)
-                user = await _userManager.FindByEmailAsync(logindto.UserName);     
+            if (isValidEmail)
+                user = await _userManager.FindByEmailAsync(logindto.UserName);
             else
                 user = await _userManager.FindByNameAsync(logindto.UserName);
 
@@ -433,15 +509,15 @@ namespace E_Commerce.WebAPI.Controllers
                 RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, PhoneNumber = user.UserName, Password = null };
 
                 var jwtToken = GetToken(authClaims);
-               
-                return StatusCode(200,new
+
+                return StatusCode(200, new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                     expiration = jwtToken.ValidTo,
-                    _user= sendDto
+                    _user = sendDto
 
                 });
-               
+
             }
             return Unauthorized();
 
@@ -511,25 +587,25 @@ namespace E_Commerce.WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> NewResetPassword([FromBody] Domain.DTOs.UserAccount.ResetPasswordRequest request)
         {
-           
-                var user = await _userManager.FindByEmailAsync(request.Email);
-                if (user == null)
-                  { 
-                    return NotFound("User not found");
-                }
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
 
-                var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
-                if (!result.Succeeded)
-                {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+            if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors);
-                }
+            }
 
-                return Ok("Password reset successfully");
-            
+            return Ok("Password reset successfully");
+
         }
-    
+
         [HttpGet("{userId}/email")]
         public async Task<IActionResult> GetUserEmailById(string userId)
         {
@@ -548,14 +624,14 @@ namespace E_Commerce.WebAPI.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             return Ok(user.Id);
         }
-       
+
         [HttpPost("SendCode")]
-        public async Task<IActionResult> SendCode( string email)
+        public async Task<IActionResult> SendCode(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -564,22 +640,22 @@ namespace E_Commerce.WebAPI.Controllers
             }
             int code = Generate4DigitNumber();
             user.ResetCode = code;
-           await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
             string m = "A request was made to change your password recently." +
-                " If you are the one who made this request, this is the code that you can use\n"+
+                " If you are the one who made this request, this is the code that you can use\n" +
                 $"<br><b>{code}</b><br>"
                 + "\nIf you do not make this request, you can ignore this email and your password will remain as it is.";
-                  var message = new Message(new string[] { user.Email }, "reset password code", m);
+            var message = new Message(new string[] { user.Email }, "reset password code", m);
             _emailService.SendEmail(message);
             return StatusCode(200, "Password change request is sent on email");
         }
         private static readonly Random _random = new Random();
         private static int Generate4DigitNumber()
         {
-            return _random.Next(1000, 10000); 
+            return _random.Next(1000, 10000);
         }
         [HttpPost("CheckCode")]
-        public async Task< bool> CheckCode(int code,string email)
+        public async Task<bool> CheckCode(int code, string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -606,5 +682,28 @@ namespace E_Commerce.WebAPI.Controllers
 
             return Ok(usersData);
         }
+       // [Authorize]
+        [HttpGet("GetUserAddress")]
+        public async Task<IActionResult> GetUserAddress(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var userData = new
+            {             
+                Phone = user.UserName,
+                AddressLine1 = user.addressLine1,
+                AddressLine2 = user.addressLine2,
+                City = user.city,
+                Country = user.country
+            };
+
+            return Ok(userData);
+        }
+    
     }
 }

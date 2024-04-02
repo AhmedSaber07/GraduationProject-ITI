@@ -20,5 +20,10 @@ namespace E_Commerce.Application.Services
             return( await  userRepository.addAddress(addressDto));
 
         }
+        public async Task<bool> DeleteAddress(string Email)
+        {
+         return  ( await userRepository.DeleteAddress(Email));
+        }
+
     }
 }

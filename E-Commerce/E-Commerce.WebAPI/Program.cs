@@ -49,6 +49,9 @@ namespace E_Commerce.WebAPI
             builder.Services.AddScoped<ishoppingCartService, shoppingCartService>();
             builder.Services.AddScoped<iorderRepository, OrderRepository>();
             builder.Services.AddScoped<iorderService, orderService>();
+            builder.Services.AddScoped<ireviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<ireviewService, reviewService>();
+            
             
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

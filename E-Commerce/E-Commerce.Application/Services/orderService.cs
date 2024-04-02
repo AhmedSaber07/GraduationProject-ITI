@@ -4,6 +4,7 @@ using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
 using E_Commerce.Domain.DTOs.OrderItemDto;
+using E_Commerce.Domain.DTOs.PaymentDto;
 using E_Commerce.Domain.Enums;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
@@ -75,6 +76,21 @@ namespace E_Commerce.WebAPI.Controllers
             var orderEntity = _mapper.Map<Order>(ordercreation);
             orderEntity.createdAt = DateTime.Now;
             orderEntity.Id = Guid.NewGuid();
+            Domain.DTOs.PaymentDto.CreateDto payment = new Domain.DTOs.PaymentDto.CreateDto()
+            {
+                OrderId = orderEntity.Id,
+                transactionId=transactionid,
+                OrderPrice=orderEntity.TotalAmount,
+                PaymentType="Visa",
+                UserId=user.Id
+            };
+
+            var paymentEntity = _mapper.Map<Payment>(payment);
+            paymentEntity.Id = Guid.NewGuid();
+            paymentEntity.createdAt=DateTime.Now;
+            await _unit.payment.CreateAsync(paymentEntity);
+            
+            orderEntity.PaymentId=paymentEntity.Id;
 
             foreach (var item in orderEntity.OrderItems)
             {

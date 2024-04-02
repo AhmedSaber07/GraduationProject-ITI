@@ -33,8 +33,7 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.ProductImageDto.getImage, ProductImage>().ReverseMap();
 
             // review
-            CreateMap<Domain.DTOs.ReviewDto.CreateDto, Review>().ReverseMap();
-            CreateMap<Domain.DTOs.ReviewDto.UpdateDto, Review>().ReverseMap();
+            CreateMap<Domain.DTOs.ReviewDto.CreateOrUpdateDto, Review>().ReverseMap();
             CreateMap<Domain.DTOs.ReviewDto.GetReviewDto, Review>().ReverseMap();
 
             // order-item
@@ -47,6 +46,10 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.CategoryDto.CreateOrUpdateCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.ReadCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.getDto, Category>().ReverseMap();
+
+
+            // payment 
+            CreateMap<Domain.DTOs.PaymentDto.CreateDto, Payment>().ReverseMap();
 
             //shopping-cart
             CreateMap<Domain.DTOs.CartDto.CreateOrUpdateDto, Cart>().ReverseMap();

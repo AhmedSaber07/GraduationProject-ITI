@@ -14,6 +14,8 @@ namespace E_Commerce.Application.Contracts
         ishoppingCartRepository shoppingCart { get; }
         iorderRepository order { get; }
         iorderItemRepository orderItem { get; }
+        ipaymentRepository payment { get; }
+        ireviewRepository review { get; }
         Task<bool> Complete();
 
     }

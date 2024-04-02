@@ -25,13 +25,13 @@ namespace E_Commerce.Domain.DTOs.productDto
 
         public virtual ICollection<OrderItemDto.UpdateDto>? OrderItems { get; set; }
         public virtual ICollection<ProductImageDto.UpdateDto>? Images { get; set; }
-        public virtual ICollection<ReviewDto.UpdateDto>? Reviews { get; set; }
+        public virtual ICollection<ReviewDto.CreateOrUpdateDto>? Reviews { get; set; }
 
         public updateDto()
         {
             OrderItems = new List<OrderItemDto.UpdateDto>();
             Images = new List<ProductImageDto.UpdateDto>();
-            Reviews = new List<ReviewDto.UpdateDto>();
+            Reviews = new List<ReviewDto.CreateOrUpdateDto>();
         }
     }
 }

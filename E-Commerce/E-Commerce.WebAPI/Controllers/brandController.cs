@@ -26,18 +26,29 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<resultDto<GetBrandDto>>> Get(Guid id)
         {
+            var language = HttpContext.Request?.Headers["Accept-Language"];
+
             if (Guid.Empty == id)
                 return NotFound();
-            var brand = await _brandService.getById(id);  
-            return brand;
+
+            var brand = await _brandService.getById(id);
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<resultDto<GetBrandDtoArabic>>(brand));
+            }
+            else
+            {
+                return Ok(_mapper.Map<resultDto<GetBrandDtoEnglish>>(brand));
+            }
+            //return brand;
         }
         [HttpGet]
         public async Task<ActionResult<listResultDto<GetBrandDto>>> Get()
         {
-            var lan = HttpContext.Request?.Headers["Accept-Language"];
+            var language = HttpContext.Request?.Headers["Accept-Language"];
 
             var allresult = await _brandService.getAll();
-            if (lan.Equals("ar"))
+            if (language.Equals("ar"))
             {
                 return Ok(_mapper.Map<listResultDto<GetBrandDtoArabic>>(allresult));
             }

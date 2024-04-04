@@ -1,7 +1,9 @@
-﻿using Company.Dtos.ViewResult;
+﻿using AutoMapper;
+using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.CartDto;
+using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
@@ -16,23 +18,29 @@ namespace E_Commerce.WebAPI.Controllers
     public class CartController : ControllerBase
     {
         private readonly ishoppingCartService _cartService;
-        public CartController(ishoppingCartService cartService)
+        private readonly IMapper _mapper;
+        public CartController(ishoppingCartService cartService, IMapper mapper)
         {
             _cartService = cartService;
+            _mapper= mapper;
         }
-        // GET: api/<CartController>
-        //[HttpGet()]
 
-
-        // GET api/<CartController>/5
         [HttpGet("{_ShoppingCartSessionId:guid}")]
-        public async Task<ActionResult<listResultDto<GetCartDto>>> Get(Guid _ShoppingCartSessionId)
+        public async Task<ActionResult<CartListDto<GetCartDto>>> Get(Guid _ShoppingCartSessionId)
         {
-           // var _ShoppingCartSessionId = getsessionId();
+            var language = HttpContext.Request?.Headers["Accept-language"];
+
             if (_ShoppingCartSessionId != Guid.Empty)
             {
-                var RemovedProduct = await _cartService.GetAllCartItems(_ShoppingCartSessionId);
-                return Ok(RemovedProduct);
+                var cartProducts = await _cartService.GetAllCartItems(_ShoppingCartSessionId);
+                if (language.Equals("ar"))
+                {
+                    return Ok(_mapper.Map<CartListDto<GetCartDtoArabic>>(cartProducts));
+                }
+                else
+                {
+                    return Ok(_mapper.Map<CartListDto<GetCartDtoEnglish>>(cartProducts));
+                }
             }
             return NotFound();
         }
@@ -40,7 +48,6 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpPost("{_ShoppingCartSessionId:guid}", Name = "AddItemToCart")]
         public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> AddItemToCart(Guid productid, int quantity, Guid _ShoppingCartSessionId)
         {
-           // var _ShoppingCartSessionId = createIfNullsessionId();
 
             var resultCartitem = await _cartService.AddTOCart(productid, quantity, _ShoppingCartSessionId);
             return Created("Product", resultCartitem);

@@ -1,4 +1,5 @@
-﻿using Company.Dtos.ViewResult;
+﻿using AutoMapper;
+using Company.Dtos.ViewResult;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.OrderDto;
 using E_Commerce.Domain.listResultDto;
@@ -15,25 +16,45 @@ namespace E_Commerce.WebAPI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly iorderService _orderservice;
-        public OrderController(iorderService orderService)
+        private readonly IMapper _mapper;
+        public OrderController(iorderService orderService, IMapper mapper)
         {
             _orderservice = orderService;
+            _mapper = mapper;
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<listResultDto<getOrdersWithoutItems>>> GetallOrders()
         {
-            return Ok(await _orderservice.GetAllOrders());
+            //return Ok(await _orderservice.GetAllOrders());
+            var language = HttpContext.Request?.Headers["Accept-language"];
+            var orders = await _orderservice.GetAllOrders();
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<listResultDto<getOrdersWithoutItemsArabic>>(orders));
+            }
+            else
+            {
+                return Ok(_mapper.Map<listResultDto<getOrdersWithoutItemsEnglish>>(orders));
+            }
         }
         [HttpGet("GetUserOrders")]
         public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(string email)
         {
             if (email != string.Empty)
             {
+                var language = HttpContext.Request?.Headers["Accept-language"];
                 var orders = await _orderservice.getUserOrders(email);
                 if (orders is not null)
                 {
-                    return Ok(orders);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<listResultDto<GetOrderDtoArabic>>(orders));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<listResultDto<GetOrderDtoEnglish>>(orders));
+                    }
                 }
                 else
                 {
@@ -60,14 +81,22 @@ namespace E_Commerce.WebAPI.Controllers
             return NotFound();
         }
         [HttpGet("GetOrderById")]
-        public async Task<ActionResult<resultDto<GetOrderDto>>> getOrderById(Guid orderId)
+        public async Task<ActionResult<resultDto<GetOrderISDeletedDto>>> getOrderById(Guid orderId)
         {
             if (orderId != Guid.Empty)
             {
+                var language = HttpContext.Request?.Headers["Accept-language"];
                 var orders = await _orderservice.getOrderById(orderId);
                 if (orders is not null)
                 {
-                    return Ok(orders);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<resultDto<GetOrderISDeletedDtoArabic>>(orders));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<resultDto<GetOrderISDeletedDtoEnglish>>(orders));
+                    }
                 }
                 else
                 {

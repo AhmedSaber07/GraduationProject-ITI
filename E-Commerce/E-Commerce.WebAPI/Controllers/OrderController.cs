@@ -26,17 +26,17 @@ namespace E_Commerce.WebAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<listResultDto<getOrdersWithoutItems>>> GetallOrders()
         {
-            //return Ok(await _orderservice.GetAllOrders());
-            var language = HttpContext.Request?.Headers["Accept-language"];
-            var orders = await _orderservice.GetAllOrders();
-            if (language.Equals("ar"))
-            {
-                return Ok(_mapper.Map<listResultDto<getOrdersWithoutItemsArabic>>(orders));
-            }
-            else
-            {
-                return Ok(_mapper.Map<listResultDto<getOrdersWithoutItemsEnglish>>(orders));
-            }
+            return Ok(await _orderservice.GetAllOrders());
+            //var language = HttpContext.Request?.Headers["Accept-language"];
+            //var orders = await _orderservice.GetAllOrders();
+            //if (language.Equals("ar"))
+            //{
+            //    return Ok(_mapper.Map<listResultDto<getOrdersWithoutItemsArabic>>(orders));
+            //}
+            //else
+            //{
+            //    return Ok(_mapper.Map<listResultDto<getOrdersWithoutItemsEnglish>>(orders));
+            //}
         }
         [HttpGet("GetUserOrders")]
         public async Task<ActionResult<listResultDto<GetOrderDto>>> getUserOrders(string email)

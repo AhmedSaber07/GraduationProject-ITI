@@ -26,36 +26,40 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<resultDto<GetBrandDto>>> Get(Guid id)
         {
-            var language = HttpContext.Request?.Headers["Accept-Language"];
+            //var language = HttpContext.Request?.Headers["Accept-Language"];
 
+            //if (Guid.Empty == id)
+            //    return NotFound();
+
+            //var brand = await _brandService.getById(id);
+            //if (language.Equals("ar"))
+            //{
+            //    return Ok(_mapper.Map<resultDto<GetBrandDtoArabic>>(brand));
+            //}
+            //else
+            //{
+            //    return Ok(_mapper.Map<resultDto<GetBrandDtoEnglish>>(brand));
+            //}
             if (Guid.Empty == id)
                 return NotFound();
-
             var brand = await _brandService.getById(id);
-            if (language.Equals("ar"))
-            {
-                return Ok(_mapper.Map<resultDto<GetBrandDtoArabic>>(brand));
-            }
-            else
-            {
-                return Ok(_mapper.Map<resultDto<GetBrandDtoEnglish>>(brand));
-            }
-            //return brand;
+            return brand;
         }
         [HttpGet]
         public async Task<ActionResult<listResultDto<GetBrandDto>>> Get()
         {
-            var language = HttpContext.Request?.Headers["Accept-Language"];
+            //var language = HttpContext.Request?.Headers["Accept-Language"];
 
-            var allresult = await _brandService.getAll();
-            if (language.Equals("ar"))
-            {
-                return Ok(_mapper.Map<listResultDto<GetBrandDtoArabic>>(allresult));
-            }
-            else
-            {
-                return Ok(_mapper.Map<listResultDto<GetBrandDtoEnglish>>(allresult));
-            }
+            //var allresult = await _brandService.getAll();
+            //if (language.Equals("ar"))
+            //{
+            //    return Ok(_mapper.Map<listResultDto<GetBrandDtoArabic>>(allresult));
+            //}
+            //else
+            //{
+            //    return Ok(_mapper.Map<listResultDto<GetBrandDtoEnglish>>(allresult));
+            //}
+            return Ok(await _brandService.getAll());
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateDto brand)

@@ -47,16 +47,18 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("getall",Name = "Getall")]
         public async Task<ActionResult<List<getProductDtoArabic>>> Getall(string[] includes = null)
         {
-            var language = HttpContext.Request?.Headers["Accept-Language"];
-            var result = await _productService.GetAllAsync(includes);
-            if (language.Equals("ar"))
-            {
-                return Ok(_mapper.Map<List<getProductDtoArabic>>(result));
-            }
-            else
-            {
-                return Ok(_mapper.Map<List<getProductDtoEnglish>>(result));
-            }
+            //var language = HttpContext.Request?.Headers["Accept-Language"];
+            //var result = await _productService.GetAllAsync(includes);
+            //if (language.Equals("ar"))
+            //{
+            //    return Ok(_mapper.Map<List<getProductDtoArabic>>(result));
+            //}
+            //else
+            //{
+            //    return Ok(_mapper.Map<List<getProductDtoEnglish>>(result));
+            //}
+
+            return Ok(await _productService.GetAllAsync(includes));
         }
 
         [HttpGet("{id:guid}", Name = "GetByProductId")]

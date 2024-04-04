@@ -62,17 +62,18 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("Getall1")]
         public async Task<ActionResult<listResultDto<getDto>>> Getall1()
         {
-            var language = HttpContext.Request?.Headers["Accept-language"];
+            //var language = HttpContext.Request?.Headers["Accept-language"];
 
-            var categorys = await icategoryServices.getAll();
-            if (language.Equals("ar"))
-            {
-                return Ok(_mapper.Map<List<getDtoArabic>>(categorys));
-            }
-            else
-            {
-                return Ok(_mapper.Map<List<getDtoEnglish>>(categorys));
-            }
+            //var categorys = await icategoryServices.getAll();
+            //if (language.Equals("ar"))
+            //{
+            //    return Ok(_mapper.Map<List<getDtoArabic>>(categorys));
+            //}
+            //else
+            //{
+            //    return Ok(_mapper.Map<List<getDtoEnglish>>(categorys));
+            //}
+            return Ok(await icategoryServices.getAll());
         }
         [HttpGet("UpdatedGetall")]
         public async Task<IActionResult> UpdatedGetall ()

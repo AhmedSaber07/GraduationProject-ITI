@@ -1,0 +1,136 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = null;
+}
+@{
+    string backgroundImageUrl = Url.Content("~/img/ResetPassword_BG_2.png");
+}
+@{
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Enter code Page </title>
+        <!-- Bootstrap 5 CDN Link -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="@Url.Content("~/css/EnterCode.css")" rel="stylesheet" />
+        <style>
+            .button-no-border {
+                border: none;
+            }
+
+            body {
+                background-image: url('@backgroundImageUrl');
+                background-size: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="wrapper ">
+            <div class="container">
+                <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center mt-5">
+
+                    <form class="rounded bg-white shadow p-5" action="@Url.Action("EnterCode", "Admin")" method="post">
+                        <h3 class="text-dark fw-bolder fs-4 mb-2">Two Step Verification</h3>
+
+                        <div class="fw-normal text-muted mb-4">
+                            Enter the verification code we sent to
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-center fw-bold mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+                                <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+                                <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+                                <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+                                <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+                            </svg>
+                       
+                         
+                            
+                        </div>
+
+                        <div class="otp_input text-start mb-2">
+                            <label for="digit">Type your 4 digit security code</label>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <input type="text" name="input1" class="form-control" placeholder="">
+                                <input type="text" name="input2" class="form-control" placeholder="">
+                                <input type="text" name="input3" class="form-control" placeholder="">
+                                <input type="text" name="input4" class="form-control" placeholder="">
+
+                               
+
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary submit_btn my-4">Submit</button>
+
+                        <div class="fw-normal text-muted mb-2">
+                            Didn’t get the code ? <button id="sendCodeBtn" class="text-primary fw-bold button-no-border" onclick="sendCode()" disabled>Resend</button>
+                            <span id="countdown"></span>
+                        </div>
+                    </form>
+
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger" style="color:#680082" role="alert">
+                            @ViewBag.ErrorMessage
+                        </div>
+
+
+                    }
+                </div>
+            </div>
+        </section>
+        <script>
+            var timer;
+            var countdown = 60; // Countdown time in seconds
+
+            // Update countdown every second and enable button when countdown reaches 0
+            function startTimer() {
+                var display = document.getElementById("countdown");
+
+                timer = setInterval(function () {
+                    display.textContent = countdown + " seconds";
+                    countdown--;
+
+                    if (countdown < 0) {
+                        clearInterval(timer);
+                        document.getElementById("sendCodeBtn").disabled = false;
+                        display.textContent = "Click the button to send code";
+                    }
+                }, 1000);
+            }
+
+            // Function to send code (replace with your actual send code function)
+            function sendCode() {
+                clearInterval(timer); // Stop the timer
+                countdown = 60; // Reset countdown
+                document.getElementById("countdown").textContent = ""; // Clear countdown display
+                document.getElementById("sendCodeBtn").disabled = true; // Disable button
+
+                // Redirect to ResetPassword action in Admin controller
+                window.location.href = "/Admin/ResetPassword";
+            }
+
+            // Start the timer when the page loads
+            window.onload = startTimer;
+        </script>
+
+    </body>
+    </html>
+
+}

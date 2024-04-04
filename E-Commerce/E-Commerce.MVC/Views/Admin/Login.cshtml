@@ -2,6 +2,7 @@
 @{
     Layout = null;
 }
+
 @{
 
     <!DOCTYPE html>
@@ -15,6 +16,7 @@
 
         <link href="@Url.Content("~/css/Login.css")" rel="stylesheet" />
         <title>Admin login </title>
+ 
     </head>
     <body>
         <div class="login">
@@ -51,7 +53,7 @@
                         <label for="login-check" class="login__check-label">Remember me</label>
                     </div>
 
-                    <a href="#" class="login__forgot">Forgot Password?</a>
+                    <a href="@Url.Action("ResetPassword", "Admin")" class="login__forgot">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="login__button">Login</button>

@@ -8,7 +8,7 @@ namespace E_Commerce.Domain.DTOs.BrandDto
 {
     public class GetBrandDtoEnglish
     { 
-        public string nameEn { get; set; }
+        public string name { get; set; }
         public string email { get; set; }
     }
 }

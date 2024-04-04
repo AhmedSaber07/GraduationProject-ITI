@@ -1,10 +1,15 @@
-﻿using Company.Dtos.ViewResult;
+﻿using AutoMapper;
+using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Domain;
+using E_Commerce.Domain.DTOs.BrandDto;
 using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Utilities;
+using System.ComponentModel;
+//using System.Globalization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,20 +20,43 @@ namespace E_Commerce.WebAPI.Controllers
     public class ProductController : ControllerBase
     {
         private readonly iproductService _productService;
-        public ProductController(iproductService productService)
+        private readonly IMapper _mapper;
+        public ProductController(iproductService productService,IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
+
         }
         // GET
         [HttpGet]
+
         public async Task<ActionResult<listResultDto<GetProductDto>>> GetallPagination(int items, int pagenumber, [FromBody] string[] includes = null)
         {
-            return Ok(await _productService.GetAllPaginationAsync(items, pagenumber, includes));
+            var language = HttpContext.Request?.Headers["Accept-Language"];
+            var result = await _productService.GetAllPaginationAsync(items, pagenumber, includes);
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<listResultDto<getProductDtoArabic>>(result));
+            }
+            else
+            {
+                return Ok(_mapper.Map<listResultDto<getProductDtoEnglish>>(result));
+            }
+            
         }
-        [HttpGet("/getall",Name = "Getall")]
-        public async Task<ActionResult<List<GetProductDto>>> Getall(string[] includes = null)
+        [HttpGet("getall",Name = "Getall")]
+        public async Task<ActionResult<List<getProductDtoArabic>>> Getall(string[] includes = null)
         {
-            return Ok(await _productService.GetAllAsync(includes));
+            var language = HttpContext.Request?.Headers["Accept-Language"];
+            var result = await _productService.GetAllAsync(includes);
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getProductDtoArabic>>(result));
+            }
+            else
+            {
+                return Ok(_mapper.Map<List<getProductDtoEnglish>>(result));
+            }
         }
 
         [HttpGet("{id:guid}", Name = "GetByProductId")]
@@ -36,10 +64,18 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (id != Guid.Empty)
             {
+                var language = HttpContext.Request?.Headers["Accept-Language"];
                 var product = await _productService.getById(id);
                 if (product is not null)
                 {
-                    return Ok(product);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<resultDto<getProductwithImageArabic>>(product));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<resultDto<getProductwithImageEnglish>>(product));
+                    }
                 }
                 else
                 {
@@ -55,10 +91,18 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (nameAr != string.Empty)
             {
+                var language = HttpContext.Request?.Headers["Accept-Language"];
                 var products = await _productService.getbyNameAr(nameAr, includes);
                 if (products is not null)
                 {
-                    return Ok(products);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoArabic>>(products));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoEnglish>>(products));
+                    }
                 }
                 else
                 {
@@ -72,10 +116,18 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (nameEn != string.Empty)
             {
+                var language = HttpContext.Request?.Headers["Accept-Language"];
                 var products = await _productService.getbyNameEn(nameEn, includes);
                 if (products is not null)
                 {
-                    return Ok(products);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoArabic>>(products));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoEnglish>>(products));
+                    }
                 }
                 else
                 {
@@ -90,10 +142,18 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (productStockQuantity != 0)
             {
+                var language = HttpContext.Request?.Headers["Accept-Language"];
                 var products = await _productService.getbyStockQuantityAsync(productStockQuantity, includes);
                 if (products is not null)
                 {
-                    return Ok(products);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoArabic>>(products));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoEnglish>>(products));
+                    }
                 }
                 else
                 {
@@ -108,10 +168,18 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (brandId != Guid.Empty)
             {
+                var language = HttpContext.Request?.Headers["Accept-Language"];
                 var products = await _productService.getbybrandAsync(brandId, includes);
                 if (products is not null)
                 {
-                    return Ok(products);
+                    if (language.Equals("ar"))
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoArabic>>(products));
+                    }
+                    else
+                    {
+                        return Ok(_mapper.Map<listResultDto<getProductDtoEnglish>>(products));
+                    }
                 }
                 else
                 {

@@ -4,6 +4,9 @@ using E_Commerce.MVC.DTOs.UserAccount;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 public class AdminController : Controller
 {
 
@@ -21,7 +24,32 @@ public class AdminController : Controller
 	{
 		return View();
 	}
-	
+    public async Task<IActionResult> ChangePassword()
+    {
+        return View();
+    }
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(string oldpassword, string NewPassword, string confirmPassword)
+    {
+        if (NewPassword != confirmPassword)
+        {
+           
+            ViewBag.ErrorMessage = "New password and confirm password do not match.";
+            return View(); 
+        }
+        string Email = HttpContext.Session.GetString("resEmail");
+        var apiUrl = $"api/UserAccount/changepassword?Email={Email}&NewPassword={NewPassword}&oldpassword={oldpassword}";
+        HttpResponseMessage response = await _httpClient.PostAsync(apiUrl, null);
+        if (response.IsSuccessStatusCode)
+        {
+            return RedirectToAction("CategoryList", "Category");
+        }
+        else
+        {
+            ViewBag.ErrorMessage = response.Content.ToString();
+            return View();
+        }
+    }
     [HttpPost("sendCode")]
 	public async Task< ActionResult> sendCode(string email)
     {
@@ -40,6 +68,10 @@ public class AdminController : Controller
 		}
 
 	}
+    public async Task<ActionResult> AccessDenied()
+    {
+        return View("Error404");
+    }
     public async Task<ActionResult> EnterCode( )
     {
         return View();
@@ -84,7 +116,7 @@ public class AdminController : Controller
 	{
 		return View();
 	}
-    [HttpPost("EnterNewPassword")]
+    [HttpPost]
     public async Task<ActionResult> EnterNewPassword(string Password)
     {
             var apiUrl = "api/UserAccount/NewResetPassword";
@@ -100,7 +132,7 @@ public class AdminController : Controller
             if (response.IsSuccessStatusCode)
             {
             return RedirectToAction("Login", "Admin");
-             }
+            }
             else
             {
               return View();
@@ -122,7 +154,7 @@ public class AdminController : Controller
             if (response.IsSuccessStatusCode)
             {
                 var UserData = await response.Content.ReadAsStringAsync();
-                var UserData2 = JsonConvert.DeserializeObject<AddressDto>(UserData); // Deserialize JSON response to your category model
+                var UserData2 = JsonConvert.DeserializeObject<AddressDto>(UserData);
                 return View(UserData2);
             }
 
@@ -176,9 +208,10 @@ public class AdminController : Controller
     {
         return View();
     }
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<ActionResult> Login(LoginDto loginDtoo)
     {
+
         var jsonContent = System.Text.Json.JsonSerializer.Serialize(loginDtoo);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -193,6 +226,17 @@ public class AdminController : Controller
           //  HttpContext.Session.SetString("AdminName", hisName);
             HttpContext.Session.SetString("AuthToken", LoginDto.token);
             HttpContext.Session.SetString("Email", loginDtoo.UserName);
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, loginDtoo.UserName),
+            // Add more claims if needed
+        };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Sign in user
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             //TempData["AdminName"] = hisName;
             return RedirectToAction("CategoryList", "Category");
         }
@@ -204,24 +248,8 @@ public class AdminController : Controller
         
     }
 
-    [HttpPost("ChangePassword")]
-    public async Task<IActionResult> ChangePassword(ResetPasswordDto resetPasswordDto)
-    {
-        var jsonContent = System.Text.Json.JsonSerializer.Serialize(resetPasswordDto);
-        var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-        var response = await _httpClient.PostAsync("api/UserAccount/reset-password", stringContent);
-
-        return await HandleResponse(response);
-    }
-
-    [HttpPost("forget-password")]
-    public async Task<IActionResult> ForgotPassword(string email)
-    {
-        var response = await _httpClient.PostAsync($"api/UserAccount/forget-password?email={email}", null);
-
-        return await HandleResponse(response);
-    }
+ 
 
     private async Task<IActionResult> HandleResponse(HttpResponseMessage response)
     {

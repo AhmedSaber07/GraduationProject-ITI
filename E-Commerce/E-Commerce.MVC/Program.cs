@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+
 namespace E_Commerce.MVC
 {
     public class Program
@@ -10,8 +13,21 @@ namespace E_Commerce.MVC
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient();
             builder.Services.AddSession();
-           
-            builder.Services.AddTransient<AdminController>();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+           .AddCookie(options =>
+           {
+            options.LoginPath = "/Admin/Login"; 
+            options.AccessDeniedPath = "/Admin/AccessDenied";
+           });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
+        
+        builder.Services.AddTransient<AdminController>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -23,6 +39,7 @@ namespace E_Commerce.MVC
            
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

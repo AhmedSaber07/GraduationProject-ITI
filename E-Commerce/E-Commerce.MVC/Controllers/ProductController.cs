@@ -3,10 +3,11 @@ using E_Commerce.MVC.DTOs.productDto;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce.MVC.Controllers
 {
-
+    [Authorize]
     public class ProductController : Controller
     {
         public async Task<IActionResult> ProductsList()

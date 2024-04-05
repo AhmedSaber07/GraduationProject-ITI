@@ -2,6 +2,7 @@
 using E_Commerce.MVC.DTOs.listResultDto;
 using E_Commerce.MVC.DTOs.UserAccount;
 using E_Commerce.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Text.Json;
 
 namespace E_Commerce.MVC.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -18,7 +20,9 @@ namespace E_Commerce.MVC.Controllers
        {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
-       }
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
    
         public async Task<IActionResult> CategoryList()
         {
@@ -60,23 +64,26 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> Update(Guid id)
         {
-            //if (id == Guid.Empty)
-            //{
-            //    return View("Error404");
-            //}
 
-            //var apiUrl = $"api/Category/{id}"; 
-            //var response = await _httpClient.GetAsync(apiUrl);
+            string token = HttpContext.Session.GetString("AuthToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            if (id == Guid.Empty)
+            {
+                return View("Error404");
+            }
+
+            var apiUrl = $"api/Category/{id}";
+            var response = await _httpClient.GetAsync(apiUrl);
             var apiUrl2 = $"api/Category/getAlldropdown";
             var response2 = await _httpClient.GetAsync(apiUrl2);
             if (response2.IsSuccessStatusCode)
             {
-                //var categoryData = await response.Content.ReadAsStringAsync();
-                //var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData); 
+                var categoryData = await response.Content.ReadAsStringAsync();
+                var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData);
                 var categorylistdata = await response2.Content.ReadAsStringAsync();
                 var categoryList= JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
-               // ViewBag.Categories = new SelectList(categoryList, "id", "name", category.Entity.ParentCategoryId);
-                return View();
+                ViewBag.Categories = new SelectList(categoryList, "id", "name", category.Entity.ParentCategoryId);
+                return View(category.Entity);
             }
             else
             {
@@ -123,6 +130,7 @@ namespace E_Commerce.MVC.Controllers
         {
             return View();
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> create(CreateOrUpdateCategoryDto dto)
         {

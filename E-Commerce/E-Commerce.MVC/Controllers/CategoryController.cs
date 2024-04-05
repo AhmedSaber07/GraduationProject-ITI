@@ -2,6 +2,7 @@
 using E_Commerce.MVC.DTOs.listResultDto;
 using E_Commerce.MVC.DTOs.UserAccount;
 using E_Commerce.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Text.Json;
 
 namespace E_Commerce.MVC.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -128,6 +130,7 @@ namespace E_Commerce.MVC.Controllers
         {
             return View();
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> create(CreateOrUpdateCategoryDto dto)
         {

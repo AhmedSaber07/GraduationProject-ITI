@@ -4,8 +4,10 @@ using System.Text;
 using E_Commerce.MVC.DTOs.BrandDto;
 using System.Text.Json;
 using E_Commerce.MVC.DTOs.listResultDto;
+using Microsoft.AspNetCore.Authorization;
 namespace E_Commerce.MVC.Controllers
 {
+    [Authorize]
     public class BrandController : Controller
     {
 

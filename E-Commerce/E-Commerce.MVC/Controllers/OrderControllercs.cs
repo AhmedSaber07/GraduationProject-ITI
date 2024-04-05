@@ -1,11 +1,13 @@
 ﻿using E_Commerce.MVC.DTOs.listResultDto;
 using E_Commerce.MVC.DTOs.OrderDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace E_Commerce.MVC.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly HttpClient _httpClient;

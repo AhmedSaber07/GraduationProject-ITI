@@ -1,11 +1,14 @@
-﻿using Company.Dtos.ViewResult;
+﻿using AutoMapper;
+using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
+using E_Commerce.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.WebAPI.Controllers
@@ -15,10 +18,12 @@ namespace E_Commerce.WebAPI.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly icategoryServices icategoryServices;
+        private readonly IMapper _mapper;
 
-        public CategoryController(icategoryServices icategoryServices)
+        public CategoryController(icategoryServices icategoryServices, IMapper mapper)
         {
             this.icategoryServices = icategoryServices;
+            _mapper = mapper;
         }
 
       
@@ -36,33 +41,93 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("GetAllChildrenById/{id:guid}")]
         public async Task<ActionResult<List<getDto>>> GetAllChildrenById(Guid id)
         {
+            var language = HttpContext.Request?.Headers["Accept-language"];
             var category = await  icategoryServices.GetAllChildrenByCategoryId(id);
+
             if (category == null)
             {
                 return NotFound();
             }
-           
-            return category;
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getDtoArabic>>(category));
+            }
+            else
+            {
+                return Ok(_mapper.Map<List<getDtoEnglish>>(category));
+            }
+
+           // return category;
         }
         [HttpGet("Getall1")]
         public async Task<ActionResult<listResultDto<getDto>>> Getall1()
         {
-            return Ok(await icategoryServices.getAll());
+            var language = HttpContext.Request?.Headers["Accept-language"];
+
+            var categorys = await icategoryServices.getAll();
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getDtoArabic>>(categorys));
+            }
+            else if(language.Equals("en"))
+            {
+                return Ok(_mapper.Map<List<getDtoEnglish>>(categorys));
+            }
+            else
+            {
+                return Ok(await icategoryServices.getAll());
+            }
         }
+        [HttpGet("getAlldropdown")]
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult<List<getCategoryForDropdown>>> getAlldropdown()
+        {
+                return Ok(await icategoryServices.getAlldropdown());
+        }
+
         [HttpGet("UpdatedGetall")]
         public async Task<IActionResult> UpdatedGetall ()
         {
-            return Ok( await icategoryServices.getAll2());
+            var language = HttpContext.Request?.Headers["Accept-language"];
+            var categorys= await icategoryServices.getAll2();
+
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getDtoArabic>>(categorys));
+            }
+            else
+            {
+                return Ok(_mapper.Map<List<getDtoEnglish>>(categorys));
+            }
         }
         [HttpGet("getAllCattegoriesWtihProducts")]
         public async Task<ActionResult<List<getCategorywithProducts>>> getAllCattegoriesWtihProducts()
         {
-            return Ok(await icategoryServices.getAllCattegoriesWtihProducts());
+            var language = HttpContext.Request?.Headers["Accept-language"];
+            var categorys = await icategoryServices.getAllCattegoriesWtihProducts();
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getCategorywithProductsArabic>>(categorys));
+            }
+            else
+            {
+                return Ok(_mapper.Map<List<getCategorywithProductsEnglish>>(categorys));
+            }
         }
         [HttpGet("getAllProductsByCategoryId/{id:guid}")]
         public async Task<ActionResult<List<getProductwithImage>>> getAllProductsByCategoryId(Guid id)
         {
-            return Ok(await icategoryServices.getAllProductsByCategoryId(id));
+            var language = HttpContext.Request?.Headers["Accept-language"];
+            var categorys = await icategoryServices.getAllProductsByCategoryId(id);
+
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getProductwithImageArabic>>(categorys));
+            }
+            else
+            {
+                return Ok(_mapper.Map<List<getProductwithImageEnglish>>(categorys));
+            }
         }
         [HttpPost]      
         public async Task<ActionResult<resultDto<CreateOrUpdateCategoryDto>>> Post([FromBody] CreateOrUpdateCategoryDto category)

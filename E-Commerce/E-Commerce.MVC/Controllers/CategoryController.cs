@@ -1,7 +1,9 @@
 ﻿using E_Commerce.MVC.DTOs.CategoryDto;
 using E_Commerce.MVC.DTOs.listResultDto;
+using E_Commerce.MVC.DTOs.UserAccount;
 using E_Commerce.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -20,8 +22,7 @@ namespace E_Commerce.MVC.Controllers
    
         public async Task<IActionResult> CategoryList()
         {
-
-          
+         
             HttpResponseMessage response = await _httpClient.GetAsync("api/Category/Getall1");
           
             if (response.IsSuccessStatusCode)
@@ -59,21 +60,24 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> Update(Guid id)
         {
-            if (id == Guid.Empty)
-            {
-                return View("Error404");
-            }
+            //if (id == Guid.Empty)
+            //{
+            //    return View("Error404");
+            //}
 
-            var apiUrl = $"api/Category/{id}"; 
-            var response = await _httpClient.GetAsync(apiUrl);
-
-            if (response.IsSuccessStatusCode)
+            //var apiUrl = $"api/Category/{id}"; 
+            //var response = await _httpClient.GetAsync(apiUrl);
+            var apiUrl2 = $"api/Category/getAlldropdown";
+            var response2 = await _httpClient.GetAsync(apiUrl2);
+            if (response2.IsSuccessStatusCode)
             {
-                var categoryData = await response.Content.ReadAsStringAsync();
-                var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData); // Deserialize JSON response to your category model
-                return View(category.Entity);
+                //var categoryData = await response.Content.ReadAsStringAsync();
+                //var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData); 
+                var categorylistdata = await response2.Content.ReadAsStringAsync();
+                var categoryList= JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
+               // ViewBag.Categories = new SelectList(categoryList, "id", "name", category.Entity.ParentCategoryId);
+                return View();
             }
-          
             else
             {
                 return View("Error404");
@@ -101,6 +105,7 @@ namespace E_Commerce.MVC.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
+
                     return View("CategoryList", responseData);
                 }
                 else

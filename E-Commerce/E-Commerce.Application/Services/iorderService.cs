@@ -15,5 +15,6 @@ namespace E_Commerce.Application.Services
         Task<resultDto<GetOrderISDeletedDto>> getOrderById(Guid orderId);
         Task<listResultDto<GetOrderDto>> getUserOrders(string email);
         Task<listResultDto<getOrderItemwithprice>> getItemsOfOrder(int ordernumber);
+        Task<resultDto<CreateOrUpdateDto>> orderStateChange(int orderNumber, int state);
     }
 }

@@ -219,5 +219,18 @@ namespace E_Commerce.WebAPI.Controllers
             var ordersDto = _mapper.Map<List<getOrdersWithoutItems>>(await allordersData.ToListAsync());
             return new listResultDto<getOrdersWithoutItems> { entities = ordersDto, count = ordersDto.Count() };
         }
+        public async Task<resultDto<CreateOrUpdateDto>> orderStateChange(int orderNumber,int state)
+        {
+            var allordersData = await _unit.order.GetAllAsync();
+            var order = await allordersData.Where(o => o.OrderNumber == orderNumber).ToListAsync();
+            foreach (var orderProperty in order)
+            {
+                orderProperty.status_ar = (OrderStateAr)state;
+                orderProperty.status_en = (OrderStateEn)state;
+            }
+            await _unit.order.SaveChangesAsync();
+            var orderDto = _mapper.Map<List<CreateOrUpdateDto>>(order);
+            return new resultDto<CreateOrUpdateDto> { Entity = orderDto.FirstOrDefault(), IsSuccess=true,Message="state changed successfully"};
+        }
     }
 }

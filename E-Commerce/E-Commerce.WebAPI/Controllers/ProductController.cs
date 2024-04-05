@@ -74,9 +74,13 @@ namespace E_Commerce.WebAPI.Controllers
                     {
                         return Ok(_mapper.Map<resultDto<getProductwithImageArabic>>(product));
                     }
-                    else
+                    else if(language.Equals("en"))
                     {
                         return Ok(_mapper.Map<resultDto<getProductwithImageEnglish>>(product));
+                    }
+                    else
+                    {
+                        return Ok(product);
                     }
                 }
                 else

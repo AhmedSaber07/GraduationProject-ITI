@@ -58,6 +58,16 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
+        public async Task<List<getCategoryForDropdown>> getAlldropdown()
+        {
+            var q = await _unit.category.GetAllAsync();
+
+            // q.Include("Subcategories");
+            var result = await q.ToListAsync();
+
+            return _mapper.Map<List<getCategoryForDropdown>>(result);
+
+        }
         public async Task<List<getDto>> getAll2()
         {
             var q = await _unit.category.GetAllAsync();

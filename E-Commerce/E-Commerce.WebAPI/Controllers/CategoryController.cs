@@ -62,19 +62,29 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("Getall1")]
         public async Task<ActionResult<listResultDto<getDto>>> Getall1()
         {
-            //var language = HttpContext.Request?.Headers["Accept-language"];
+            var language = HttpContext.Request?.Headers["Accept-language"];
 
-            //var categorys = await icategoryServices.getAll();
-            //if (language.Equals("ar"))
-            //{
-            //    return Ok(_mapper.Map<List<getDtoArabic>>(categorys));
-            //}
-            //else
-            //{
-            //    return Ok(_mapper.Map<List<getDtoEnglish>>(categorys));
-            //}
-            return Ok(await icategoryServices.getAll());
+            var categorys = await icategoryServices.getAll();
+            if (language.Equals("ar"))
+            {
+                return Ok(_mapper.Map<List<getDtoArabic>>(categorys));
+            }
+            else if(language.Equals("en"))
+            {
+                return Ok(_mapper.Map<List<getDtoEnglish>>(categorys));
+            }
+            else
+            {
+                return Ok(await icategoryServices.getAll());
+            }
         }
+        [HttpGet("getAlldropdown")]
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult<List<getCategoryForDropdown>>> getAlldropdown()
+        {
+                return Ok(await icategoryServices.getAlldropdown());
+        }
+
         [HttpGet("UpdatedGetall")]
         public async Task<IActionResult> UpdatedGetall ()
         {

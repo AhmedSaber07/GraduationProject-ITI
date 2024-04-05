@@ -49,6 +49,8 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.CategoryDto.CreateOrUpdateCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.ReadCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.getDto, Category>().ReverseMap();
+            CreateMap<Domain.DTOs.CategoryDto.getCategoryForDropdown, Category>().
+                ForMember(dest=>dest.nameEn,opt => opt.MapFrom(src=>src.Name)).ReverseMap();
 
 
             // payment 

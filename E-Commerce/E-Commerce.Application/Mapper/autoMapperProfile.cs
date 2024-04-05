@@ -201,7 +201,8 @@ namespace E_Commerce.Application.Mapper
             //Cart
             CreateMap<CartListDto<Domain.DTOs.CartDto.GetCartDto>, CartListDto<Domain.DTOs.CartDto.GetCartDtoArabic>>();
             CreateMap<CartListDto<Domain.DTOs.CartDto.GetCartDto>, CartListDto<Domain.DTOs.CartDto.GetCartDtoEnglish>>();
-           
+            CreateMap<Domain.DTOs.CartDto.GetCartDto, Domain.DTOs.CartDto.GetCartDtoArabic>();
+            CreateMap<Domain.DTOs.CartDto.GetCartDto, Domain.DTOs.CartDto.GetCartDtoEnglish>();
 
             //Order
             CreateMap<listResultDto<Domain.DTOs.OrderDto.GetOrderDto>, listResultDto<Domain.DTOs.OrderDto.GetOrderDtoArabic>>().ReverseMap();

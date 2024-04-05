@@ -93,9 +93,13 @@ namespace E_Commerce.WebAPI.Controllers
                     {
                         return Ok(_mapper.Map<resultDto<GetOrderISDeletedDtoArabic>>(orders));
                     }
-                    else
+                    else if(language.Equals("ar"))
                     {
                         return Ok(_mapper.Map<resultDto<GetOrderISDeletedDtoEnglish>>(orders));
+                    }
+                    else
+                    {
+                        return Ok(orders);
                     }
                 }
                 else
@@ -123,6 +127,16 @@ namespace E_Commerce.WebAPI.Controllers
             if (orderId != Guid.Empty || productId != Guid.Empty || quantity < 0)
             {
                 var resultOrder = await _orderservice.updateOrderItemQuantity(orderId, productId, quantity);
+                return Ok(resultOrder);
+            }
+            return BadRequest();
+        }
+        [HttpPut("ChangeOrderState/{ordernumber:int}/{state:int}")]
+        public async Task<ActionResult<resultDto<CreateOrUpdateDto>>> ChangeOrderState(int ordernumber,int state)
+        {
+            if (ordernumber > 100000000 - 1 || state <= 5 && state >= 1)
+            {
+                var resultOrder = await _orderservice.orderStateChange(ordernumber,state);
                 return Ok(resultOrder);
             }
             return BadRequest();

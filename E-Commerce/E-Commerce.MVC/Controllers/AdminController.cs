@@ -3,7 +3,6 @@ using System.Text;
 using E_Commerce.MVC.DTOs.UserAccount;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 public class AdminController : Controller
 {
 
@@ -122,7 +121,7 @@ public class AdminController : Controller
             if (response.IsSuccessStatusCode)
             {
                 var UserData = await response.Content.ReadAsStringAsync();
-                var UserData2 = JsonConvert.DeserializeObject<AddressDto>(UserData); // Deserialize JSON response to your category model
+                var UserData2 = JsonConvert.DeserializeObject<AddressDto>(UserData);
                 return View(UserData2);
             }
 
@@ -204,24 +203,8 @@ public class AdminController : Controller
         
     }
 
-    [HttpPost("ChangePassword")]
-    public async Task<IActionResult> ChangePassword(ResetPasswordDto resetPasswordDto)
-    {
-        var jsonContent = System.Text.Json.JsonSerializer.Serialize(resetPasswordDto);
-        var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-        var response = await _httpClient.PostAsync("api/UserAccount/reset-password", stringContent);
-
-        return await HandleResponse(response);
-    }
-
-    [HttpPost("forget-password")]
-    public async Task<IActionResult> ForgotPassword(string email)
-    {
-        var response = await _httpClient.PostAsync($"api/UserAccount/forget-password?email={email}", null);
-
-        return await HandleResponse(response);
-    }
+ 
 
     private async Task<IActionResult> HandleResponse(HttpResponseMessage response)
     {

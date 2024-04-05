@@ -1,20 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net.Http;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using E_Commerce.MVC.DTOs.UserAccount;
-using Microsoft.AspNetCore.Identity;
-using NuGet.Common;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
-using System.Net.Http.Json;
-
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 public class AdminController : Controller
 {
+
     private readonly HttpClient _httpClient;
 
     public AdminController(HttpClient httpClient)
@@ -88,7 +80,7 @@ public class AdminController : Controller
 
 
     }
-    public async Task<ActionResult> EnterNewPassword()
+    public  ActionResult EnterNewPassword()
 	{
 		return View();
 	}
@@ -116,9 +108,30 @@ public class AdminController : Controller
             }
         
     }
-    public ActionResult AddAddress()
+    public async Task<IActionResult> AddAddress()
     {
-        return View();
+        string em = HttpContext.Session.GetString("Email");
+        if (em ==null)
+        {
+            return View("Error404");
+        }
+
+            var apiUrl = $"api/UserAccount/GetUserAddress/?email={em}";
+            var response = await _httpClient.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var UserData = await response.Content.ReadAsStringAsync();
+                var UserData2 = JsonConvert.DeserializeObject<AddressDto>(UserData); // Deserialize JSON response to your category model
+                return View(UserData2);
+            }
+
+            else
+            {
+                return View("Error404");
+            }
+        
+       
     }
     //Zara@123423
     [HttpPost]
@@ -152,13 +165,12 @@ public class AdminController : Controller
         var response = await _httpClient.PutAsync($"api/UserAccount/{oldPhone}/UpdatePhone?newPhone={newPhone}", null);
 
         return await HandleResponse(response);
-    }
-    [HttpPost]
+    }   
     public async Task<IActionResult> Logout()
     {
         var response = await _httpClient.PostAsync("api/UserAccount/Logout", null);
 
-        return await HandleResponse(response);
+       return RedirectToAction("Login", "Admin");
     }  
     public ActionResult Login()
     {
@@ -191,15 +203,9 @@ public class AdminController : Controller
         }
         
     }
-    [HttpGet("reset-password")]
-    public async Task<IActionResult> ResetPassword(string email, string token)
-    {
-        var response = await _httpClient.GetAsync($"api/UserAccount/reset-password?email={email}&token={token}");
 
-        return await HandleResponse(response);
-    }
-    [HttpPost("reset-password")]
-    public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    [HttpPost("ChangePassword")]
+    public async Task<IActionResult> ChangePassword(ResetPasswordDto resetPasswordDto)
     {
         var jsonContent = System.Text.Json.JsonSerializer.Serialize(resetPasswordDto);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");

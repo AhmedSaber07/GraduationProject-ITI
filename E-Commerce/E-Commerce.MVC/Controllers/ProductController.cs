@@ -12,7 +12,7 @@ namespace E_Commerce.MVC.Controllers
         public async Task<IActionResult> ProductsList()
         {
             return View("Forbidden");
-            return View();
+           
         }
         //public async Task<IActionResult> UpdateProduct()
         //{

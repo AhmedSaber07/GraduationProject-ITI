@@ -437,7 +437,7 @@ namespace E_Commerce.WebAPI.Controllers
 
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize]
         [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword(string Email, string NewPassword, string oldPassword)
         {

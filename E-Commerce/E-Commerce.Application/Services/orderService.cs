@@ -185,7 +185,7 @@ namespace E_Commerce.WebAPI.Controllers
             return new listResultDto<GetOrderDto> { entities = OrderDto, count = OrderDto.Count() };
 
         }
-        public async Task<listResultDto<getOrderItemwithprice>> getItemsOfOrder(int ordernumber)
+        public async Task<listResultDto<getOrderItemwithprice>> getItemsOfOrder(int ordernumber ,string language)
         {
             var allordersData = await _unit.order.GetAllAsync();
             var userOrderEntity = await allordersData.Where(o => o.OrderNumber == ordernumber).Include(E=>E.OrderItems).ToListAsync();
@@ -199,14 +199,29 @@ namespace E_Commerce.WebAPI.Controllers
                 foreach (var _orderItem in _order.OrderItems)
                 {
                     var product = await _unit.product.GetByIdAsync(_orderItem.ProductId);
-                    getOrderItemwithprice orderitemdto = new getOrderItemwithprice()
+                    if (language == "ar")
                     {
-                        price = product.price,
-                        productName = product.nameEn,
-                        ItemTotalPrice = product.price * _orderItem.Quantity,
-                        quantity = _orderItem.Quantity
-                    };
-                    orderitemsdto.Add(orderitemdto);
+                        getOrderItemwithprice orderitemdto = new getOrderItemwithprice()
+                        {
+                            price = product.price,
+                            productName = product.nameAr,
+                            ItemTotalPrice = product.price * _orderItem.Quantity,
+                            quantity = _orderItem.Quantity
+                        };
+                        orderitemsdto.Add(orderitemdto);
+
+                    }
+                    else
+                    {
+                        getOrderItemwithprice orderitemdto = new getOrderItemwithprice()
+                        {
+                            price = product.price,
+                            productName = product.nameEn,
+                            ItemTotalPrice = product.price * _orderItem.Quantity,
+                            quantity = _orderItem.Quantity
+                        };
+                        orderitemsdto.Add(orderitemdto);
+                    }
                 }
             }
             return new listResultDto<getOrderItemwithprice> { entities = orderitemsdto, count = orderitemsdto.Count() };

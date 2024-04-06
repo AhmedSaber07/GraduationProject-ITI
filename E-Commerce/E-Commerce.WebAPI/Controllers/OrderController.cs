@@ -68,7 +68,8 @@ namespace E_Commerce.WebAPI.Controllers
         {
             if (OrderNumber > 10000000-1)
             {
-                var orderItems = await _orderservice.getItemsOfOrder(OrderNumber);
+                var language = HttpContext.Request?.Headers["Accept-language"];
+                var orderItems = await _orderservice.getItemsOfOrder(OrderNumber,language);
                 if (orderItems is not null)
                 {
                     return Ok(orderItems);

@@ -126,8 +126,13 @@ namespace E_Commerce.MVC.Controllers
             }
             return View("CategoryList");
         }
-        public IActionResult create()
+        public async Task<IActionResult> create()
         {
+            var apiUrl2 = $"api/Category/getAlldropdown";
+            var response2 = await _httpClient.GetAsync(apiUrl2);
+            var categorylistdata = await response2.Content.ReadAsStringAsync();
+            var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
+            ViewBag.Categories = new SelectList(categoryList, "id", "name");
             return View();
         }
         [Authorize]

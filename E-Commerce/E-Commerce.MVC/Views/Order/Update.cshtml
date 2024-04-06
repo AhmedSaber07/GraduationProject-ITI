@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <form asp-controller="Order" asp-action="Update" method="post">
+      
+            <input type="hidden" name="OrderNumber" value="@ViewBag.OrderNumber">
+            <div class="form-group">
+                <label for="selectedState">Select State:</label>
+                <select class="form-control" id="selectedState" name="SelectedState">
+                    <option value="">-- Select State --</option>
+                @foreach (var stateItem in @ViewBag.StateList)
+                    {
+                        <option value="@stateItem.Value">@stateItem.Text</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+
+    @if (ViewBag.response != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.response
+        </div>
+
+
+
+    }
+}

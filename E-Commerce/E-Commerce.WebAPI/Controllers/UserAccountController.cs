@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -460,6 +461,33 @@ namespace E_Commerce.WebAPI.Controllers
             }
 
             return Ok("Password changed successfully");
+        }
+        [Authorize]
+        [HttpPost("ChangeName")]
+        public async Task<IActionResult> ChangeName(string Email, string FirstName="", string LastName="")
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            if(FirstName!="")
+            user.FirstName = FirstName;
+            if(LastName!="")
+            user.LastName = LastName;
+           var x=await _userManager.UpdateAsync(user);
+            if (x.Succeeded)
+            {
+                return StatusCode(200, "Name changed successfully");
+            }
+            else
+
+                return StatusCode(500, "Name not  changed");
         }
 
         [HttpGet("ConfirmEmail")]

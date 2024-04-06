@@ -1,7 +1,9 @@
 ﻿using E_Commerce.MVC.DTOs.listResultDto;
 using E_Commerce.MVC.DTOs.OrderDto;
+using E_Commerce.MVC.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -11,13 +13,12 @@ namespace E_Commerce.MVC.Controllers
     public class OrderController : Controller
     {
         private readonly HttpClient _httpClient;
-       public OrderController()
-       {
+        public OrderController()
+        {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-           
         }
         public async Task<IActionResult> Index()
         {
@@ -35,6 +36,36 @@ namespace E_Commerce.MVC.Controllers
                 return View("Forbidden");
             }
         }
+        public IActionResult Update(int id)
+        {
+            var enumValues = Enum.GetValues(typeof(OrderStateEn))
+                                 .Cast<OrderStateEn>()
+                                 .Select(state => new SelectListItem
+                                 {
+                                     Text = state.ToString(),
+                                     Value = ((int)state).ToString()
+                                 })
+                                 .ToList();
 
+            ViewBag.StateList = enumValues;
+            ViewBag.OrderNumber = id;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(int orderNumber, int selectedState)
+        {
+            string token = HttpContext.Session.GetString("AuthToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _httpClient.PutAsync($"api/Order/ChangeOrderState/{orderNumber}/{selectedState}",null);
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.response = "Updated successfully";
+                return View();
+            }
+            else
+            {
+                return View("Forbidden");
+            }
+        }
     }
 }

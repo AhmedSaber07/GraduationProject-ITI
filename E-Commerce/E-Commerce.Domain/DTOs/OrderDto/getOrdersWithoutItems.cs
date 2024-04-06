@@ -14,6 +14,7 @@ namespace E_Commerce.Domain.DTOs.OrderDto
         public string status_ar { get; set; }
         public string status_en { get; set; }
         public decimal TotalAmount { get; set; }
+         public int OrderNumber { get; set; }
 
     }
 }

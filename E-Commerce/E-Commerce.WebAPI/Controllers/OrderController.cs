@@ -93,7 +93,7 @@ namespace E_Commerce.WebAPI.Controllers
                     {
                         return Ok(_mapper.Map<resultDto<GetOrderISDeletedDtoArabic>>(orders));
                     }
-                    else if(language.Equals("ar"))
+                    else if(language.Equals("en"))
                     {
                         return Ok(_mapper.Map<resultDto<GetOrderISDeletedDtoEnglish>>(orders));
                     }

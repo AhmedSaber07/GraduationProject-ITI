@@ -2,6 +2,7 @@
 using Company.Dtos.ViewResult;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Domain.DTOs.ReviewDto;
+using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -88,11 +89,17 @@ namespace E_Commerce.Application.Services
             deletedReview = _mapper.Map<GetReviewDto>(reviewEntity);
             return new resultDto<GetReviewDto>() { Entity = deletedReview, IsSuccess = true, Message = "Deleted Successfully" };
         }
-        public async Task<IEnumerable<GetReviewDto>> GetProductReviews (Guid productId)
+        public async Task<ReviewListDto<GetReviewDto>> GetProductReviews (Guid productId)
         {
+            decimal rate=0;
             var allReviewsQuery = await _unit.review.GetAllAsync();
-            var resultProducts = _mapper.Map<IEnumerable<GetReviewDto>>(await allReviewsQuery.Where(r=>r.ProductId==productId).ToListAsync());
-            return resultProducts;
+            var reviewEntities = await allReviewsQuery.Where(r => r.ProductId == productId).ToListAsync();
+            var resultProducts = _mapper.Map<IEnumerable<GetReviewDto>>(reviewEntities);
+            foreach (var item in reviewEntities)
+            {
+                rate += (item.priceRating + item.qualityRating + item.valueRating) / 3;
+            }
+            return new ReviewListDto<GetReviewDto>() { entities = resultProducts ,Rating=rate/reviewEntities.Count() };
         }
         public async Task<bool> ReviewExist(Guid reviewId)
         {

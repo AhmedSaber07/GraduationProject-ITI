@@ -8,11 +8,12 @@ namespace E_Commerce.MVC.DTOs.OrderDto
 {
     public class getOrdersWithoutItems
     {
-        public Guid Id { get; set; }
+        public int orderNumber { get; set; }
         public Guid UserId { get; set; }
         public Guid PaymentId { get; set; }
         public string status_ar { get; set; }
         public string status_en { get; set; }
+
         public decimal TotalAmount { get; set; }
 
     }

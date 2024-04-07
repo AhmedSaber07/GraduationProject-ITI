@@ -11,6 +11,7 @@ using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
 using E_Commerce.Domain.DTOs.productDto;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities;
 namespace E_Commerce.Application.Services
 {
     public class CategoryServices : icategoryServices
@@ -89,7 +90,7 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
-        public async Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id)
+        public async Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id, int items, int pagenumber)
         {
             var prod = await _unit.product.GetAllAsync();
             List<Product> products = new List<Product>();
@@ -106,13 +107,13 @@ namespace E_Commerce.Application.Services
                     {
                         foreach (var subcategory in hasSubChild)
                         {
-                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).Include(e=>e.Reviews).ToListAsync();
+                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).Include(e=>e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
                             var productsDto2 = _mapper.Map<List<getProductwithImage>>(products);
                             productsToReturn.AddRange(productsDto2);
 
                         }
                     }
-                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Include(e => e.Reviews).ToListAsync();
+                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Include(e => e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
                     var productsDto = _mapper.Map<List<getProductwithImage>>(products);
 
                     productsToReturn.AddRange(productsDto);
@@ -121,7 +122,7 @@ namespace E_Commerce.Application.Services
             }
             else
             {
-                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).Include(e => e.Reviews).ToListAsync();
+                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).Include(e => e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
                 productsToReturn = _mapper.Map<List<getProductwithImage>>(products);
             }
             return productsToReturn;

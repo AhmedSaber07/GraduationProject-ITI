@@ -1,5 +1,8 @@
 ﻿@model E_Commerce.MVC.DTOs.CategoryDto.CreateOrUpdateCategoryDto
-
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<link href="@Url.Content("~/css/sb-admin-2.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/css/site.min.css")" rel="stylesheet" />
 @{
     ViewData["Title"] = "create";
 }
@@ -73,6 +76,4 @@
         });
     </script>
 }
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

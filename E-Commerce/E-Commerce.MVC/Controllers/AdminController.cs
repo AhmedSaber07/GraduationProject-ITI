@@ -177,7 +177,7 @@ public class AdminController : Controller
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         var jsonContent = System.Text.Json.JsonSerializer.Serialize(addressDto);
         var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-       
+      
         var response = await _httpClient.PostAsync("api/UserAccount/AddAddress", stringContent);
 
 
@@ -195,14 +195,14 @@ public class AdminController : Controller
     public async Task<IActionResult> UpdatePhone(string oldPhone, string newPhone)
     {
         var response = await _httpClient.PutAsync($"api/UserAccount/{oldPhone}/UpdatePhone?newPhone={newPhone}", null);
-
         return await HandleResponse(response);
     }   
     public async Task<IActionResult> Logout()
     {
         var response = await _httpClient.PostAsync("api/UserAccount/Logout", null);
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-       return RedirectToAction("Login", "Admin");
+        return RedirectToAction("Login", "Admin");
     }  
     public ActionResult Login()
     {
@@ -229,16 +229,16 @@ public class AdminController : Controller
             var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, loginDtoo.UserName),
-            // Add more claims if needed
+          
         };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            // Sign in user
+
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             //TempData["AdminName"] = hisName;
-            return RedirectToAction("CategoryList", "Category");
+            return View("Home");
         }
         else 
         {

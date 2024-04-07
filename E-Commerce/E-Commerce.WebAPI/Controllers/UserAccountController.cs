@@ -353,7 +353,7 @@ namespace E_Commerce.WebAPI.Controllers
         public async Task<IActionResult> Callback()
         {
             var result = await CreateUserWithExternalLoginCallBackAsync();           
-            Console.WriteLine();
+           
             return result;
         }
 

@@ -107,7 +107,7 @@ namespace E_Commerce.MVC.Controllers
                 }
                 else
                 {
-                    response = await _httpClient.PutAsync("api/Category", stringContent);
+                    response = await _httpClient.PutAsync("api/Category/Update", stringContent);
                 }        
                 if (response.IsSuccessStatusCode)
                 {
@@ -128,6 +128,8 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> create()
         {
+            string token = HttpContext.Session.GetString("AuthToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var apiUrl2 = $"api/Category/getAlldropdown";
             var response2 = await _httpClient.GetAsync(apiUrl2);
             var categorylistdata = await response2.Content.ReadAsStringAsync();
@@ -135,7 +137,7 @@ namespace E_Commerce.MVC.Controllers
             ViewBag.Categories = new SelectList(categoryList, "id", "name");
             return View();
         }
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> create(CreateOrUpdateCategoryDto dto)
         {
@@ -148,6 +150,13 @@ namespace E_Commerce.MVC.Controllers
                 var response = await _httpClient.PostAsync("api/Category", stringContent);
                 var categoryData = await response.Content.ReadAsStringAsync();
                 var category = JsonConvert.DeserializeObject<resultDto<CreateOrUpdateCategoryDto>>(categoryData);
+                string token = HttpContext.Session.GetString("AuthToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var apiUrl2 = $"api/Category/getAlldropdown";
+                var response2 = await _httpClient.GetAsync(apiUrl2);
+                var categorylistdata = await response2.Content.ReadAsStringAsync();
+                var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
+                ViewBag.Categories = new SelectList(categoryList, "id", "name");
                 if (category.IsSuccess)
                 {
                     ViewBag.CategoryAdded = true;

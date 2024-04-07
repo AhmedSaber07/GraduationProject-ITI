@@ -106,13 +106,13 @@ namespace E_Commerce.Application.Services
                     {
                         foreach (var subcategory in hasSubChild)
                         {
-                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).ToListAsync();
+                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).Include(e=>e.Reviews).ToListAsync();
                             var productsDto2 = _mapper.Map<List<getProductwithImage>>(products);
                             productsToReturn.AddRange(productsDto2);
 
                         }
                     }
-                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).ToListAsync();
+                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Include(e => e.Reviews).ToListAsync();
                     var productsDto = _mapper.Map<List<getProductwithImage>>(products);
 
                     productsToReturn.AddRange(productsDto);
@@ -121,7 +121,7 @@ namespace E_Commerce.Application.Services
             }
             else
             {
-                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).ToListAsync();
+                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).Include(e => e.Reviews).ToListAsync();
                 productsToReturn = _mapper.Map<List<getProductwithImage>>(products);
             }
             return productsToReturn;
@@ -136,7 +136,7 @@ namespace E_Commerce.Application.Services
             foreach (var category in await q.ToListAsync())
             {
 
-                List<Product> products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Take(10).ToListAsync();
+                List<Product> products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Include(e=>e.Reviews).Take(10).ToListAsync();
                 getCategorywithProducts categoryproducts = new getCategorywithProducts()
                 {
                     nameEn = category.nameEn,

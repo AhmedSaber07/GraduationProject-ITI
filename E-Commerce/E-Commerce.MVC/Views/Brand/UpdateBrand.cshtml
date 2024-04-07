@@ -1,0 +1,45 @@
+﻿@model E_Commerce.MVC.DTOs.BrandDto.GetBrandDto
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<link href="@Url.Content("~/css/sb-admin-2.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/css/site.min.css")" rel="stylesheet" />
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Update Brand </h1>
+    <a asp-action="BransList" class="d-none d-sm-inline-block btn btn-sm bg-success  shadow text-white ">
+        Back List Brands
+    </a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateBrand">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="nameAr" class="control-label"></label>
+                <input asp-for="nameAr" class="form-control" />
+                <span asp-validation-for="nameAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nameEn" class="control-label"></label>
+                <input asp-for="nameEn" class="form-control" />
+                <span asp-validation-for="nameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

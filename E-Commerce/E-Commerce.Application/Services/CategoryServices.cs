@@ -107,13 +107,13 @@ namespace E_Commerce.Application.Services
                     {
                         foreach (var subcategory in hasSubChild)
                         {
-                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).Include(e=>e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
+                            products = await prod.Where(p => p.categoryId == subcategory.Id).Include(e => e.Images).Include(e=>e.Reviews).ToListAsync();
                             var productsDto2 = _mapper.Map<List<getProductwithImage>>(products);
                             productsToReturn.AddRange(productsDto2);
 
                         }
                     }
-                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Include(e => e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
+                    products = await prod.Where(p => p.categoryId == category.Id).Include(e => e.Images).Include(e => e.Reviews).ToListAsync();
                     var productsDto = _mapper.Map<List<getProductwithImage>>(products);
 
                     productsToReturn.AddRange(productsDto);
@@ -125,7 +125,7 @@ namespace E_Commerce.Application.Services
                 products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).Include(e => e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
                 productsToReturn = _mapper.Map<List<getProductwithImage>>(products);
             }
-            return productsToReturn;
+            return productsToReturn.Skip(items * (pagenumber - 1)).Take(items).ToList();
 
         }
         public async Task<List<getCategorywithProducts>> getAllCattegoriesWtihProducts()

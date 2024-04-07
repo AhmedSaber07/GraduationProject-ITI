@@ -36,23 +36,25 @@ namespace E_Commerce.MVC.Controllers
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
         }
-        public  IActionResult IndexAsync()
+        public   async Task <IActionResult> ProductList()
         {
-            return View("Forbidden");
+            //return View("Forbidden");
+            //return View();
 
-            //HttpResponseMessage response = await _httpClient.GetAsync("/getall");
-           
-            //if (response.IsSuccessStatusCode)
-            //{
 
-            //    var responseData = await response.Content.ReadAsStringAsync();
-            //    var dtoList = JsonSerializer.Deserialize<List<GetProductDto>>(responseData);
-            //    return View(dtoList);
-            //}
-            //else
-            //{
-            //    return View("Forbidden");
-            //}
+            HttpResponseMessage response = await _httpClient.GetAsync("api/Product/getall");
+
+            if (response.IsSuccessStatusCode)
+            {
+
+                var responseData = await response.Content.ReadAsStringAsync();
+                var dtoList = JsonSerializer.Deserialize<List<GetProductDto>>(responseData);
+                return View(dtoList);
+            }
+            else
+            {
+                return View("Forbidden");
+            }
 
         }
         public async Task<IActionResult> DeleteProduct(Guid id)

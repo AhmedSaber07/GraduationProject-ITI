@@ -1,0 +1,97 @@
+﻿@model IEnumerable<E_Commerce.MVC.DTOs.productDto.GetProductDto>
+
+@{
+    ViewData["Title"] = "ProductList";
+}
+@{
+    var rowCount = 0;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"> Products List</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+          
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.nameAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nameEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descriptionAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.colorAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.colorEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descriptionEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stockQuantity)
+            </th>
+          
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            rowCount++;
+            <tr>
+                <td>@rowCount</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nameAr)
+            </td><td>
+                @Html.DisplayFor(modelItem => item.nameEn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descriptionAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.colorAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.colorEn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descriptionEn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stockQuantity)
+            </td>
+          
+                <td>
+                    <a asp-action="UpdateProduct" asp-route-id="@item.Id">
+                        <i class="bi bi-pencil-square">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square text-success" viewBox="0 0 20 20">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                            </svg>
+                        </i>
+                    </a> |
+                    <a asp-action="" asp-route-id="">
+                        <i class="bi bi-trash">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash text-danger" viewBox="0 0 20 20">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </i>
+                    </a>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

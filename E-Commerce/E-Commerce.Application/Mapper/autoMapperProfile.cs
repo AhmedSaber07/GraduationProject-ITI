@@ -21,9 +21,14 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.productDto.createDto, Product>().ReverseMap();
             CreateMap<Domain.DTOs.productDto.updateDto, Product>().ReverseMap();
             CreateMap<Domain.DTOs.productDto.GetProductDto, Product>().ReverseMap();
-            CreateMap<Product, Domain.DTOs.productDto.getProductwithImage>().ForMember(dest => dest.Images,
+            CreateMap<Product, Domain.DTOs.productDto.getProductwithImage>().
+                ForMember(dest => dest.Images,
                 opt => opt.MapFrom(src =>
-                           src.Images.Select(image => image.imageUrl).ToList()));
+                           src.Images.Select(image => image.imageUrl).ToList())).
+               ForMember(dest => dest.Rating,
+               opt => opt.MapFrom(src =>
+               src.Reviews.Any() ? src.Reviews.Average(review =>
+               (review.priceRating + review.valueRating + review.qualityRating) / 3) : 0));
             CreateMap<Product, Domain.DTOs.productDto.getProductCartDto>().ForMember(dest => dest.Images,
                 opt => opt.MapFrom(src =>
                            src.Images.Select(image => image.imageUrl).ToList())).ReverseMap();
@@ -50,7 +55,7 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.CategoryDto.ReadCategoryDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.getDto, Category>().ReverseMap();
             CreateMap<Domain.DTOs.CategoryDto.getCategoryForDropdown, Category>().
-                ForMember(dest=>dest.nameEn,opt => opt.MapFrom(src=>src.Name)).ReverseMap();
+                ForMember(dest => dest.nameEn, opt => opt.MapFrom(src => src.Name)).ReverseMap();
 
 
             // payment 

@@ -1,4 +1,6 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using Company.Dtos.ViewResult;
 using E_Commerce.Application.Services;
 using E_Commerce.Application.Settings;
@@ -247,15 +249,39 @@ namespace E_Commerce.WebAPI.Controllers
       => (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         private AuthenticationProperties AuthenticationProperties(string provider, string returnUrl)
        => (_signInManager.ConfigureExternalAuthenticationProperties(provider, returnUrl));
-        private async Task<bool> CreateUserWithExternalLoginCallBackAsync()
+        private async Task<IActionResult> CreateUserWithExternalLoginCallBackAsync()
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
-                return false;
+                return StatusCode(401, "Unauthorized");
             var result = await _signInManager
                 .ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
-                return true;
+            {
+                var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, PhoneNumber = user.UserName, Password = null };
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                     new Claim(ClaimTypes.Name, user.FirstName),
+                      new Claim(ClaimTypes.Name, user.LastName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+                var userRoles = await _userManager.GetRolesAsync(user);
+                foreach (var role in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                var jwtToken = GetToken(authClaims);
+
+                return StatusCode(200, new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                    expiration = jwtToken.ValidTo,
+                    _user = sendDto
+
+                });
+            }
             else
             {
                 string email = info.Principal.FindFirstValue(ClaimTypes.Email);
@@ -266,31 +292,54 @@ namespace E_Commerce.WebAPI.Controllers
                     {
                         await _userManager.AddLoginAsync(user, info);
                         await _signInManager.SignInAsync(user, false);
-                        return true;
+                        RegisterDto sendDto = new RegisterDto() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, PhoneNumber = user.UserName, Password = null };
+                        var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                     new Claim(ClaimTypes.Name, user.FirstName),
+                      new Claim(ClaimTypes.Name, user.LastName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        foreach (var role in userRoles)
+                        {
+                            authClaims.Add(new Claim(ClaimTypes.Role, role));
+                        }
+                        var jwtToken = GetToken(authClaims);
+
+                        return StatusCode(200, new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                            expiration = jwtToken.ValidTo,
+                            _user = sendDto
+
+                        });
+                       
                     }
                     else
                     {
-                        user = new MyUser()
-                        {
-                            UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
-                            Email = email,
-                        };
-                        IdentityResult createuserResult = await _userManager.CreateAsync(user);
-                        if (createuserResult.Succeeded)
-                        {
-                            createuserResult = await _userManager.AddToRoleAsync(user, "User");
-                            IdentityResult createuserLogins = await _userManager.AddLoginAsync(user, info);
-                            if (createuserLogins.Succeeded)
-                            {
-                                await _signInManager.SignInAsync(user, false);
-                                return true;
-                            }
-                        }
-                        return createuserResult.Succeeded;
+                        return StatusCode(401, "Unauthorized");
+                        //user = new MyUser()
+                        //{
+                        //    UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
+                        //    Email = email,
+                        //};
+                        //IdentityResult createuserResult = await _userManager.CreateAsync(user);
+                        //if (createuserResult.Succeeded)
+                        //{
+                        //    createuserResult = await _userManager.AddToRoleAsync(user, "User");
+                        //    IdentityResult createuserLogins = await _userManager.AddLoginAsync(user, info);
+                        //    if (createuserLogins.Succeeded)
+                        //    {
+                        //        await _signInManager.SignInAsync(user, false);
+                        //        return true;
+                        //    }
+                        //}
+                        //return createuserResult.Succeeded;
                     }
                 }
             }
-            return false;
+            return StatusCode(401, "Unauthorized");
         }
 
         [HttpGet("ExternalLogin")]
@@ -303,8 +352,9 @@ namespace E_Commerce.WebAPI.Controllers
         [HttpGet("Callback")]
         public async Task<IActionResult> Callback()
         {
-            bool result = await CreateUserWithExternalLoginCallBackAsync();
-            return Ok(result);
+            var result = await CreateUserWithExternalLoginCallBackAsync();           
+            Console.WriteLine();
+            return result;
         }
 
 

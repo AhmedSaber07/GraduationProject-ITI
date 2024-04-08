@@ -2,41 +2,79 @@
     ViewData["Title"] = "Home Page";
 
 }
+@model  List<int> ;
+<style>
+    .container {
+        position: relative;
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+      #myChart {
+            width: 100%;
+            background-color:white;
+        }
+        #myChart:hover {
+            box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease-in-out;
+                   z-index: 2px;
+        }
+
+    .imgs {
+        width: 100%;
+        padding-left: 50px;
+        height: 15vh;
+        position: sticky;
+        top: 0;
+        padding-top: 30px;
+        display: block;
+        background-color: white;
+        margin: 0 auto;
+    }
+    .card {
+        margin-bottom: 20px;
+     /*    background-color: #f8f9fa;  *//* Set card background color */
+        border-radius: 10px; /* Add rounded corners to the card */
+        box-shadow: 0 0 20px 2px rgb(175, 174, 174);
+        transition: 1s;
+    }
+
+        .card :hover {
+           /*  z-index: 2px; */
+            transform: scale(1.1);
+        }
+</style>
 <link href="@Url.Content("~/css/sb-admin-2.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/css/site.min.css")" rel="stylesheet" />
+<div class="container">
+    <div class="card"></div>
+ 
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+</div>
 
-<div class="card1 container-fluid bg-dark ">
+<div class="card1 container-fluid ">
     <br><br>
     <div class="row ">
-        <div class="col-lg-3 col-sm-12 ">
+      
+        <div class="col-lg-3 col-sm-12 card">
             <div class="card">
+                <div>
 
-                <img src="@Url.Content("~/img/login-bg.png" )">
-                <div class="card-body">
-                    <h2>Orders</h2>
+                    <img src="@Url.Content("~/img/Categories.jpg")" >
+                    <div class="card-body">
+                        <h2>Categories </h2>
 
+                    </div>
                 </div>
-
-                <input type="submit" value="View" class="btn btn-success" />
-            </div>
-            <br />
-
-
-
-        </div>
-        <div class="col-lg-3 col-sm-12">
-            <div class="card">
-                <img src="@Url.Content("~/img/login-bg.png" )">
-                <div class="card-body">
-                    <h2>Categories </h2>
-
-                </div>
+               
                 <input type="submit" value="View" class="btn btn-success" />
             </div>
         </div>
-        <div class="col-lg-3 col-sm-12">
+        <div class="col-lg-3 col-sm-12 card">
             <div class="card">
-                <img src="@Url.Content("~/img/login-bg.png" )">
+               
+                <img src="@Url.Content("~/img/Products.png" )">
                 <div class="card-body">
                     <h2>Products</h2>
 
@@ -44,63 +82,69 @@
                 <input type="submit" value="View" class="btn btn-success" />
             </div>
         </div>
-        <div class="col-lg-3 col-sm-12">
+        <div class="col-lg-3 col-sm-12 card">
             <div class="card">
-                <img src="@Url.Content("~/img/login-bg.png" )">
-                <div class="card-body">
-                    <h2>Brands</h2>
-
-                </div>
-                <input type="submit" value="View" class="btn btn-success" />
-            </div>
-        </div>
-    </div>
-    <br><br>
-</div>
-<br />
-<div class="card1 container-fluid bg-dark ">
-    <br><br>
-    <div class="row ">
-        <div class="col-lg-3 col-sm-12 text-white">
-            <h3>Our Work</h3>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate reprehenderit quae officiis, molestias iusto inventore,
-                ad omnis quisquam blanditiis similique quidem nisi asperiores velit cum! Labore aspernatur quidem quisquam inventore.
-            </p>
-
-        </div>
-        <div class="col-lg-3 col-sm-12">
-            <div class="card">
-                <img src="@Url.Content("~/img/login-bg.png" )">
-                <div class="card-body">
-                    <h3>Orders</h3>
-
-                </div>
-                <input type="submit" value="View" class="btn btn-success" />
-            </div>
-        </div>
-        <div class="col-lg-3 col-sm-12">
-            <div class="card">
-                <img src="@Url.Content("~/img/login-bg.png" )">
+                <img src="@Url.Content("~/img/Account Setting.png" )">
                 <div class="card-body">
                     <h3>Accunt Settings</h3>
 
                 </div>
                 <input type="submit" value="View" class="btn btn-success" />
             </div>
+
         </div>
-        <div class="col-lg-3 col-sm-12">
+        <div class="col-lg-3 col-sm-12 card">
             <div class="card">
-                <img src="@Url.Content("~/img/login-bg.png" )">
+                <img src="@Url.Content("~/img/Order.png" )">
                 <div class="card-body">
-                    <h3>User Profile</h3>
+                    <h3>Orders</h3>
 
                 </div>
                 <input type="submit" value="View" class="btn btn-success" />
             </div>
-        </div>
     </div>
     <br><br>
+
+   
 </div>
+<br />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<script>
+    const xValues = ["Pending", "Confirmed", "Received", "Canceled", "Attempted_deliverys"];
+    // var yValues = @Html.Raw(Json.Serialize(Model));
+    var yValues=[10,50,20,80,98];
+      console.log(yValues);
+  const barColors = [
+  "rgba(255, 99, 132, 1.0)",
+  "rgba(54, 162, 235, 1.0)",
+  "rgba(75, 192, 192, 1.0)",
+  "rgba(51, 53, 56, 1.0)",
+  "rgba(243, 201, 139, 1.0)",
+];
+    new Chart("myChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Orders States"
+            }
+        }
+    });
+     var canvas = document.getElementById('myChart');
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+</script>
+
 
 

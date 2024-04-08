@@ -113,7 +113,7 @@ namespace E_Commerce.MVC.Controllers
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
 
-                    return View("CategoryList", responseData);
+                    return RedirectToAction("CategoryList");
                 }
                 else
                 {

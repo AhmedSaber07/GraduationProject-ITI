@@ -108,9 +108,6 @@ public class AdminController : Controller
             ViewBag.ErrorMessage = "Code Not Correct";
             return View("EnterCode");
         }
-
-
-
     }
     public  ActionResult EnterNewPassword()
 	{
@@ -238,7 +235,7 @@ public class AdminController : Controller
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             //TempData["AdminName"] = hisName;
-            return View("Home");
+            return RedirectToAction("Index","Home");
         }
         else 
         {

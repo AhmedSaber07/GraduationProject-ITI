@@ -4,7 +4,11 @@
 }
 <link href="@Url.Content("~/css/sb-admin-2.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/css/site.min.css")" rel="stylesheet" />
-
+<div class="container">
+    <div class="chart"></div>
+ 
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+</div>
 <div class="card1 container-fluid bg-dark ">
     <br><br>
     <div class="row ">
@@ -102,5 +106,30 @@
     </div>
     <br><br>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<script>
+    const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+    const yValues = [55, 49, 44, 24, 15];
+    const barColors = ["red", "green", "blue", "orange", "brown"];
+    new Chart("myChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "World Wide Wine Production"
+            }
+        }
+    });
+</script>
+
 
 

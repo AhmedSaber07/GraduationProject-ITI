@@ -59,8 +59,8 @@ namespace E_Commerce.MVC.Controllers
             var response = await _httpClient.PutAsync($"api/Order/ChangeOrderState/{orderNumber}/{selectedState}",null);
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.response = "Updated successfully";
-                return View();
+                //ViewBag.response = "Updated successfully";
+                return RedirectToAction("Index");
             }
             else
             {

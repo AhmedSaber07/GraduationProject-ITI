@@ -94,12 +94,12 @@ namespace E_Commerce.MVC.Controllers
             {
 
                 var responseData = await response.Content.ReadAsStringAsync();
-                return View("Index", responseData);
+                return View("ProductList", responseData);
 
             }
             else
             {
-                return View("Index", "Error: " + response.StatusCode);
+                return View("ProductList", "Error: " + response.StatusCode);
             }
         }
         public async Task<IActionResult> Update(updateDto ProductDto, Guid id)

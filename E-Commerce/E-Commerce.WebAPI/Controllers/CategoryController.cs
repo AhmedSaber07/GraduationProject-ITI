@@ -115,10 +115,10 @@ namespace E_Commerce.WebAPI.Controllers
             }
         }
         [HttpGet("getAllProductsByCategoryId/{id:guid}")]
-        public async Task<ActionResult<List<getProductwithImage>>> getAllProductsByCategoryId(Guid id, int items, int pagenumber)
+        public async Task<ActionResult<List<getProductwithImage>>> getAllProductsByCategoryId(Guid id)
         {
             var language = HttpContext.Request?.Headers["Accept-language"];
-            var categorys = await icategoryServices.getAllProductsByCategoryId(id,items,pagenumber);
+            var categorys = await icategoryServices.getAllProductsByCategoryId(id);
 
             if (language.Equals("ar"))
             {

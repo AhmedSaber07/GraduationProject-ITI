@@ -85,16 +85,16 @@ namespace E_Commerce.MVC.Controllers
             }
 
         }
-        public async Task<IActionResult> DeleteProduct(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid Id)
         {
            
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/Product/SoftDelete/{id}");
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/SoftDelete/{Id}");
 
             if (response.IsSuccessStatusCode)
             {
 
                 var responseData = await response.Content.ReadAsStringAsync();
-                return View("ProductList", responseData);
+                return RedirectToAction("ProductList");
 
             }
             else
@@ -115,11 +115,11 @@ namespace E_Commerce.MVC.Controllers
                 HttpResponseMessage response;
                 if (id == Guid.Empty)
                 {
-                    response = await _httpClient.PostAsync($"api/Product/{id}", stringContent);
+                    response = await _httpClient.PostAsync($"api/Product/{id}/Product", stringContent);
                 }
                 else
                 {
-                    response = await _httpClient.PutAsync($"api/Product/{id}", stringContent);
+                    response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
                 }
 
 

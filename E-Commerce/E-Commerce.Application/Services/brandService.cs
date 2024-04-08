@@ -5,6 +5,7 @@ using E_Commerce.Domain.DTOs.BrandDto;
 using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.listResultDto;
 using E_Commerce.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,16 @@ namespace E_Commerce.Application.Services
             brands.entities = _mapper.Map<IEnumerable<GetBrandDto>>(q);
             brands.count = q.Count();
             return brands;
+        }
+        public async Task<List<getBrandForDropdown>> getAlldropdown()
+        {
+            var q = await _unit.brand.GetAllAsync();
+
+            // q.Include("Subcategories");
+            var result = await q.ToListAsync();
+
+            return _mapper.Map<List<getBrandForDropdown>>(result);
+
         }
 
         public async Task<resultDto<GetBrandDto>> getById(Guid ID)

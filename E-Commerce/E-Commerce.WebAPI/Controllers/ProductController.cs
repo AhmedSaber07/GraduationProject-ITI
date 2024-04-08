@@ -45,7 +45,7 @@ namespace E_Commerce.WebAPI.Controllers
             
         }
         [HttpGet("getall",Name = "Getall")]
-        public async Task<ActionResult<List<getProductDtoArabic>>> Getall(string[] includes = null)
+        public async Task<ActionResult<List<getProductDtoArabic>>> Getall()
         {
             //var language = HttpContext.Request?.Headers["Accept-Language"];
             //var result = await _productService.GetAllAsync(includes);
@@ -58,7 +58,7 @@ namespace E_Commerce.WebAPI.Controllers
             //    return Ok(_mapper.Map<List<getProductDtoEnglish>>(result));
             //}
 
-            return Ok(await _productService.GetAllAsync(includes));
+            return Ok(await _productService.GetAllAsync(["Images","Reviews"]));
         }
 
         [HttpGet("{id:guid}", Name = "GetByProductId")]

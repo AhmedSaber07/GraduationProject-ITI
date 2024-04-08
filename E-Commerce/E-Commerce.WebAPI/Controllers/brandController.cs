@@ -4,6 +4,7 @@ using E_Commerce.Application.Services;
 using E_Commerce.Domain.DTOs.BrandDto;
 using E_Commerce.Domain.DTOs.CategoryDto;
 using E_Commerce.Domain.listResultDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,6 +61,12 @@ namespace E_Commerce.WebAPI.Controllers
             //    return Ok(_mapper.Map<listResultDto<GetBrandDtoEnglish>>(allresult));
             //}
             return Ok(await _brandService.getAll());
+        }
+        [HttpGet("getAlldropdown")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<getBrandForDropdown>>> getAlldropdown()
+        {
+            return Ok(await _brandService.getAlldropdown());
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateDto brand)

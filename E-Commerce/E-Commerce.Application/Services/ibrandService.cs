@@ -17,6 +17,7 @@ namespace E_Commerce.Application.Services
         Task<resultDto<GetBrandDto>> getById(Guid ID);
         Task<listResultDto<GetBrandDto>> getAll();
        Task<resultDto<GetBrandDto>> HardDeleteAsync(Guid id);
+        Task<List<getBrandForDropdown>> getAlldropdown();
 
 
     }

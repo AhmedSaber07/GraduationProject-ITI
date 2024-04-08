@@ -77,6 +77,8 @@ namespace E_Commerce.Application.Mapper
             CreateMap<Domain.DTOs.BrandDto.CreateDto, Brand>().ReverseMap();
             CreateMap<Domain.DTOs.BrandDto.GetBrandDto, Brand>().ReverseMap();
             CreateMap<Domain.DTOs.BrandDto.UpdateDto, Brand>().ReverseMap();
+            CreateMap<Domain.DTOs.BrandDto.getBrandForDropdown, Brand>().
+               ForMember(dest => dest.nameEn, opt => opt.MapFrom(src => src.Name)).ReverseMap();
 
             //user
             CreateMap<Domain.DTOs.UserAccount.AddressDto, MyUser>().ReverseMap();

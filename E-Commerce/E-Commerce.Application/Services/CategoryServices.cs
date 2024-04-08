@@ -62,7 +62,7 @@ namespace E_Commerce.Application.Services
         public async Task<List<getCategoryForDropdown>> getAlldropdown()
         {
             var q = await _unit.category.GetAllAsync();
-
+            
             // q.Include("Subcategories");
             var result = await q.ToListAsync();
 

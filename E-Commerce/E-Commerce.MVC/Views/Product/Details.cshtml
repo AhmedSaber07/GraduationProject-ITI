@@ -1,0 +1,72 @@
+﻿@model E_Commerce.MVC.DTOs.productDto.getProductwithImage
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="d-flex flex-row justify-content-between">
+    <h1>Details</h1>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="ProductList">Back to List</a>
+    </div>
+</div>
+<div>
+    <div class="card border-primary rounded-4 mt-5 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-md-8 px-5 py-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <h1 class="text-success fw-bolder">@Model.nameEn (@Model.nameAr)</h1>
+                        @*  <span class="badge bg-info fs-5 mb-4">.Name</span> *@
+                        <div class="pt-5 ">
+                            <h4 class="text-primary"> Description :</h4>
+                            <p class="fs-5">@Model.descriptionEn </p>
+                            <p class="fs-5">@Model.descriptionAr </p>
+                        </div>
+                        <div class="pt-5">
+                            <h4 class="text-primary"> Color :</h4>
+                            <p class="fs-5">@Model.colorEn (@Model.colorAr)</p>
+                        </div>
+                        <div class="pt-5">
+                            <h4 class="text-primary"> Price :</h4>
+                            <p class="fs-5">@Model.price EPG</p>
+                        </div>
+                        <div class="pt-5">
+                            <h4 class="text-primary"> Stock Quantity :</h4>
+                            <p class="fs-5">@Model.stockQuantity</p>
+                        </div>
+                        <div class="pt-5">
+                            <h4 class="text-primary"> Rate :</h4>
+                            <p class="fs-5">@Model.rating</p>
+                        </div>
+                        <div class="pt-5">
+                            <h4 class="text-primary"> Review :</h4>
+                            @foreach (var item in Model.reviews)
+                            {
+                                <p class="fs-5">Price Rating : @item.priceRating</p>
+                                <p class="fs-5"> Value Rating : @item.valueRating</p>
+                                <p class="fs-5"> Quality Rating :@item.qualityRating</p>
+                                <p class="fs-5">Summary : @item.summary</p>
+                                <p class="fs-5">Nickname : @item.nickName</p>
+                                <p class="fs-5">Review : @item.reviewText</p>
+                                <hr />
+                            }
+                        </div>
+
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    @foreach (var productimage in Model.images)
+                    {
+                        <img src="@($"{productimage}")" alt="productimage" class="w-100" />
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

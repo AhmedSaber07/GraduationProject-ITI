@@ -4,17 +4,24 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using E_Commerce.MVC.DTOs.OrderDto;
+using NuGet.Protocol;
+using E_Commerce.MVC.DTOs.listResultDto;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+using E_Commerce.MVC.DTOs.UserAccount;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace E_Commerce.MVC.Controllers
 {
     [Authorize]
     public class ProductController : Controller
     {
-        public async Task<IActionResult> ProductsList()
-        {
-            return View("Forbidden");
+        //public async Task<IActionResult> ProductsList()
+        //{
+        //    return View("Forbidden");
            
-        }
+        //}
         //public async Task<IActionResult> UpdateProduct()
         //{
         //    return View();
@@ -50,6 +57,27 @@ namespace E_Commerce.MVC.Controllers
                 var responseData = await response.Content.ReadAsStringAsync();
                 var dtoList = JsonSerializer.Deserialize<List<GetProductDto>>(responseData);
                 return View(dtoList);
+            }
+            else
+            {
+                return View("Forbidden");
+            }
+
+        }
+        public async Task<IActionResult> Details(Guid id)
+        {
+            //return View("Forbidden");
+            //return View();
+
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/Product/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+
+                var responseData = await response.Content.ReadAsStringAsync();  
+                var dtoList = JsonConvert.DeserializeObject<resultDto<getProductwithImage>>(responseData);
+                return View(dtoList.Entity);
             }
             else
             {
@@ -111,6 +139,16 @@ namespace E_Commerce.MVC.Controllers
             }
             return View("Index");
         }
+        public async Task<IActionResult> Add()
+        {
+            var apiUrl2 = $"api/Category/getAlldropdown";
+            var response2 = await _httpClient.GetAsync(apiUrl2);
+            var categorylistdata = await response2.Content.ReadAsStringAsync();
+            var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
+            ViewBag.Categories = new SelectList(categoryList, "id", "name");
+            return View();
+        }
+        [HttpPost]
         public async Task<IActionResult> Add(createDto dto)
         {
             try
@@ -126,7 +164,7 @@ namespace E_Commerce.MVC.Controllers
 
                     Console.WriteLine("DTO added successfully.");
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var dtoList = JsonSerializer.Deserialize<List<createDto>>(responseData);
+                    var dtoList = JsonSerializer.Deserialize<createDto>(responseData);
                     return View(dtoList);
                 }
                 else

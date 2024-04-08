@@ -9,7 +9,7 @@ namespace E_Commerce.MVC.DTOs.productDto
 {
     public class GetProductDto
     {
-        public Guid Id { get; set; }
+        public Guid id { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime createdAt { get; set; }
         public DateTime updatedAt { get; set; }
@@ -24,7 +24,13 @@ namespace E_Commerce.MVC.DTOs.productDto
         public int stockQuantity { get; set; }
         public Guid categoryId { get; set; }
         public Guid brandId { get; set; }
+        public virtual ICollection<ProductImageDto.GetProductImageDto> images { get; set; }
+        public virtual ICollection<ReviewDto.GetReviewDto> reviews { get; set; }
+        public GetProductDto()
+        {
+            images = new List<ProductImageDto.GetProductImageDto>();
+            reviews = new List<ReviewDto.GetReviewDto>();
+        }
 
-     
     }
 }

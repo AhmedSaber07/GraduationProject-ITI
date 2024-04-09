@@ -90,7 +90,7 @@ namespace E_Commerce.Application.Services
             return categorys;
 
         }
-        public async Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id, int items, int pagenumber)
+        public async Task<List<getProductwithImage>> getAllProductsByCategoryId(Guid id)
         {
             var prod = await _unit.product.GetAllAsync();
             List<Product> products = new List<Product>();
@@ -122,10 +122,10 @@ namespace E_Commerce.Application.Services
             }
             else
             {
-                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).Include(e => e.Reviews).Skip(items * (pagenumber - 1)).Take(items).ToListAsync();
+                products = await prod.Where(p => p.categoryId == id).Include(e => e.Images).Include(e => e.Reviews).ToListAsync();
                 productsToReturn = _mapper.Map<List<getProductwithImage>>(products);
             }
-            return productsToReturn.Skip(items * (pagenumber - 1)).Take(items).ToList();
+            return productsToReturn.ToList();
 
         }
         public async Task<List<getCategorywithProducts>> getAllCattegoriesWtihProducts()

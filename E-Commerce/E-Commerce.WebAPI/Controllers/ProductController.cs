@@ -225,7 +225,7 @@ namespace E_Commerce.WebAPI.Controllers
         //    }
         //    return NotFound();
         //}
-        [HttpPut("{id:guid}/price")]
+        [HttpPut("{Id:guid}/price")]
         public async Task<ActionResult<resultDto<updateDto>>> UpdateProductPrice(Guid Id, decimal price)
         {
 
@@ -239,7 +239,7 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
-        [HttpPut("{id:guid}/Product")]
+        [HttpPut("{Id:guid}/Product")]
         public async Task<ActionResult<resultDto<updateDto>>> UpdateProduct([FromBody] updateDto update,Guid Id)
         {
 
@@ -269,7 +269,7 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         //DELETE
-        [HttpDelete("HardDelete/{id:guid}")]
+        [HttpDelete("HardDelete/{Id:guid}")]
         public async Task<IActionResult> HardDelete(Guid Id)
         {
             if (Id != Guid.Empty)
@@ -286,7 +286,7 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return NotFound();
         }   // problem in product image delete on cascade
-        [HttpDelete("SoftDelete/{id:guid}")]
+        [HttpDelete("SoftDelete/{Id:guid}")]
         public async Task<ActionResult<resultDto<GetProductDto>>> SoftDelete(Guid Id)
         {
             if (Id != Guid.Empty)

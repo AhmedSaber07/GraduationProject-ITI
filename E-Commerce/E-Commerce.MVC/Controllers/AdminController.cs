@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 public class AdminController : Controller
 {
 
@@ -188,12 +189,43 @@ public class AdminController : Controller
             return View("Error404");
         }
     }
-    [HttpPut("{oldPhone}/UpdatePhone")]
-    public async Task<IActionResult> UpdatePhone(string oldPhone, string newPhone)
+    public async Task<IActionResult> UpdateAdminData()
     {
-        var response = await _httpClient.PutAsync($"api/UserAccount/{oldPhone}/UpdatePhone?newPhone={newPhone}", null);
-        return await HandleResponse(response);
-    }   
+      
+        ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+        ViewBag.LastName = HttpContext.Session.GetString("LastName");
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateAdminData(string oldPhone, string newPhone,string FirstName,string LastName)
+    {
+        string Email = HttpContext.Session.GetString("Email");
+
+        string token = HttpContext.Session.GetString("AuthToken");
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        //https://2bstore.somee.com/api/UserAccount/UpdatePhone?oldPhone=989898&newPhone=23
+
+        var phoneResponse = await _httpClient.PostAsync($"api/UserAccount/UpdatePhone?oldPhone={oldPhone}&newPhone={newPhone}", null);
+        if (!phoneResponse.IsSuccessStatusCode)
+        {
+            ViewBag.PhoneError = "Failed to update phone.";
+        }
+        var Nameresponse = await _httpClient.PostAsync($"api/UserAccount/ChangeName?Email={Email}&FirstName={FirstName}&LastName={LastName}", null);
+
+        if (!Nameresponse.IsSuccessStatusCode)
+        {
+            ViewBag.NameError = "Failed to update name.";
+        }
+
+        if (phoneResponse.IsSuccessStatusCode || Nameresponse.IsSuccessStatusCode)
+        {
+            ViewBag.SuccessMessage = "Admin data updated successfully.";
+        }
+      
+        return RedirectToAction("Index", "Home");
+
+    }
     public async Task<IActionResult> Logout()
     {
         var response = await _httpClient.PostAsync("api/UserAccount/Logout", null);
@@ -223,6 +255,9 @@ public class AdminController : Controller
           //  HttpContext.Session.SetString("AdminName", hisName);
             HttpContext.Session.SetString("AuthToken", LoginDto.token);
             HttpContext.Session.SetString("Email", loginDtoo.UserName);
+            HttpContext.Session.SetString("OldPhone", LoginDto._user.phoneNumber);
+            HttpContext.Session.SetString("FirstName", LoginDto._user.firstName);
+            HttpContext.Session.SetString("LastName", LoginDto._user.lastName);
             var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, loginDtoo.UserName),

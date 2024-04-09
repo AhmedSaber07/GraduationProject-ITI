@@ -44,63 +44,117 @@
            /*  z-index: 2px; */
             transform: scale(1.1);
         }
+
+    .card-counter.info {
+        background-color: #26c6da;
+        color: #FFF;
+    }
+
+    .card-counter i {
+        font-size: 5em;
+        opacity: 0.2;
+    }
+
+    .card-counter .count-numbers {
+        position: absolute;
+        right: 35px;
+        top: 20px;
+        font-size: 32px;
+        display: block;
+    }
+
+    .card-counter .count-name {
+        position: absolute;
+        right: 35px;
+        top: 65px;
+        font-style: italic;
+        text-transform: capitalize;
+        opacity: 0.5;
+        display: block;
+        font-size: 18px;
+    }
 </style>
 <link href="@Url.Content("~/css/sb-admin-2.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/css/site.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/css/home.css")" rel="stylesheet" />
 <div class="container">
-    <div class="card"></div>
- 
+    <div class="row ">
+@*     <div class="col-md-3">
+        <div class="card-counter ">
+            <i class="fa fa-users"></i>
+                <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/img/illustrations/man-with-laptop-light.png" />
+            <span class="count-numbers">35</span>
+            <span class="count-name">Users</span>
+        </div>
+    </div> *@
+        <section >
+            <div class="container py-4 ml-5">
+			
+
+				<article class="postcard ">
+					
+					<div class="postcard__text">
+                       
+						
+						
+                        <h1 class="h1 text-center" id="pageHeaderTitle" style="color: black;">Website Users</h1>
+						<ul class="postcard__tagbox ml-2">
+                           
+                            
+                            <li class="tag__item"> <i class="fa fa-users"></i>  55  Users </li>
+						
+							</li>
+						</ul>
+                       
+					</div>
+                    <a class="postcard__img_link" href="#">
+                        <img class="postcard__img" src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/img/illustrations/man-with-laptop-light.png" alt="Image Title" />
+                    </a>
+				</article>
+		
+			
+			</div>
+		</section>
+
+
+        <div class="col-md-12 ml-5">
     <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 </div>
+    </div>
+
 
 <div class="card1 container-fluid ">
     <br><br>
     <div class="row ">
       
-        <div class="col-lg-3 col-sm-12 card">
+        <div class="col-lg-3 col-sm-6 card">
             <div class="card">
-                <div>
-
-                    <img src="@Url.Content("~/img/Categories.jpg")" >
-                    <div class="card-body">
-                        <h2>Categories </h2>
-
-                    </div>
-                </div>
-               
-                <input type="submit" value="View" class="btn btn-success" />
+        <img src="@Url.Content("~/img/Categories.jpg")" >
+                <a href="@Url.Action("CategoryList", "Category")" class="btn btn-success"> Categories </a>
+            
             </div>
         </div>
-        <div class="col-lg-3 col-sm-12 card">
+        <div class="col-lg-3 col-sm-6 card">
             <div class="card">
                
-                <img src="@Url.Content("~/img/Products.png" )">
-                <div class="card-body">
-                    <h2>Products</h2>
-
-                </div>
-                <input type="submit" value="View" class="btn btn-success" />
+                <img src="@Url.Content("~/img/Products.png" )">     
+                    <a href="@Url.Action("Index", "Order")" class="btn btn-success"> Products </a>
+                 
             </div>
         </div>
-        <div class="col-lg-3 col-sm-12 card">
+        <div class="col-lg-3 col-sm-6 card">
             <div class="card">
-                <img src="@Url.Content("~/img/Account Setting.png" )">
-                <div class="card-body">
-                    <h3>Accunt Settings</h3>
-
-                </div>
-                <input type="submit" value="View" class="btn btn-success" />
+                <img src="@Url.Content("~/img/Account Setting.png" )">   
+                <br />
+                <a href="@Url.Action("AddAddress", "Admin")" class="btn btn-success"> Account  Settings </a>
             </div>
-
         </div>
-        <div class="col-lg-3 col-sm-12 card">
+        <div class="col-lg-3 col-sm-6 card">
             <div class="card">
                 <img src="@Url.Content("~/img/Order.png" )">
-                <div class="card-body">
-                    <h3>Orders</h3>
-
-                </div>
-                <input type="submit" value="View" class="btn btn-success" />
+            
+                <a href="@Url.Action("Index", "Order")" class="btn btn-success"> Orders </a>
+            
             </div>
     </div>
     <br><br>

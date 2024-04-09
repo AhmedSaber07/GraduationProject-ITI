@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <form method="post" action="@Url.Action("UpdateAdminData", "Admin")">
+
+        <div class="form-group">
+            <label for="oldPhone">Old Phone:</label>
+            <input type="text" class="form-control" id="oldPhone" name="oldPhone" value="@ViewBag.OldPhone">
+        </div>
+        <div class="form-group">
+            <label for="newPhone">New Phone:</label>
+            <input type="text" class="form-control" id="newPhone" name="newPhone" >
+        </div>
+        <div class="form-group">
+            <label for="FirstName">First Name:</label>
+            <input type="text" class="form-control" id="FirstName" name="FirstName" value="@ViewBag.FirstName">
+        </div>
+        <div class="form-group">
+            <label for="LastName">Last Name:</label>
+            <input type="text" class="form-control" id="LastName" name="LastName" value="@ViewBag.LastName">
+        </div>
+
+      
+        <button type="submit" class="btn btn-primary">Update Data</button>
+    </form>
+}

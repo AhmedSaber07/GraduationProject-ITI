@@ -25,7 +25,10 @@ namespace E_Commerce.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AuthToken");
+            
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            //https://2bstore.somee.com/api/UserAccount/GetUsersData
+
             var response = await _httpClient.GetAsync("api/Order");
             if (response.IsSuccessStatusCode)
             {

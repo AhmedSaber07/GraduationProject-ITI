@@ -69,11 +69,9 @@ namespace E_Commerce.WebAPI
             {
                 op.AddPolicy("Default", policy =>
                 {
-
                     policy.AllowAnyHeader().
                            AllowAnyMethod().
                            AllowAnyOrigin();
-
                 });
             });
          

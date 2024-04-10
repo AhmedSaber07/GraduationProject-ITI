@@ -5,6 +5,12 @@
 }
 
 <hr />
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"> Products List</h1>
+    <a class="btn btn-primary btn-lg" asp-action="UpdateAdminData" asp-controller="Admin">
+        Edit Personal Data
+    </a>
+</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddAddress">
@@ -37,9 +43,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

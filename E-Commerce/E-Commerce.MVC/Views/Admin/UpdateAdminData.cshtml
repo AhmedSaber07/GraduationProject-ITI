@@ -8,10 +8,7 @@
             <label for="oldPhone">Old Phone:</label>
             <input type="text" class="form-control" id="oldPhone" name="oldPhone" value="@ViewBag.OldPhone">
         </div>
-        <div class="form-group">
-            <label for="newPhone">New Phone:</label>
-            <input type="text" class="form-control" id="newPhone" name="newPhone" >
-        </div>
+    
         <div class="form-group">
             <label for="FirstName">First Name:</label>
             <input type="text" class="form-control" id="FirstName" name="FirstName" value="@ViewBag.FirstName">
@@ -24,4 +21,17 @@
       
         <button type="submit" class="btn btn-primary">Update Data</button>
     </form>
+    @if (!string.IsNullOrEmpty(ViewBag.PhoneError))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.PhoneError
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.NameError))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.NameError
+        </div>
+    }
+
 }

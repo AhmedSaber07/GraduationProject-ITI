@@ -162,8 +162,8 @@ h1, .h1 {
 @media screen and (min-width: 769px) {
     .postcard {
         flex-wrap: inherit;
-        .postcard__title
-
+    }
+.postcard__title
 {
     font-size: 2rem;
 }

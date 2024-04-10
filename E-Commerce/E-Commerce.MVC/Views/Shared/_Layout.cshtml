@@ -65,15 +65,14 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Products:</h6>
-                        <a class="collapse-item" asp-controller="Product" asp-action="ProductList">Create Product</a>
-                        <a class="collapse-item" asp-controller="Product" asp-action="Add">Update Product</a>
-                        <a class="collapse-item" asp-controller="Product" asp-action="ProductsList">Details Product</a>
+                        <a class="collapse-item" asp-controller="Product" asp-action="Add">Create Product</a>
+                            <a class="collapse-item" asp-controller="Product" asp-action="ProductsList">Products List</a>
                        
                         <h6 class="collapse-header">Category:</h6>
                         <a class="collapse-item" asp-controller="Category" asp-action="CategoryList"> View Category List</a>
 
                         <a class="collapse-item" asp-controller="Category" asp-action="create"> Create Category</a>
-                        <a class="collapse-item" asp-controller="Category" asp-action="Update"> Update  Category</a>
+                      
                        
                      @*    <h6 class="collapse-header">Brands:</h6>
                         <a class="collapse-item" asp-action="CreateBrand"> Create Brand </a>
@@ -151,14 +150,13 @@
                             </div>
                         </li>
 
-            
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Sara Emad</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> Sara Emad</span>
                                 <img class="img-profile rounded-circle"
                                      src="@Url.Content("~/img/undraw_profile.svg")">
                             </a>

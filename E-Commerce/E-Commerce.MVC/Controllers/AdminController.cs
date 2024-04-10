@@ -194,36 +194,38 @@ public class AdminController : Controller
       
         ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
         ViewBag.LastName = HttpContext.Session.GetString("LastName");
+        ViewBag.OldPhone = HttpContext.Session.GetString("OldPhone");
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateAdminData(string oldPhone, string newPhone,string FirstName,string LastName)
+    public async Task<IActionResult> UpdateAdminData(string oldPhone,string FirstName,string LastName)
     {
         string Email = HttpContext.Session.GetString("Email");
-
+        var Old = HttpContext.Session.GetString("OldPhone");
         string token = HttpContext.Session.GetString("AuthToken");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         //https://2bstore.somee.com/api/UserAccount/UpdatePhone?oldPhone=989898&newPhone=23
-
-        var phoneResponse = await _httpClient.PostAsync($"api/UserAccount/UpdatePhone?oldPhone={oldPhone}&newPhone={newPhone}", null);
-        if (!phoneResponse.IsSuccessStatusCode)
+        if (Old != oldPhone)
         {
-            ViewBag.PhoneError = "Failed to update phone.";
+            var phoneResponse = await _httpClient.PostAsync($"api/UserAccount/UpdatePhone?oldPhone={Old}&newPhone={oldPhone}", null);
+            if (!phoneResponse.IsSuccessStatusCode)
+            {
+                ViewBag.PhoneError = "Failed to update phone.";
+            }
         }
+     
         var Nameresponse = await _httpClient.PostAsync($"api/UserAccount/ChangeName?Email={Email}&FirstName={FirstName}&LastName={LastName}", null);
 
         if (!Nameresponse.IsSuccessStatusCode)
         {
             ViewBag.NameError = "Failed to update name.";
         }
+        HttpContext.Session.SetString("OldPhone", oldPhone);
+        HttpContext.Session.SetString("FirstName", FirstName);
+        HttpContext.Session.SetString("LastName", LastName);
 
-        if (phoneResponse.IsSuccessStatusCode || Nameresponse.IsSuccessStatusCode)
-        {
-            ViewBag.SuccessMessage = "Admin data updated successfully.";
-        }
-      
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("UpdateAdminData");
 
     }
     public async Task<IActionResult> Logout()

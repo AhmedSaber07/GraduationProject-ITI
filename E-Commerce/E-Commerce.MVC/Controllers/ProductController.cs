@@ -151,19 +151,33 @@ namespace E_Commerce.MVC.Controllers
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("api/Product", stringContent);
-
                 if (response.IsSuccessStatusCode)
                 {
-
-                    Console.WriteLine("DTO added successfully.");
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    var dtoList = JsonSerializer.Deserialize<createDto>(responseData);
-                    return RedirectToAction("ProductList");
+                    ViewBag.ProductAdded = true;
+                    return View();
                 }
+
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.ProductAdded = false;
+                    ViewBag.ErrorMessage = "Product not added";
+
+                    return View();
                 }
+                //if (response.IsSuccessStatusCode)
+                //{
+
+
+                //   // Console.WriteLine("DTO added successfully.");
+
+                //    //var responseData = await response.Content.ReadAsStringAsync();
+                //    //var dtoList = JsonSerializer.Deserialize<createDto>(responseData);
+                //    //return RedirectToAction("ProductList");
+                //}
+                //else
+                //{
+                //    return RedirectToAction("Index", "Home");
+                //}
             }
             catch (Exception ex)
             {

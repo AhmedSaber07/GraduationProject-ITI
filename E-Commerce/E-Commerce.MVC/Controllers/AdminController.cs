@@ -30,20 +30,15 @@ public class AdminController : Controller
         return View();
     }
     [HttpPost]
-    public async Task<IActionResult> ChangePassword(string oldpassword, string NewPassword, string confirmPassword)
+    public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
     {
-        if (NewPassword != confirmPassword)
-        {
-           
-            ViewBag.ErrorMessage = "New password and confirm password do not match.";
-            return View(); 
-        }
+        
         string Email = HttpContext.Session.GetString("resEmail");
-        var apiUrl = $"api/UserAccount/changepassword?Email={Email}&NewPassword={NewPassword}&oldpassword={oldpassword}";
+        var apiUrl = $"api/UserAccount/changepassword?Email={Email}&NewPassword={changePasswordDto.NewPassword}&oldpassword={changePasswordDto.OldPassword}";
         HttpResponseMessage response = await _httpClient.PostAsync(apiUrl, null);
         if (response.IsSuccessStatusCode)
         {
-            return RedirectToAction("CategoryList", "Category");
+            return RedirectToAction("Index", "Home");
         }
         else
         {

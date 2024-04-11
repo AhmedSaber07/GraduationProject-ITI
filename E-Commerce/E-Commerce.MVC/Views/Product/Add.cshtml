@@ -29,11 +29,7 @@
                 <input asp-for="nameEn" class="form-control" />
                 <span asp-validation-for="nameEn" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="descriptionAr" class="control-label"></label>
-                <input asp-for="descriptionAr" class="form-control" />
-                <span asp-validation-for="descriptionAr" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="colorAr" class="control-label"></label>
                 <input asp-for="colorAr" class="form-control" />
@@ -45,18 +41,23 @@
                 <span asp-validation-for="colorEn" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="descriptionAr" class="control-label"></label>
+                <textarea asp-for="descriptionAr" class="form-control" rows="5" placeholder="Please Enter $ between each property"></textarea>
+                <span asp-validation-for="descriptionAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="descriptionEn" class="control-label"></label>
-                <input asp-for="descriptionEn" class="form-control" />
+                <textarea asp-for="descriptionEn" class="form-control" rows="5" placeholder="Please Enter $ between each property"></textarea>
                 <span asp-validation-for="descriptionEn" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="price" class="control-label"></label>
-                <input asp-for="price" class="form-control" />
+                <input asp-for="price" class="form-control" min="1" />
                 <span asp-validation-for="price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="stockQuantity" class="control-label"></label>
-                <input asp-for="stockQuantity" class="form-control" min="0" />
+                <input asp-for="stockQuantity" class="form-control" min="1" />
                 <span asp-validation-for="stockQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -82,6 +83,33 @@
         </form>
     </div>
 </div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Product Added Successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your Product has been added successfully!
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+@if (ViewBag.ProductAdded != null && ViewBag.ProductAdded)
+{
+    <script>
+        $(document).ready(function () {
+            $('#successModal').modal('show');
+        });
+    </script>
+}
 
 
 @section Scripts {

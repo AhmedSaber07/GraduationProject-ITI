@@ -1,6 +1,7 @@
 ﻿
 using E_Commerce.MVC.DTOs.listResultDto;
 using E_Commerce.MVC.DTOs.OrderDto;
+using E_Commerce.MVC.DTOs.UserAccount;
 using E_Commerce.MVC.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +29,14 @@ namespace E_Commerce.MVC.Controllers
             
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             //https://2bstore.somee.com/api/UserAccount/GetUsersData
-
-            var response = await _httpClient.GetAsync("api/Order");
+            var response2 = await _httpClient.GetAsync("api/UserAccount/GetUsersData");
+            if (response2.IsSuccessStatusCode)
+            {
+                var content = await response2.Content.ReadAsStringAsync();
+                var users = JsonSerializer.Deserialize<List<GetUsersData>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                ViewBag.Users = users.Count;
+            }
+                var response = await _httpClient.GetAsync("api/Order");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

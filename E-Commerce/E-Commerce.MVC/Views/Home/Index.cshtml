@@ -112,7 +112,7 @@
                         <div class="postcard__text">
                             <h1 class="h1 text-center" id="pageHeaderTitle" style="color: black;">Website Users</h1>
                             <ul class="postcard__tagbox ml-2">
-                                <li class="tag__item"><i class="fa fa-users"></i> 55 Users</li>
+                                <li class="tag__item"><i class="fa fa-users"></i> @ViewBag.Users  Users</li>
                             </ul>
                         </div>
                         <a class="postcard__img_link" href="#">
@@ -188,15 +188,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 </script>
 <script>
-    const xValues = ["Pending", "Confirmed", "Received", "Canceled", "Attempted_deliverys"];
-    // var yValues = @Html.Raw(Json.Serialize(Model));
-    var yValues=[10,50,20,80,98];
+            const xValues = ["Pending", "Confirmed", "Canceled", "Received", "Attempted_deliverys"];
+     var yValues = @Html.Raw(Json.Serialize(Model));
+    //var yValues=[10,50,20,80,98];
       console.log(yValues);
   const barColors = [
   "rgba(255, 99, 132, 1.0)",
   "rgba(54, 162, 235, 1.0)",
-  "rgba(75, 192, 192, 1.0)",
   "rgba(51, 53, 56, 1.0)",
+ "rgba(75, 192, 192, 1.0)",
   "rgba(243, 201, 139, 1.0)",
 ];
     new Chart("myChart", {

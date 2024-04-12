@@ -110,15 +110,15 @@ public class AdminController : Controller
 		return View();
 	}
     [HttpPost]
-    public async Task<ActionResult> EnterNewPassword(string Password)
+    public async Task<ActionResult> EnterNewPassword(ResetPasswordDto resetPasswordDto)
     {
             var apiUrl = "api/UserAccount/NewResetPassword";
         string email = HttpContext.Session.GetString("resEmail");
-            var requestContent = new StringContent(JsonConvert.SerializeObject(new
-            {
-                Email = email,
-                NewPassword = Password
-            }), Encoding.UTF8, "application/json");
+        var requestContent = new StringContent(JsonConvert.SerializeObject(new
+        {
+            Email = email,
+            NewPassword = resetPasswordDto.NewPassword
+        }), Encoding.UTF8, "application/json") ;
 
             HttpResponseMessage response = await _httpClient.PostAsync(apiUrl, requestContent);
 

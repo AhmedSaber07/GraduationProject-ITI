@@ -36,7 +36,8 @@ namespace E_Commerce.MVC.Controllers
                 var users = JsonSerializer.Deserialize<List<GetUsersData>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 ViewBag.Users = users.Count;
             }
-                var response = await _httpClient.GetAsync("api/Order");
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            var response = await _httpClient.GetAsync("api/Order");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

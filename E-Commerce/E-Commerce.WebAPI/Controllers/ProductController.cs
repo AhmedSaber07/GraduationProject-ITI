@@ -211,20 +211,20 @@ namespace E_Commerce.WebAPI.Controllers
         }
 
         //PUT 
-        //[HttpPut("{id:guid}")]
-        //public async Task<ActionResult<resultDto<updateDto>>> UpdateProduct(Guid Id, [FromBody] updateDto productDto)
-        //{
-        //    if (await _productService.ProductExist(Id))
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var resultProduct = await _productService.updateAsync(productDto, Id);
-        //            return Created("Product", resultProduct);
-        //        }
-        //        return BadRequest(ModelState);
-        //    }
-        //    return NotFound();
-        //}
+        [HttpPut("{Id:guid}")]
+        public async Task<ActionResult<resultDto<updateDto>>> UpdateProduct(Guid Id, [FromBody] updateDto productDto)
+        {
+            if (await _productService.ProductExist(Id))
+            {
+                if (ModelState.IsValid)
+                {
+                    var resultProduct = await _productService.updateAsync(productDto, Id);
+                    return Created("Product", resultProduct);
+                }
+                return BadRequest(ModelState);
+            }
+            return NotFound();
+        }
         [HttpPut("{Id:guid}/price")]
         public async Task<ActionResult<resultDto<updateDto>>> UpdateProductPrice(Guid Id, decimal price)
         {

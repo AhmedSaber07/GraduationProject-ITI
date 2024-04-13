@@ -294,6 +294,7 @@ namespace E_Commerce.Application.Services
 
         }
 
+
         public async Task<bool> ProductExist(Guid Id)
         {
             return await _unit.product.EntityExist(Id);

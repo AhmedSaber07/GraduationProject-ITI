@@ -13,6 +13,7 @@ using E_Commerce.MVC.DTOs.UserAccount;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using E_Commerce.MVC.DTOs.ProductImageDto;
+using Humanizer;
 
 namespace E_Commerce.MVC.Controllers
 {
@@ -85,42 +86,90 @@ namespace E_Commerce.MVC.Controllers
                 return View("ProductList", "Error: " + response.StatusCode);
             }
         }
-        public async Task<IActionResult> Update(updateDto ProductDto, Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
-           
+            var apiUrl = $"api/Product/{id}";
+            var response = await _httpClient.GetAsync(apiUrl);
+            var productData = await response.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<resultDto<getProductwithImage>>(productData);
+
+
+            string token = HttpContext.Session.GetString("AuthToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var apiUrl2 = $"api/Category/getAlldropdown";
+            var response2 = await _httpClient.GetAsync(apiUrl2);
+            var categorylistdata = await response2.Content.ReadAsStringAsync();
+            var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
+            ViewBag.Categories = categoryList;
+            ///////////////////brand////////////
+            var apiUrl3 = $"api/brand/getAlldropdown";
+            var response3 = await _httpClient.GetAsync(apiUrl3);
+            var brandslistdata = await response3.Content.ReadAsStringAsync();
+            var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
+            ViewBag.brands = new SelectList(brandsList, "id", "name",product.Entity.brandId);
+
+
+            return View(product.Entity);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(getProductwithImage displayProductDto, Guid id)
+        {
+
+            createDto updatedProduct = new createDto()
+            {
+                nameAr = displayProductDto.nameAr,
+                nameEn = displayProductDto.nameEn,
+                descriptionAr = displayProductDto.descriptionAr,
+                descriptionEn = displayProductDto.descriptionEn,
+                colorAr = displayProductDto.colorAr,
+                colorEn = displayProductDto.colorEn,
+                price = displayProductDto.price,
+                stockQuantity = displayProductDto.stockQuantity,
+                categoryId = displayProductDto.categoryId,
+                brandId = displayProductDto.brandId,
+                FormFiles = displayProductDto.FormFiles
+            };
+            List<CreateWithProductDto> displayimages = new List<CreateWithProductDto>();
+
+            foreach (var image in displayProductDto.images)
+            {
+                CreateWithProductDto imagedto = new CreateWithProductDto()
+                {
+                    imageUrl = image,
+                };
+                displayimages.Add(imagedto);
+            }
+            updatedProduct.Images= displayimages;
+
+
             try
             {
-
-                var jsonContent = JsonSerializer.Serialize(ProductDto);
+                if (updatedProduct.FormFiles != null)
+                {
+                    updatedProduct.Images = await SaveImages(updatedProduct.FormFiles);
+                }
+                var jsonContent = JsonSerializer.Serialize(updatedProduct);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-
-                HttpResponseMessage response;
-                if (id == Guid.Empty)
-                {
-                    response = await _httpClient.PostAsync($"api/Product/{id}/Product", stringContent);
-                }
-                else
-                {
-                    response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
-                }
-
-
+                var response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    return View("Index", responseData);
+                    ViewBag.ProductAdded = true;
+                    return RedirectToAction("ProductList");
                 }
+
                 else
                 {
-                    return View("Error: " + response.StatusCode);
+                    ViewBag.ProductAdded = false;
+                    ViewBag.ErrorMessage = "Product not added";
+
+                    return View();
                 }
             }
             catch (Exception ex)
             {
-                await Console.Out.WriteLineAsync("Errror" + ex);
+                return View("Error404");
             }
-            return View("Index");
         }
         public async Task<IActionResult> Add()
         {
@@ -201,7 +250,8 @@ namespace E_Commerce.MVC.Controllers
                         await image.CopyToAsync(stream);
                     }
                     CreateWithProductDto pushPath = new CreateWithProductDto();
-                    pushPath.imageUrl = "http://2badmin.runasp.net/ProductsImages/" + fileName;
+                    //pushPath.imageUrl = "https://2badmin.runasp.net/ProductsImages/" + fileName;
+                    pushPath.imageUrl = "http://localhost:5143/wwwroot/ProductsImages/" + fileName;
                     imagePaths.Add(pushPath);
                 }
             }

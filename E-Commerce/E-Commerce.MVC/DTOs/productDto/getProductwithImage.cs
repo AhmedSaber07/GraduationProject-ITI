@@ -1,9 +1,12 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace E_Commerce.MVC.DTOs.productDto
 {
     public class getProductwithImage
     {
         public Guid id { get; set; }
+        [Display(Name ="Arabic Name")]
         public string nameAr { get; set; }
         public string nameEn { get; set; }
         public string descriptionAr { get; set; }
@@ -15,6 +18,8 @@ namespace E_Commerce.MVC.DTOs.productDto
         public Guid categoryId { get; set; }
         public Guid brandId { get; set; }
         public decimal rating { get; set; }
+        public virtual List<IFormFile> FormFiles { get; set; }
+
         public List<string> images { get; set; }
         public virtual ICollection<ReviewDto.GetReviewDto>? reviews { get; set; }
         public getProductwithImage()

@@ -51,10 +51,6 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> Details(Guid id)
         {
-            //return View("Forbidden");
-            //return View();
-
-
             HttpResponseMessage response = await _httpClient.GetAsync($"api/Product/{id}");
 
             if (response.IsSuccessStatusCode)
@@ -77,10 +73,8 @@ namespace E_Commerce.MVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-
                 var responseData = await response.Content.ReadAsStringAsync();
                 return RedirectToAction("ProductList");
-
             }
             else
             {
@@ -89,28 +83,26 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> DeleteProductImage(string url,Guid id)
         {
-
-
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            var imagename = url.Split("/").LastOrDefault();
-            string imagePath = Path.Combine("https://2b-admin.somee.com/ProductsImages/");
-            if (System.IO.File.Exists(imagePath))
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/ProductImage?url={url}");
+            if (response.IsSuccessStatusCode)
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/ProductImage?url={url}");
-                System.IO.File.Delete(imagePath + imagename);
-                return View("Update", new { id = id });
+                var imagename = url.Split("/").LastOrDefault();
+                string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "ProductsImages", imagename);
+                FileInfo file = new FileInfo(imagePath);
+                if (file != null)
+                {
+                    file.Delete();
+                    return RedirectToAction("Update", new { id = id });
+                }
+                else
+                {
+                    return View("Update", new { id = id });
+                }
             }
             else
             {
-                return View("Update", new { id = id });
+                return View("Update", "Error: " + response.StatusCode);
             }
-            //}
-            //else
-            //{
-            //    return View("Update", "Error: " + response.StatusCode);
-            //}
         }
         public async Task<IActionResult> Update(Guid id)
         {
@@ -166,7 +158,6 @@ namespace E_Commerce.MVC.Controllers
                 displayimages.Add(imagedto);
             }
             updatedProduct.Images= displayimages;
-
 
             try
             {
@@ -239,20 +230,6 @@ namespace E_Commerce.MVC.Controllers
 
                     return View();
                 }
-                //if (response.IsSuccessStatusCode)
-                //{
-
-
-                //   // Console.WriteLine("DTO added successfully.");
-
-                //    //var responseData = await response.Content.ReadAsStringAsync();
-                //    //var dtoList = JsonSerializer.Deserialize<createDto>(responseData);
-                //    //return RedirectToAction("ProductList");
-                //}
-                //else
-                //{
-                //    return RedirectToAction("Index", "Home");
-                //}
             }
             catch (Exception ex)
             {
@@ -277,6 +254,7 @@ namespace E_Commerce.MVC.Controllers
                     }
                     CreateWithProductDto pushPath = new CreateWithProductDto();
                     pushPath.imageUrl = "https://2b-admin.somee.com/ProductsImages/" + fileName;
+                    //pushPath.imageUrl = "http://localhost:5143/ProductsImages/" + fileName;
                     imagePaths.Add(pushPath);
                 }
             }

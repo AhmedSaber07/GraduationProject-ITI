@@ -13,7 +13,7 @@
     <WebStackScaffolding_IsReferencingScriptLibrariesSelected>True</WebStackScaffolding_IsReferencingScriptLibrariesSelected>
     <WebStackScaffolding_ControllerDialogWidth>650</WebStackScaffolding_ControllerDialogWidth>
     <WebStackScaffolding_LayoutPageFile />
-    <NameOfLastUsedPublishProfile>D:\iti-round2\GP\GraduationProject-ITI\GraduationProject-ITI\E-Commerce\E-Commerce.MVC\Properties\PublishProfiles\site3436-WebDeploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\Mohamed\Desktop\E-Commerce\GraduationProject-ITI\E-Commerce\E-Commerce.MVC\Properties\PublishProfiles\FTPProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

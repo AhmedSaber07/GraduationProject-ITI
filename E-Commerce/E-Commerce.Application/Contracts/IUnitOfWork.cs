@@ -16,6 +16,7 @@ namespace E_Commerce.Application.Contracts
         iorderItemRepository orderItem { get; }
         ipaymentRepository payment { get; }
         ireviewRepository review { get; }
+        iproductImageRepository productImage {  get; }
         Task<bool> Complete();
 
     }

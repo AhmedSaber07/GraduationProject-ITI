@@ -303,5 +303,23 @@ namespace E_Commerce.WebAPI.Controllers
             }
             return NotFound();
         }
+        [HttpDelete("ProductImage")]
+
+        public async Task<ActionResult<resultDto<GetProductDto>>> SoftDelete([FromQuery]string url)
+        {
+            if (url != string.Empty)
+            {
+                var productImage = await _productService.DeleteProductPhoto(url);
+                if (productImage is not null)
+                {
+                    return Ok(productImage);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NotFound();
+        }
     }
 }

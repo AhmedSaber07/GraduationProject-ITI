@@ -222,6 +222,14 @@ namespace E_Commerce.Application.Services
                 return new resultDto<GetProductDto>() { Entity = returnedProduct, IsSuccess = false, Message = ex.Message };
             }
         }
+        public async Task<ProductImage> DeleteProductPhoto(string Url)
+        {
+            var allImagedata = await _unit.productImage.GetAllAsync();
+            var image= allImagedata.FirstOrDefault(i=>i.imageUrl==Url);
+            await _unit.productImage.HardDeleteAsync(image);
+            await _unit.product.SaveChangesAsync();
+            return image;
+        }
 
         public async Task<resultDto<GetProductDto>> softDeleteAsync(Guid ID)
         {

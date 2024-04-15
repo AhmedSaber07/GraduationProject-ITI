@@ -13,6 +13,7 @@ using E_Commerce.MVC.DTOs.UserAccount;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using E_Commerce.MVC.DTOs.ProductImageDto;
+using System.IO;
 using Humanizer;
 
 namespace E_Commerce.MVC.Controllers
@@ -86,6 +87,31 @@ namespace E_Commerce.MVC.Controllers
                 return View("ProductList", "Error: " + response.StatusCode);
             }
         }
+        public async Task<IActionResult> DeleteProductImage(string url,Guid id)
+        {
+
+
+
+            //if (response.IsSuccessStatusCode)
+            //{
+            var imagename = url.Split("/").LastOrDefault();
+            string imagePath = Path.Combine("https://2b-admin.somee.com/ProductsImages/");
+            if (System.IO.File.Exists(imagePath))
+            {
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/ProductImage?url={url}");
+                System.IO.File.Delete(imagePath + imagename);
+                return View("Update", new { id = id });
+            }
+            else
+            {
+                return View("Update", new { id = id });
+            }
+            //}
+            //else
+            //{
+            //    return View("Update", "Error: " + response.StatusCode);
+            //}
+        }
         public async Task<IActionResult> Update(Guid id)
         {
             var apiUrl = $"api/Product/{id}";
@@ -106,7 +132,7 @@ namespace E_Commerce.MVC.Controllers
             var response3 = await _httpClient.GetAsync(apiUrl3);
             var brandslistdata = await response3.Content.ReadAsStringAsync();
             var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
-            ViewBag.brands = new SelectList(brandsList, "id", "name",product.Entity.brandId);
+            ViewBag.brands = brandsList;
 
 
             return View(product.Entity);
@@ -250,8 +276,7 @@ namespace E_Commerce.MVC.Controllers
                         await image.CopyToAsync(stream);
                     }
                     CreateWithProductDto pushPath = new CreateWithProductDto();
-                    //pushPath.imageUrl = "https://2badmin.runasp.net/ProductsImages/" + fileName;
-                    pushPath.imageUrl = "http://localhost:5143/wwwroot/ProductsImages/" + fileName;
+                    pushPath.imageUrl = "https://2b-admin.somee.com/ProductsImages/" + fileName;
                     imagePaths.Add(pushPath);
                 }
             }

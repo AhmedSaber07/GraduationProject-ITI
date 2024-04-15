@@ -1,6 +1,7 @@
 ﻿using Company.Dtos.ViewResult;
 using E_Commerce.Domain.DTOs.productDto;
 using E_Commerce.Domain.listResultDto;
+using E_Commerce.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace E_Commerce.Application.Contracts
         Task<resultDto<updateDto>> updatePriceAsync(decimal price, Guid Id); //Done
         Task<resultDto<GetProductDto>> hardDeleteAsync(Guid Id); //Done
         Task<resultDto<GetProductDto>> softDeleteAsync(Guid Id); //Done
+        Task<ProductImage> DeleteProductPhoto(string Url);
         Task<listResultDto<GetProductDto>> GetAllPaginationAsync(int items, int pagenumber, string[] includes = null); //Done
         Task<IEnumerable<GetProductDto>> GetAllAsync(string[] includes = null); //Done
         Task<List<GetProductDto>> GetAllPaginationAsyncByCategoryID(int items, int pagenumber,Guid categoryId, string[] includes = null); //Done

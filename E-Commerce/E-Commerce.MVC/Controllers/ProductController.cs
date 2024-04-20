@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using E_Commerce.MVC.DTOs.ProductImageDto;
 using System.IO;
-using Humanizer;
+
 
 namespace E_Commerce.MVC.Controllers
 {
@@ -120,11 +120,11 @@ namespace E_Commerce.MVC.Controllers
             var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
             ViewBag.Categories = categoryList;
             ///////////////////brand////////////
-            var apiUrl3 = $"api/brand/getAlldropdown";
-            var response3 = await _httpClient.GetAsync(apiUrl3);
-            var brandslistdata = await response3.Content.ReadAsStringAsync();
-            var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
-            ViewBag.brands = brandsList;
+            //var apiUrl3 = $"api/brand/getAlldropdown";
+            //var response3 = await _httpClient.GetAsync(apiUrl3);
+            //var brandslistdata = await response3.Content.ReadAsStringAsync();
+            //var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
+            //ViewBag.brands = brandsList;
 
 
             return View(product.Entity);
@@ -132,6 +132,7 @@ namespace E_Commerce.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(getProductwithImage displayProductDto, Guid id)
         {
+            Guid br = new Guid("e6d68270-70a0-4ee5-a17a-2b6aa3e9694f");
 
             createDto updatedProduct = new createDto()
             {
@@ -144,7 +145,7 @@ namespace E_Commerce.MVC.Controllers
                 price = displayProductDto.price,
                 stockQuantity = displayProductDto.stockQuantity,
                 categoryId = displayProductDto.categoryId,
-                brandId = displayProductDto.brandId,
+                brandId =br,
                 FormFiles = displayProductDto.FormFiles
             };
             List<CreateWithProductDto> displayimages = new List<CreateWithProductDto>();
@@ -198,21 +199,23 @@ namespace E_Commerce.MVC.Controllers
             var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
             ViewBag.Categories = new SelectList(categoryList, "id", "name");
             ///////////////////brand////////////
-             apiUrl2 = $"api/brand/getAlldropdown";
-             response2 = await _httpClient.GetAsync(apiUrl2);
-            var brandslistdata = await response2.Content.ReadAsStringAsync();
-           var  brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
-            ViewBag.brands = new SelectList(brandsList, "id", "name");
+           //  apiUrl2 = $"api/brand/getAlldropdown";
+           //  response2 = await _httpClient.GetAsync(apiUrl2);
+           // var brandslistdata = await response2.Content.ReadAsStringAsync();
+           //var  brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
+           // ViewBag.brands = new SelectList(brandsList, "id", "name");
 
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Add(createDto dto)
         {
+            Guid br = new Guid("e6d68270-70a0-4ee5-a17a-2b6aa3e9694f");
             try
             {
 
                 dto.Images = await SaveImages(dto.FormFiles);
+                dto.brandId = br;
                 var jsonContent = JsonSerializer.Serialize(dto);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -220,7 +223,7 @@ namespace E_Commerce.MVC.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.ProductAdded = true;
-                    return View();
+                    return RedirectToAction("ProductList");
                 }
 
                 else
@@ -228,7 +231,7 @@ namespace E_Commerce.MVC.Controllers
                     ViewBag.ProductAdded = false;
                     ViewBag.ErrorMessage = "Product not added";
 
-                    return View();
+                    return RedirectToAction("ProductList");
                 }
             }
             catch (Exception ex)

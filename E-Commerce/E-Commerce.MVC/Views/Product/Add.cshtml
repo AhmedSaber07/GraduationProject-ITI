@@ -65,11 +65,11 @@
                 @Html.DropDownList("categoryId", ViewBag.Categories as SelectList, "Select Parent Category", new { @class = "form-control" })
                 <span asp-validation-for="categoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           @*  <div class="form-group">
                 <label asp-for="brandId" class="control-label"></label>
                 @Html.DropDownList("brandId", ViewBag.brands as SelectList, "Select brand", new { @class = "form-control" })
                 <span asp-validation-for="brandId" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="FormFiles">Images:</label>
                 <input type="file" class="form-control-file" asp-for="FormFiles" multiple>

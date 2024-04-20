@@ -8,100 +8,146 @@
     SelectList brandList = ViewBag.brands != null ? new SelectList(ViewBag.brands, "id", "name") : new SelectList(new List<CategoryList>(), "id", "name");
     //new SelectList(brandsList, "id", "name", product.Entity.brandId);
 }
-
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Update Product</h1>
-    <a asp-action="ProductList" class="d-none d-sm-inline-block btn btn-sm bg-success  shadow text-white ">
-        Back List Products
-    </a>
+    <h1 class="h3 mb-0 text-gray-800"> Update Product</h1>
+    <a class="btn btn-success btn-lg" asp-action="ProductList"> back to Product List</a>
 </div>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Update" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="nameAr" class="control-label"></label>
-                <input asp-for="nameAr" class="form-control" />
-                <span asp-validation-for="nameAr" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="nameEn" class="control-label"></label>
-                <input asp-for="nameEn" class="form-control" />
-                <span asp-validation-for="nameEn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="descriptionAr" class="control-label"></label>
-                <input asp-for="descriptionAr" class="form-control" />
-                <span asp-validation-for="descriptionAr" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="colorAr" class="control-label"></label>
-                <input asp-for="colorAr" class="form-control" />
-                <span asp-validation-for="colorAr" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="colorEn" class="control-label"></label>
-                <input asp-for="colorEn" class="form-control" />
-                <span asp-validation-for="colorEn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="descriptionEn" class="control-label"></label>
-                <input asp-for="descriptionEn" class="form-control" />
-                <span asp-validation-for="descriptionEn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="price" class="control-label"></label>
-                <input asp-for="price" class="form-control" />
-                <span asp-validation-for="price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="stockQuantity" class="control-label"></label>
-                <input asp-for="stockQuantity" class="form-control" />
-                <span asp-validation-for="stockQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="categoryId" class="control-label"></label>
-                <select asp-for="categoryId" class="form-control" asp-items="categoryList"></select>
-                <span asp-validation-for="categoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="brandId" class="control-label"></label>
-                <select asp-for="brandId" class="form-control" asp-items="brandList"></select>
-                <span asp-validation-for="brandId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FormFiles">Images:</label>
-                <input type="file" class="form-control-file" asp-for="FormFiles" multiple>
-            </div>
-            <div class="d-flex flex-direction-column">
-                @if (Model.images != null)
-                {
-                    @foreach (var item in Model.images)
-                    {
-                        <img src="@item" class="img-fluid" alt="product image">
-                        @* DeleteProductImage *@
-                        <a asp-action="DeleteProductImage" asp-route-url="@item" asp-route-id="@Model.id">
-                            <i class="bi bi-trash">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash text-danger" viewBox="0 0 20 20">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                </svg>
-                            </i>
-                        </a>
-                    }
-                }
-                else
-                {
-                    <p>No images available.</p>
-                }
+<style>
+    .img-fluid {
+        max-width: 100%;
+        max-height: 200px; 
+        height: 290px;
+    }
+</style>
+@{
+    var counter = 0;
+    var rowCount = 0;
+}
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Update Product
+                </div>
+                <div class="card-body">
+                    <form asp-action="Update" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="nameAr" class="control-label"></label>
+                            <input asp-for="nameAr" class="form-control" />
+                            <span asp-validation-for="nameAr" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="nameEn" class="control-label"></label>
+                            <input asp-for="nameEn" class="form-control" />
+                            <span asp-validation-for="nameEn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="descriptionAr" class="control-label"></label>
+                            <input asp-for="descriptionAr" class="form-control" />
+                            <span asp-validation-for="descriptionAr" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="colorAr" class="control-label"></label>
+                            <input asp-for="colorAr" class="form-control" />
+                            <span asp-validation-for="colorAr" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="colorEn" class="control-label"></label>
+                            <input asp-for="colorEn" class="form-control" />
+                            <span asp-validation-for="colorEn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="descriptionEn" class="control-label"></label>
+                            <input asp-for="descriptionEn" class="form-control" />
+                            <span asp-validation-for="descriptionEn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="price" class="control-label"></label>
+                            <input asp-for="price" class="form-control" />
+                            <span asp-validation-for="price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="stockQuantity" class="control-label"></label>
+                            <input asp-for="stockQuantity" class="form-control" />
+                            <span asp-validation-for="stockQuantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="categoryId" class="control-label"></label>
+                            <select asp-for="categoryId" class="form-control" asp-items="categoryList"></select>
+                            <span asp-validation-for="categoryId" class="text-danger"></span>
+                        </div>
+                       @*  <div class="form-group">
+                            <label asp-for="brandId" class="control-label"></label>
+                            <select asp-for="brandId" class="form-control" asp-items="brandList"></select>
+                            <span asp-validation-for="brandId" class="text-danger"></span>
+                        </div> *@
+                        <div class="form-group">
+                            <label asp-for="FormFiles">Images:</label>
+                            <input type="file" class="form-control-file" asp-for="FormFiles" multiple>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Update" class="btn btn-success" />
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Product Images
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        @if (Model.images != null)
+                        {
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                            @foreach (var item in Model.images)
+                            {
+                                if (counter % 1 == 0)
+                                {
+                                    @Html.Raw("<div >")
+                                }
+                                <img src="@item" class="img-fluid " alt="product image">
+
+
+                                @* <hr class="bg-black"> *@
+                                <a asp-action="DeleteProductImage" asp-route-url="@item" asp-route-id="@Model.id">
+                                    <i class="bi bi-trash">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash text-danger" viewBox="0 0 20 20">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                        </svg>
+                                    </i>
+                                </a>
+
+                                if ((counter + 1) % 1 == 0)
+                                {
+                                    @Html.Raw("</div>")
+
+                                    rowCount++;
+
+                                    @*  <h1 >Image @rowCount</h1> *@
+                                    @*  <br /> <br /> <br /> <br /> *@
+                                }
+
+                                counter++;
+
+                            }
+
+                        }
+                        else
+                        {
+                            <p>No images available.</p>
+                        }
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -126,7 +172,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
 
 @section Scripts {
     @{

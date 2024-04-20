@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using System.Runtime.CompilerServices;
+using System.Security.Policy;
 public class AdminController : Controller
 {
 
@@ -103,6 +105,71 @@ public class AdminController : Controller
         {
             ViewBag.ErrorMessage = "Code Not Correct";
             return View("EnterCode");
+        }
+    }
+    
+    //public async Task<ActionResult> ExternalLogin()
+    //{
+    //    //await Callback();
+    //   await Callback();
+    //    string d = await Callback2();
+    //    return RedirectToAction("Login");
+    //    //var response = await _httpClient.GetAsync("");
+    //    //response.EnsureSuccessStatusCode();
+    //  //  return
+    //}
+
+    // Method to handle the callback from the external provider
+    public async Task Callback()
+    {
+        var response = await _httpClient.GetAsync("api/UserAccount/ExternalLogin");
+
+           string data = await response.Content.ReadAsStringAsync();
+        //    return data;
+
+    }
+    //public async Task<string> Callback2()
+    //{
+    //    var response = await _httpClient.GetAsync("api/UserAccount/Callback");
+
+    //    string data = await response.Content.ReadAsStringAsync();
+    //    return data;
+    //}
+    public async Task<ActionResult> external()
+    {
+        //
+        var response = await _httpClient.GetAsync("api/UserAccount/ExternalLogin");
+        string responseContent = await response.Content.ReadAsStringAsync();
+        var LoginDto = System.Text.Json.JsonSerializer.Deserialize<LoginResponse>(responseContent);
+
+        if (response.IsSuccessStatusCode)
+        {
+
+            // string hisName = (LoginDto.userDate.FirstName + " " + LoginDto.userDate.LastName);
+            //  HttpContext.Session.SetString("AdminName", hisName);
+            HttpContext.Session.SetString("AuthToken", LoginDto.token);
+            HttpContext.Session.SetString("Email", LoginDto._user.Email);
+            HttpContext.Session.SetString("OldPhone", LoginDto._user.phoneNumber);
+            HttpContext.Session.SetString("FirstName", LoginDto._user.firstName);
+            HttpContext.Session.SetString("LastName", LoginDto._user.lastName);
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, LoginDto._user.Email),
+
+        };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            //TempData["AdminName"] = hisName;
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            ViewBag.ErrorMessage = "Wrong UserName Or password";
+            return View();
         }
     }
     public  ActionResult EnterNewPassword()

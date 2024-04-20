@@ -21,7 +21,7 @@ namespace E_Commerce.MVC.Controllers
     [Authorize]
     public class ProductController : Controller
     {
-     
+
 
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -31,9 +31,9 @@ namespace E_Commerce.MVC.Controllers
             _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
             _webHostEnvironment = webHostEnvironment;
         }
-        public   async Task <IActionResult> ProductList()
+        public async Task<IActionResult> ProductList()
         {
-      
+
             HttpResponseMessage response = await _httpClient.GetAsync("api/Product/getall");
 
             if (response.IsSuccessStatusCode)
@@ -56,7 +56,7 @@ namespace E_Commerce.MVC.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                var responseData = await response.Content.ReadAsStringAsync();  
+                var responseData = await response.Content.ReadAsStringAsync();
                 var dtoList = JsonConvert.DeserializeObject<resultDto<getProductwithImage>>(responseData);
                 return View(dtoList.Entity);
             }
@@ -68,7 +68,7 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> DeleteProduct(Guid Id)
         {
-           
+
             HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/SoftDelete/{Id}");
 
             if (response.IsSuccessStatusCode)
@@ -81,7 +81,7 @@ namespace E_Commerce.MVC.Controllers
                 return View("ProductList", "Error: " + response.StatusCode);
             }
         }
-        public async Task<IActionResult> DeleteProductImage(string url,Guid id)
+        public async Task<IActionResult> DeleteProductImage(string url, Guid id)
         {
             HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/ProductImage?url={url}");
             if (response.IsSuccessStatusCode)
@@ -157,35 +157,29 @@ namespace E_Commerce.MVC.Controllers
                 };
                 displayimages.Add(imagedto);
             }
-            updatedProduct.Images= displayimages;
+            updatedProduct.Images = displayimages;
 
-            try
+            if (updatedProduct.FormFiles != null)
             {
-                if (updatedProduct.FormFiles != null)
-                {
-                    updatedProduct.Images = await SaveImages(updatedProduct.FormFiles);
-                }
-                var jsonContent = JsonSerializer.Serialize(updatedProduct);
-                var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    ViewBag.ProductAdded = true;
-                    return RedirectToAction("ProductList");
-                }
-
-                else
-                {
-                    ViewBag.ProductAdded = false;
-                    ViewBag.ErrorMessage = "Product not added";
-
-                    return View();
-                }
+                updatedProduct.Images = await SaveImages(updatedProduct.FormFiles);
             }
-            catch (Exception ex)
+            var jsonContent = JsonSerializer.Serialize(updatedProduct);
+            var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
+            if (response.IsSuccessStatusCode)
             {
-                return View("Error404");
+                ViewBag.ProductAdded = true;
+                return RedirectToAction("ProductList");
+            }
+
+            else
+            {
+                ViewBag.ProductAdded = false;
+                ViewBag.ErrorMessage = "Product not added";
+
+                return RedirectToAction("ProductList");
+
             }
         }
         public async Task<IActionResult> Add()
@@ -198,10 +192,10 @@ namespace E_Commerce.MVC.Controllers
             var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
             ViewBag.Categories = new SelectList(categoryList, "id", "name");
             ///////////////////brand////////////
-             apiUrl2 = $"api/brand/getAlldropdown";
-             response2 = await _httpClient.GetAsync(apiUrl2);
+            apiUrl2 = $"api/brand/getAlldropdown";
+            response2 = await _httpClient.GetAsync(apiUrl2);
             var brandslistdata = await response2.Content.ReadAsStringAsync();
-           var  brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
+            var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
             ViewBag.brands = new SelectList(brandsList, "id", "name");
 
             return View();
@@ -220,7 +214,7 @@ namespace E_Commerce.MVC.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.ProductAdded = true;
-                    return View();
+                    return RedirectToAction("ProductList");
                 }
 
                 else
@@ -247,7 +241,7 @@ namespace E_Commerce.MVC.Controllers
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
                     var filePath = Path.Combine("wwwroot/ProductsImages", fileName);
                     //var filePath = Path.Combine(directoryPath, fileName);
-                    
+
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
@@ -264,5 +258,5 @@ namespace E_Commerce.MVC.Controllers
 
     }
 }
- 
+
 

@@ -11,7 +11,7 @@
     <a class="btn btn-success btn-lg" asp-action="Add">Add Product</a>
 </div>
 <hr />
-<div class="container">
+<div class="container ">
     <br />
     @for (var i = 0; i < Model.Count(); i += 3)
     {
@@ -44,7 +44,7 @@
                                 </i>
                             </a> |
 
-                            <a class="card-link" asp-action="DeleteProduct" asp-route-id="@item.id">
+                            <a class="card-link" onclick="confirmDelete('@item.id')">
                                 <i class="bi bi-trash">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash text-danger" viewBox="0 0 20 20">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -68,3 +68,11 @@
 
     }
 </div>
+
+<script>
+    function confirmDelete(productId) {
+        if (confirm('هل أنت متأكد أنك تريد حذف هذا المنتج؟')) {
+            window.location.href = '/Product/DeleteProduct?id=' + productId;
+        }
+    }
+</script>

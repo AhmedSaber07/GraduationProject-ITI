@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using E_Commerce.MVC.DTOs.ProductImageDto;
 using System.IO;
-using Humanizer;
+
 
 namespace E_Commerce.MVC.Controllers
 {
     [Authorize]
     public class ProductController : Controller
     {
-
+     
 
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -31,9 +31,9 @@ namespace E_Commerce.MVC.Controllers
             _httpClient.BaseAddress = new Uri("https://2bstore.somee.com/");
             _webHostEnvironment = webHostEnvironment;
         }
-        public async Task<IActionResult> ProductList()
+        public   async Task <IActionResult> ProductList()
         {
-
+      
             HttpResponseMessage response = await _httpClient.GetAsync("api/Product/getall");
 
             if (response.IsSuccessStatusCode)
@@ -56,7 +56,7 @@ namespace E_Commerce.MVC.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                var responseData = await response.Content.ReadAsStringAsync();
+                var responseData = await response.Content.ReadAsStringAsync();  
                 var dtoList = JsonConvert.DeserializeObject<resultDto<getProductwithImage>>(responseData);
                 return View(dtoList.Entity);
             }
@@ -68,7 +68,7 @@ namespace E_Commerce.MVC.Controllers
         }
         public async Task<IActionResult> DeleteProduct(Guid Id)
         {
-
+           
             HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/SoftDelete/{Id}");
 
             if (response.IsSuccessStatusCode)
@@ -81,7 +81,7 @@ namespace E_Commerce.MVC.Controllers
                 return View("ProductList", "Error: " + response.StatusCode);
             }
         }
-        public async Task<IActionResult> DeleteProductImage(string url, Guid id)
+        public async Task<IActionResult> DeleteProductImage(string url,Guid id)
         {
             HttpResponseMessage response = await _httpClient.DeleteAsync($"api/Product/ProductImage?url={url}");
             if (response.IsSuccessStatusCode)
@@ -120,11 +120,11 @@ namespace E_Commerce.MVC.Controllers
             var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
             ViewBag.Categories = categoryList;
             ///////////////////brand////////////
-            var apiUrl3 = $"api/brand/getAlldropdown";
-            var response3 = await _httpClient.GetAsync(apiUrl3);
-            var brandslistdata = await response3.Content.ReadAsStringAsync();
-            var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
-            ViewBag.brands = brandsList;
+            //var apiUrl3 = $"api/brand/getAlldropdown";
+            //var response3 = await _httpClient.GetAsync(apiUrl3);
+            //var brandslistdata = await response3.Content.ReadAsStringAsync();
+            //var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
+            //ViewBag.brands = brandsList;
 
 
             return View(product.Entity);
@@ -132,6 +132,7 @@ namespace E_Commerce.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(getProductwithImage displayProductDto, Guid id)
         {
+            Guid br = new Guid("e6d68270-70a0-4ee5-a17a-2b6aa3e9694f");
 
             createDto updatedProduct = new createDto()
             {
@@ -144,7 +145,7 @@ namespace E_Commerce.MVC.Controllers
                 price = displayProductDto.price,
                 stockQuantity = displayProductDto.stockQuantity,
                 categoryId = displayProductDto.categoryId,
-                brandId = displayProductDto.brandId,
+                brandId =br,
                 FormFiles = displayProductDto.FormFiles
             };
             List<CreateWithProductDto> displayimages = new List<CreateWithProductDto>();
@@ -157,60 +158,18 @@ namespace E_Commerce.MVC.Controllers
                 };
                 displayimages.Add(imagedto);
             }
-            updatedProduct.Images = displayimages;
+            updatedProduct.Images= displayimages;
 
-            if (updatedProduct.FormFiles != null)
-            {
-                updatedProduct.Images = await SaveImages(updatedProduct.FormFiles);
-            }
-            var jsonContent = JsonSerializer.Serialize(updatedProduct);
-            var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
-            if (response.IsSuccessStatusCode)
-            {
-                ViewBag.ProductAdded = true;
-                return RedirectToAction("ProductList");
-            }
-
-            else
-            {
-                ViewBag.ProductAdded = false;
-                ViewBag.ErrorMessage = "Product not added";
-
-                return RedirectToAction("ProductList");
-
-            }
-        }
-        public async Task<IActionResult> Add()
-        {
-            string token = HttpContext.Session.GetString("AuthToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var apiUrl2 = $"api/Category/getAlldropdown";
-            var response2 = await _httpClient.GetAsync(apiUrl2);
-            var categorylistdata = await response2.Content.ReadAsStringAsync();
-            var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
-            ViewBag.Categories = new SelectList(categoryList, "id", "name");
-            ///////////////////brand////////////
-            apiUrl2 = $"api/brand/getAlldropdown";
-            response2 = await _httpClient.GetAsync(apiUrl2);
-            var brandslistdata = await response2.Content.ReadAsStringAsync();
-            var brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
-            ViewBag.brands = new SelectList(brandsList, "id", "name");
-
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Add(createDto dto)
-        {
             try
             {
-
-                dto.Images = await SaveImages(dto.FormFiles);
-                var jsonContent = JsonSerializer.Serialize(dto);
+                if (updatedProduct.FormFiles != null)
+                {
+                    updatedProduct.Images = await SaveImages(updatedProduct.FormFiles);
+                }
+                var jsonContent = JsonSerializer.Serialize(updatedProduct);
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("api/Product", stringContent);
+                var response = await _httpClient.PutAsync($"api/Product/{id}/Product", stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.ProductAdded = true;
@@ -230,6 +189,56 @@ namespace E_Commerce.MVC.Controllers
                 return View("Error404");
             }
         }
+        public async Task<IActionResult> Add()
+        {
+            string token = HttpContext.Session.GetString("AuthToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var apiUrl2 = $"api/Category/getAlldropdown";
+            var response2 = await _httpClient.GetAsync(apiUrl2);
+            var categorylistdata = await response2.Content.ReadAsStringAsync();
+            var categoryList = JsonConvert.DeserializeObject<List<CategoryList>>(categorylistdata);
+            ViewBag.Categories = new SelectList(categoryList, "id", "name");
+            ///////////////////brand////////////
+           //  apiUrl2 = $"api/brand/getAlldropdown";
+           //  response2 = await _httpClient.GetAsync(apiUrl2);
+           // var brandslistdata = await response2.Content.ReadAsStringAsync();
+           //var  brandsList = JsonConvert.DeserializeObject<List<CategoryList>>(brandslistdata);
+           // ViewBag.brands = new SelectList(brandsList, "id", "name");
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(createDto dto)
+        {
+            Guid br = new Guid("e6d68270-70a0-4ee5-a17a-2b6aa3e9694f");
+            try
+            {
+
+                dto.Images = await SaveImages(dto.FormFiles);
+                dto.brandId = br;
+                var jsonContent = JsonSerializer.Serialize(dto);
+                var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync("api/Product", stringContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewBag.ProductAdded = true;
+                    return RedirectToAction("ProductList");
+                }
+
+                else
+                {
+                    ViewBag.ProductAdded = false;
+                    ViewBag.ErrorMessage = "Product not added";
+
+                    return RedirectToAction("ProductList");
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("Error404");
+            }
+        }
         private async Task<List<CreateWithProductDto>> SaveImages(List<IFormFile> images)
         {
             var imagePaths = new List<CreateWithProductDto>();
@@ -241,7 +250,7 @@ namespace E_Commerce.MVC.Controllers
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
                     var filePath = Path.Combine("wwwroot/ProductsImages", fileName);
                     //var filePath = Path.Combine(directoryPath, fileName);
-
+                    
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
@@ -258,5 +267,5 @@ namespace E_Commerce.MVC.Controllers
 
     }
 }
-
+ 
 

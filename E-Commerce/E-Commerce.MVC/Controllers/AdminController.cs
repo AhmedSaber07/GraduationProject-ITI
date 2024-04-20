@@ -62,7 +62,8 @@ public class AdminController : Controller
 		}
 		else
 		{
-			return RedirectToAction("ResetPassword");
+            ViewBag.ErrorMessage = "This Email Not Found";
+			return View("ResetPassword");
 		}
 
 	}

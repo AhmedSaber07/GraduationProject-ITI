@@ -4,11 +4,11 @@
 @{
     <form asp-controller="Order" asp-action="Update" method="post">
       
-            <input type="hidden" name="OrderNumber" value="@ViewBag.OrderNumber">
+            
             <div class="form-group">
                 <label for="selectedState">Select State:</label>
                 <select class="form-control" id="selectedState" name="SelectedState">
-                    <option value="">-- Select State --</option>
+                   
                 @foreach (var stateItem in @ViewBag.StateList)
                     {
                         <option value="@stateItem.Value">@stateItem.Text</option>

@@ -29,24 +29,33 @@ namespace E_Commerce.MVC.Controllers
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var Order = JsonSerializer.Deserialize<listResultDto<getOrdersWithoutItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                return View(Order.entities);
+                var x = Order.entities.OrderBy(o => o.orderNumber);
+               
+                return View(x);
             }
             else
             {
                 return View("Forbidden");
             }
         }
-        public IActionResult Update(int id)
+        public IActionResult Update(int id , string orderState)
         {
-            var enumValues = Enum.GetValues(typeof(OrderStateEn))
+            string x = id.ToString();
+
+			var enumValues = Enum.GetValues(typeof(OrderStateEn))
                                  .Cast<OrderStateEn>()
                                  .Select(state => new SelectListItem
                                  {
                                      Text = state.ToString(),
-                                     Value = ((int)state).ToString()
-                                 })
+                                     Value = ((int)state).ToString(),
+									 Selected = (((int)state) == id)
+								 })
                                  .ToList();
+            foreach (var item in enumValues)
+            {
+                if (item.Text == orderState) item.Selected = true;
 
+            }
             ViewBag.StateList = enumValues;
             ViewBag.OrderNumber = id;
             return View();

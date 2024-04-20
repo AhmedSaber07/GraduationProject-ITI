@@ -4,7 +4,8 @@ namespace E_Commerce.MVC.DTOs.UserAccount
 {
     public class ChangePasswordDto
     {
-        [Required(ErrorMessage = "Old password is required")]
+		[DataType(DataType.Password)]
+		[Required(ErrorMessage = "Old password is required")]
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "New password is required")]

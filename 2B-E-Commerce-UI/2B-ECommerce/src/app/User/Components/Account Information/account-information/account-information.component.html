@@ -38,7 +38,7 @@
                 { <span>{{'Minimum Length For Character is 3' | translate }}</span>  }
               </span>
             </div>
-            <div class="col-12 phone">
+            <div class="col-12 pt-2">
               <input
                 type="tel"
                 class="form-control"
@@ -119,7 +119,7 @@
 
             @if(formgroup.get('changePassword')?.value )
               {
-            <div class="address">
+            <!-- <div class="address"> -->
               <label>{{'Current Password'|translate}}</label>
               <input
                 type="password"
@@ -135,9 +135,9 @@
                 @if(CurrentPassword?.errors?.['required']) {
                 <span>{{'Current Password is Required'|translate}}</span>}
               </span>
-            </div>
+            <!-- </div> -->
             } @if(formgroup.get('changePassword')?.value) {
-            <div class="address">
+            <!-- <div class="address"> -->
               <label>{{'New Password'|translate}}</label>
               <input
                 type="password"
@@ -158,8 +158,8 @@
                 @else if(NewPassword?.errors?.['pattern']) 
                 { <span>{{'Password is invalid'|translate}}</span> }
               </span>
-            </div>
-            <div class="address">
+            <!-- </div> -->
+            <!-- <div class="address"> -->
               <label>{{'Confirm New Password'|translate}}</label>
               <input
                 type="password"
@@ -177,11 +177,10 @@
                 @else if(ConfirmPassword?.errors?.['mismatch']) 
                 { <span>{{'Confirm Password and Password Not Matched'|translate}}</span> }
               </span>
-            </div>
+            <!-- </div> -->
             } 
             @if(formgroup.get('changePhoneNumber')?.value) {
 
-            <div class="address">
               <label>{{'Phone Number'|translate}}</label>
               <input
                 type="tel"
@@ -199,7 +198,6 @@
                 <span>{{'Phone Number is invalid'|translate}}</span>
                 }
               </span>
-            </div>
             }
             <!-- @if(formgroup.get('changePassword').value ||
             formgroup.get('changeEmail').value ||

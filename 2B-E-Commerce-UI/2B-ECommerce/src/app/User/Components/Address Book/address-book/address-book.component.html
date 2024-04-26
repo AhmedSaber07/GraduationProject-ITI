@@ -37,7 +37,7 @@
     <div class="col-md-6">
       <p class="titleCard">{{'Address'|translate}}</p>
       <div class="all2">
-        <div class="col-12 address">
+        <div class="col-12">
           <label for="title4" class="title4">{{'Addres Line 1'|translate}}</label>
           <input
             type="text"
@@ -54,7 +54,7 @@
     
                  </span>
         </div>
-        <div class="col-12 address">
+        <div class="col-12">
           <label for="title4" class="title4">{{'Addres Line 2 (optional)'|translate}}</label>
           <input
             type="text"
@@ -66,7 +66,7 @@
             placeholder="{{'Addres Line 2 (optional)'|translate}}"
           />
         </div>
-        <div class="col-12 address">
+        <div class="col-12">
           <label for="title5" class="title5">{{'State/Province'|translate}}</label>
           <select class="form-control" formControlName="country"
         [ngClass]="{'is-invalid': (country?.touched || country?.dirty) && country?.invalid}">
@@ -80,7 +80,7 @@
   </span>
 </select>
         </div>
-        <div class="col-12 address">
+        <div class="col-12">
           <label for="title6" class="title6">{{'city'|translate}}</label>
           <input
             type="text"
@@ -97,7 +97,7 @@
 
              </span>
         </div>
-        <button type="submit" class="" [disabled]="!contactForm.valid">{{'Save'|translate}} {{'Address'|translate}}</button>
+        <button type="submit" [disabled]="!contactForm.valid">{{'Save'|translate}} {{'Address'|translate}}</button>
       </div>
     </div>
   </div>

@@ -1,0 +1,150 @@
+@if(product){
+<div class="container">
+    <div class="card border border-0">
+        <div class="container-fliud">
+            <div class="wrapper row">
+                <div class="preview col-md-6 border border-1">
+                    <div class="preview-pic tab-content">
+                      <div class="tab-pane active img-fluid w-75"><img [src]="selectedImage"/></div>
+                    </div>
+                    <ul class="preview-thumbnail nav nav-tabs">
+                        @for(img of product.images;track $index)
+                        {
+                      <li class="border border-1 mb-2"><a (click)="updateSelectedImage(img)"><img [src]="img" /></a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="details col-md-6">
+                    <h3 class="product-title fw-normal">{{product.name}}</h3>
+
+                    <div class="rating">
+                        <div class="stars">
+                        <span *ngFor="let star of stars" class="fa fa-star" [class.checked]="star <= product.rating"></span>
+
+                         <!-- | <span class="review-no">41 reviews</span> -->
+                        </div>
+                    </div>
+
+                    <p class="product-description fs-5">{{ product.description | diplayProductDescription }}</p>
+                    <hr>
+                    <h3  style="color: #ff662b;" class="fw-bold"><span>{{product.price.toLocaleString('en-US', {minimumFractionDigits: 2})}}</span></h3>
+                    <hr>
+                    <button class="addToCartBtn" title="{{'Add To Cart'|translate}}" (click)="addToCart(product.id)" [disabled]="product.stockQuantity===0">
+                        <span>{{'Add To Cart' | translate }}</span>
+                      </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h4>{{'Your Rating'|translate}}</h4>
+        <form style="width: 26rem;" [formGroup]="ReviewForm" class="pt-3">
+
+            <p>{{'Quality'|translate}}</p>
+            <div class="star-rating">
+                <input type="radio" id="5-stars-quality" formControlName="Quality"  value="5" />
+                <label for="5-stars-quality" class="star">&#9733;</label>
+                <input type="radio" id="4-stars-quality" formControlName="Quality"  value="4" />
+                <label for="4-stars-quality" class="star">&#9733;</label>
+                <input type="radio" id="3-stars-quality" formControlName="Quality"  value="3" />
+                <label for="3-stars-quality" class="star">&#9733;</label>
+                <input type="radio" id="2-stars-quality" formControlName="Quality"  value="2" />
+                <label for="2-stars-quality" class="star">&#9733;</label>
+                <input type="radio" id="1-stars-quality" formControlName="Quality"  value="1" />
+                <label for="1-stars-quality" class="star">&#9733;</label>
+            <span [ngClass]="{'is-invalid':(Quality?.touched || Quality?.dirty)&& Quality?.invalid}">
+                <span class="invalid-feedback">
+                    @if(Quality?.errors?.['required'])
+                    { <span>{{'Quality Rating is Required' | translate }}</span>}
+                  </span>
+            </span>
+            </div>
+
+
+            <p>{{'Price'|translate}}</p>
+            <div class="star-rating">
+                <input type="radio" id="5-stars-price" formControlName="Price"  value="5"  />
+                <label for="5-stars-price" class="star">&#9733;</label>
+                <input type="radio" id="4-stars-price" formControlName="Price"  value="4"  />
+                <label for="4-stars-price" class="star">&#9733;</label>
+                <input type="radio" id="3-stars-price" formControlName="Price"  value="3"  />
+                <label for="3-stars-price" class="star">&#9733;</label>
+                <input type="radio" id="2-stars-price" formControlName="Price"  value="2" />
+                <label for="2-stars-price" class="star">&#9733;</label>
+                <input type="radio" id="1-stars-price" formControlName="Price"  value="1"  />
+                <label for="1-stars-price" class="star">&#9733;</label>
+            <span [ngClass]="{'is-invalid':(Price?.touched || Price?.dirty)&& Price?.invalid}">
+                <span class="invalid-feedback">
+                    @if(Price?.errors?.['required'])
+                    { <span>{{'Price Rating is Required' | translate }}</span>}
+                  </span>
+            </span>
+            </div>
+
+
+            <p>{{'Value'|translate}}</p>
+            <div class="star-rating">
+                <input type="radio" id="5-stars-value" formControlName="Value"  value="5"  />
+                <label for="5-stars-value" class="star">&#9733;</label>
+                <input type="radio" id="4-stars-value" formControlName="Value"  value="4"  />
+                <label for="4-stars-value" class="star">&#9733;</label>
+                <input type="radio" id="3-stars-value" formControlName="Value"  value="3"  />
+                <label for="3-stars-value" class="star">&#9733;</label>
+                <input type="radio" id="2-stars-value" formControlName="Value"  value="2"  />
+                <label for="2-stars-value" class="star">&#9733;</label>
+                <input type="radio" id="1-stars-value" formControlName="Value"  value="1"  />
+                <label for="1-stars-value" class="star">&#9733;</label>
+            <span [ngClass]="{'is-invalid':(Value?.touched || Value?.dirty)&& Value?.invalid}">
+                <span class="invalid-feedback">
+                    @if(Value?.errors?.['required'])
+                    { <span>{{'Value Rating is Required' | translate }}</span>}
+                  </span>
+            </span>
+            </div>
+
+            <!-- Nickname input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form4Example1">{{'Nickname'|translate}}</label>
+              <input type="text" formControlName="Nickname" id="form4Example1" class="form-control"
+              [ngClass]="{'is-invalid':(Nickname?.touched || Nickname?.dirty)&& Nickname?.invalid}"
+              />
+              <span class="invalid-feedback">
+                @if(Nickname?.errors?.['required'])
+                { <span>{{'this field is required'|translate}}</span>}
+              </span>
+            </div>
+
+            <!-- Summary input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form4Example2">{{'Summary'|translate}}</label>
+              <input type="email" formControlName="Summary" id="form4Example2" class="form-control"
+              [ngClass]="{'is-invalid':(Summary?.touched || Summary?.dirty)&& Summary?.invalid}"
+               />
+               <span class="invalid-feedback">
+                @if(Summary?.errors?.['required'])
+                { <span>{{'this field is required'|translate}}</span>}
+              </span>
+            </div>
+
+            <!-- Review input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form4Example3">{{'Review'|translate}}</label>
+              <textarea class="form-control" formControlName="Review" id="form4Example3" rows="4"
+              [ngClass]="{'is-invalid':(Review?.touched || Review?.dirty)&& Review?.invalid}"
+              ></textarea>
+              <span class="invalid-feedback">
+                @if(Review?.errors?.['required'])
+                { <span>{{'this field is required'|translate}}</span>}
+              </span>
+            </div>
+
+            <!-- Submit button -->
+            <button data-mdb-ripple-init type="button" (click)="onSubmit()" class="btn btn-primary btn-block mb-4" [disabled]="!ReviewForm.valid">{{'SUBMIT REVIEW'|translate}}</button>
+        </form>
+    </div>
+</div>
+
+<!-- <div >{{ReviewForm.value|json}}</div>
+<div >{{ReviewForm.valid|json}}</div> -->
+
+}

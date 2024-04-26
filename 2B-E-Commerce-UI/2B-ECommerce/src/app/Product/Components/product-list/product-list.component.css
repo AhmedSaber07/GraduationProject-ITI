@@ -1,0 +1,109 @@
+div.stars {
+  
+    width: 280px;
+  
+    display: inline-block;
+  
+  }
+  
+  
+  input.star { display: none; }
+  
+   
+  
+  label.star {
+    font-size: 20px;
+    transition: all .2s;
+}
+
+.checked {
+  color: gold;
+}
+
+.fa-star.checked,
+.fa-star-half.checked {
+  color: gold; /* Change color for checked stars */
+}
+   
+  
+  /* input.star:checked ~ label.star:before {
+    content: '\f005';
+    color: #FD4;
+    transition: all .25s;
+    -webkit-transition: all .25s;
+    -moz-transition: all .25s;
+    -ms-transition: all .25s;
+    -o-transition: all .25s;
+} */
+  
+   
+  /* input.star-5:checked ~ label.star:before {
+  
+    color: #FE7;
+  
+    text-shadow: 0 0 20px #952;
+  
+  } */
+  
+   
+  
+  /* input.star-1:checked ~ label.star:before { color: #F62; }
+   */
+      
+  
+  /* label.star:hover { transform: rotate(-15deg) scale(1.3); }
+   */
+   
+  
+  label.star:before {
+  
+    content: '\f006';
+  
+    font-family: FontAwesome;
+  
+  }
+
+  .addToCartBtn{
+    color: #f36f21;
+  }
+  .addToCartBtn:hover{
+    color:white;
+  }
+
+/* Define CSS animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
+}
+  to {
+    opacity: 1;
+    transform: translateX(0); /* Slide in to normal position */
+  }
+}
+
+/* Apply animation to element */
+.slide-in {
+  animation: slideIn 0.5s ease forwards;
+}
+
+/* Define CSS animation for slide out */
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0); /* Slide out from the current position */
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%); /* Slide out to the right */
+  }
+}
+
+/* Apply animation to element */
+.slide-out {
+  animation: slideOut 0.5s ease forwards;
+}

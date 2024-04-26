@@ -1,0 +1,17 @@
+
+<div  class="container text-center pt-5 pb-5">
+    <h2>{{'Enter Confirmation Code'|translate}}</h2>
+    <input type="text" [(ngModel)]="digit1" class="code-input" (ngModelChange)="onInputChange($event, 'digit2')" (keypress)="isNumberKey($event)" maxlength="1" pattern="[0-9]*">
+    <input type="text" [(ngModel)]="digit2" class="code-input" (ngModelChange)="onInputChange($event, 'digit3')" (keypress)="isNumberKey($event)" maxlength="1" pattern="[0-9]*">
+    <input type="text" [(ngModel)]="digit3" class="code-input"(ngModelChange)="onInputChange($event, 'digit4')" (keypress)="isNumberKey($event)" maxlength="1" pattern="[0-9]*">
+    <input type="text" [(ngModel)]="digit4" class="code-input" (ngModelChange)="onInputChange($event, null)" (keypress)="isNumberKey($event)" maxlength="1" pattern="[0-9]*">
+    <div>
+        <button [disabled]="!timerActive" (click)="resetTimer()">{{'Resend Code'|translate}}</button>
+        @if(!timerActive)
+        {
+        <div>{{'Link will be active in'|translate}} {{ remainingTime }} {{'seconds'|translate}}</div>
+        }
+    <!-- <a [class.disabled]="!timerActive" style="cursor: pointer;" (click)="resetTimer()">Resend Code ({{ remainingTime }} seconds)</a> -->
+    </div>  
+</div> 
+  

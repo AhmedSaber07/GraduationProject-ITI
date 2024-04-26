@@ -1,0 +1,49 @@
+<div class="container" >
+    <div class="header">
+        <h1 class="title">{{'Login'|translate}}</h1>
+    </div>
+    <!-- <div class="dashed">
+    <img class="image" src="../../../../../assets/images/fb.png" alt="">
+    <img class="image" src="../../../../../assets/images/google.png" (click)="googleLogin()" alt="">
+</div>
+    <h1 class="row line">
+ <div class="hr1"></div>
+    {{'OR'|translate}}
+    <div class="hr2"> </div>
+    </h1>  -->
+    <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- [FormGroup]="loginForm" -->
+        <label class="label">{{'Email Or Mobile Phone'|translate}}</label>
+        <input type="text" class="input" formControlName="emailOrNumber"  placeholder="{{'Email Or Mobile Phone'|translate}}" 
+         [ngClass]="{'is-invalid':(emailOrNumber?.touched || 
+         emailOrNumber?.dirty)&& emailOrNumber?.invalid}">
+         <span class="invalid-feedback">
+            @if(emailOrNumber?.errors?.['required'])
+            
+              { <span>{{'Email Or Mobile Phone is Required'|translate}}</span>}
+               
+             
+             </span>
+       
+          
+        <label class="label">{{'Password'|translate}}</label>
+        <input type="password" class="input" formControlName="password" placeholder="{{'Password'|translate}}" 
+        [ngClass]="{'is-invalid': (password?.touched || password?.dirty)&& password?.invalid}">
+        <span class="invalid-feedback">
+            @if(password?.errors?.['required'])
+            { <span>{{'Password is Required'|translate}}</span>}
+
+             </span>
+    
+
+        <a routerLink="/ForgetPassword" class="link forgot-password">{{'Forgot Your Password?'|translate}}</a>
+<br><br><br>
+
+<button class="btn btn-warning" type="submit" [disabled]="!loginForm.valid">{{'Login'|translate}}</button>
+<p class="register">
+    {{'Already Have an account?'|translate}}<a routerLink="/regester" style="cursor: pointer;" class="link">{{'SignUp'|translate}}</a>
+</p>
+    </form>
+</div>
+<!-- <div >{{loginForm.value|json}}</div>
+<div >{{loginForm.valid|json}}</div> -->

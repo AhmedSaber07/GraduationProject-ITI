@@ -1,0 +1,84 @@
+@if(categoryViewList)
+{
+<div class="container d-flex">
+    <div class="col-md-3 border border-1">
+           @for(child of categoryViewList; track $index)
+           {
+            <a (click)="showProducts(child.id)" class=" text-secondary"><h4 class="fw-bold">{{child.name}}</h4></a>
+            <!-- @for(child of categoryViewList.entity.children; track $index)
+            {
+                <a (click)="showProducts(child.id)" class="text-secondary"><h5>{{child.nameAr}}</h5></a>
+            } -->
+           }
+    </div>
+    <div class="col-md-9">
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label for="sortBy" class="form-label">{{'Sort by' | translate }}</label>
+            <select class="form-select" id="sortBy" [(ngModel)]="sortBy" (change)="sortProducts()">
+                <option value="price">{{'Price' | translate }}</option>
+                <option value="quantity">{{'Quantity' | translate }}</option>
+            </select>
+        </div>
+        <div class="col-md-6"> 
+        </div>
+        <div class="col-md-3 mb-3">
+            <label for="showCount" class="form-label">{{'Show' | translate }}</label>
+            <select class="form-select" id="showCount" (change)="onPageSizeChange($event)">
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+            </select>
+        </div>
+    </div>
+    @if(FilterdProduct)
+    {
+        @if(FilterdProduct.length>0)
+        {
+        <div class="row">
+            <!-- <mat-paginator [length]="totalItems"  [pageSize]="pageSize" [pageIndex]="currentPage" (page)="pageChanged($event)"></mat-paginator>
+            @for(product of FilterdProduct;track $index){ -->
+                <div class="col-md-3 mb-3" *ngFor="let product of FilterdProduct | paginate:{itemsPerPage:pageSize,currentPage:currentPage}">
+                    <div class="border border-1" style="width: 200px">
+                        <div class="text-center">
+                            <a (click)="showProductDetails(product.id)" style="cursor: pointer;">
+                                <img [src]="product.images[0]" style="width:200px;height:200px;" alt="Product Image"/>
+                            </a>
+                            <a (click)="showProductDetails(product.id)" class="text-dark">
+                                {{product.name}}
+                            </a>
+                            <!-- stars -->
+                            <div class="text-center">
+                                  @for(star of stars;track $index)
+                                  {
+                                    <span class="fa fa-star" [class.checked]="star <= product.rating"></span>
+                                  }
+                              </div>
+                            <!-- Price -->
+                            <div class="fw-bold fs-5">
+                                <span>{{product.price | currency:'EGP' }}</span>
+                            </div>
+                            <!-- Add To Cart Btn -->
+                              <button class="addToCartBtn" title="أضف لسلة التسوق" (click)="addToCart(product.id)" [disabled]="product.stockQuantity===0">
+                                <span>{{'Add To Cart' | translate }}</span>
+                              </button>
+                        </div>
+                    </div>
+                </div>
+            <!-- } -->
+            @if(shouldShowPaginator()){
+            <div class="text-center">
+            <pagination-controls  (pageChange)="currentPage=$event"></pagination-controls>
+            </div> 
+        }
+        </div>
+        }
+        @else {
+            <div class="alert alert-warning d-flex align-items-center fw-bold text-danger" role="alert">
+                {{'This Product Not Avaliable Now' | translate }}
+            </div> 
+          }
+    }
+</div>
+</div>
+        }

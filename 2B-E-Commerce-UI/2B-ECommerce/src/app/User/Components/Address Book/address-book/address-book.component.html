@@ -1,0 +1,108 @@
+<div class="container">
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  <div class="row contact_us">
+    <!-- <div class="col-md-6">
+      <div class="all">
+        <p class="titleCardOne">بيانات الاتصال</p>
+          <div class="row connection">
+            <div class="col-6">
+              <input type="text" formControlName="firstName" class="form-control" placeholder="الاسم الأول"
+              [ngClass]="{'is-invalid': (firstName?.touched || firstName?.dirty)&& firstName?.invalid}">
+              <span class="invalid-feedback">
+                  @if(firstName?.errors?.['required'])
+                  { <span>هذا الحقل مطلوب</span>}
+      
+                   </span>
+            </div>
+
+            <div class="col-6">
+              <input type="text" formControlName="lastName" class="form-control" placeholder="الاسم الاخير"
+              [ngClass]="{'is-invalid': (lastName?.touched || lastName?.dirty)&& lastName?.invalid}">
+              <span class="invalid-feedback">
+                  @if(lastName?.errors?.['required'])
+                  { <span>هذا الحقل مطلوب</span>}
+                   </span>
+            </div>
+            <div class="col-12 phone">
+              <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="رقم الهاتف"
+              [ngClass]="{'is-invalid': (phoneNumber?.touched || phoneNumber?.dirty)&& lastName?.invalid}">
+              <span class="invalid-feedback">
+                  @if(phoneNumber?.errors?.['required'])
+                  { <span>هذا الحقل مطلوب</span>}
+                   </span>
+            </div>
+          </div>
+      </div>
+    </div> -->
+    <div class="col-md-6">
+      <p class="titleCard">{{'Address'|translate}}</p>
+      <div class="all2">
+        <div class="col-12 address">
+          <label for="title4" class="title4">{{'Addres Line 1'|translate}}</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title4"
+            name="title4"
+            formControlName="streetLine1"
+            placeholder="{{'Address Line 1'|translate}}"
+            [ngClass]="{'is-invalid': (streetLine1?.touched || streetLine1?.dirty)&& streetLine1?.invalid}"
+          />
+            <span class="invalid-feedback">
+                @if(streetLine1?.errors?.['required'])
+                { <span>{{'this field is required'|translate}}</span>}
+    
+                 </span>
+        </div>
+        <div class="col-12 address">
+          <label for="title4" class="title4">{{'Addres Line 2 (optional)'|translate}}</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title4"
+            name="title4"
+            formControlName="streetLine2"
+            [value]="address.addressLine2"
+            placeholder="{{'Addres Line 2 (optional)'|translate}}"
+          />
+        </div>
+        <div class="col-12 address">
+          <label for="title5" class="title5">{{'State/Province'|translate}}</label>
+          <select class="form-control" formControlName="country"
+        [ngClass]="{'is-invalid': (country?.touched || country?.dirty) && country?.invalid}">
+  <option value="">{{'Select a region, state or province.'|translate}}</option>
+  @for(gov of governoratesArabic;track $index){
+    <option [value]="gov" [selected]="gov === address.country">{{ gov }}</option>
+  }
+  <span class="invalid-feedback">
+    @if(country?.errors?.['required'])
+    {<span>{{'this field is required'|translate}}</span>}
+  </span>
+</select>
+        </div>
+        <div class="col-12 address">
+          <label for="title6" class="title6">{{'city'|translate}}</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title6"
+            formControlName="city"
+            placeholder="{{'city'|translate}}"
+            [value]="address.city"
+            [ngClass]="{'is-invalid': (city?.touched || city?.dirty)&& city?.invalid}"
+          />
+          <span class="invalid-feedback">
+            @if(city?.errors?.['required'])
+            { <span>{{'this field is required'|translate}}</span>}
+
+             </span>
+        </div>
+        <button type="submit" class="" [disabled]="!contactForm.valid">{{'Save'|translate}} {{'Address'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
+<!-- <div >{{contactForm.value|json}}</div>
+<div >{{contactForm.valid|json}}</div> -->

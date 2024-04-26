@@ -1,0 +1,35 @@
+.code-input {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    text-align: center;
+}
+
+.valid-code {
+    border-color: green;
+}
+
+.invalid-code {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+.disabled {
+    opacity: 0.5; /* Optional: add some visual indication that it's disabled */
+  }
+  
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  
+

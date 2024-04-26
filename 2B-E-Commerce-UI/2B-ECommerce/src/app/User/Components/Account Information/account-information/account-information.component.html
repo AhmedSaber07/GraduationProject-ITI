@@ -1,0 +1,215 @@
+<div class="container">
+  <form [formGroup]="formgroup" (ngSubmit)="onSubmit()">
+    <div class="row contact_us">
+      <div class="col-md-6">
+        <div class="all">
+          <h5>{{'CONTACT INFORMATION'|translate}}</h5>
+          <div class="row connection">
+            <div class="col-6">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                placeholder="{{'First Name' | translate }}"
+            
+                [ngClass]="{'is-invalid':(FirstName?.touched || FirstName?.dirty)&& FirstName?.invalid}"
+              />
+              <span class="invalid-feedback">
+                @if(FirstName?.errors?.['required'])
+                { <span>{{'First Name is Required' | translate }}</span>}
+ 
+                @else if(FirstName?.errors?.['minlength']) 
+                { <span>{{'Minimum Length For Character is 3' | translate }}</span>  }
+              </span>
+            </div>
+            <div class="col-6">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                placeholder="{{'Last Name' | translate }}"
+                [ngClass]="{'is-invalid':(LastName?.touched || LastName?.dirty)&& LastName?.invalid}"
+              />
+              <span class="invalid-feedback">
+                @if(LastName?.errors?.['required'])
+                { <span>{{'Last Name is Required' | translate }}</span>}
+ 
+                @else if(LastName?.errors?.['minlength']) 
+                { <span>{{'Minimum Length For Character is 3' | translate }}</span>  }
+              </span>
+            </div>
+            <div class="col-12 phone">
+              <input
+                type="tel"
+                class="form-control"
+                [value]="currentPhone"
+                placeholder="رقم الهاتف"
+                readonly
+              />
+            </div>
+
+            <!-- <div class="col-6 checkBox">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="changeEmail"
+              />
+              <label class="form-check-label" for="title4">
+                تغيير البريد الإلكتروني
+              </label>
+            </div> -->
+            <div class="col-6 checkBox">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="changePassword"
+              />
+              <label class="form-check-label" for="title4">
+                {{'Change Password'|translate}}
+              </label>
+            </div>
+            <div class="col-6 checkBox">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="changePhoneNumber"
+              />
+              <label class="form-check-label" for="title4">
+                {{'Change Phone Number'|translate}}
+              </label>
+            </div>
+          </div>
+          <input type="submit" value="{{'Save'|translate}}" class="btn btn-primary">
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="all2">
+          <div class="col-12">
+            @if(formgroup.get('changePassword')?.value ||formgroup.get('changePhoneNumber')?.value)
+             {
+            <h6>
+             @if(formgroup.get('changePassword')?.value){ {{'Change Password'|translate}}}
+              @if(formgroup.get('changePhoneNumber')?.value){ {{'Change Phone Number'|translate}}}
+            </h6>
+            }
+             <!-- @if(formgroup.get('changeEmail')?.value) {
+            <div class="address">
+              <label>البريد الإلكتروني</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    (Email?.touched || Email?.dirty) && Email?.invalid
+                }"
+              />
+              <span class="invalid-feedback">
+                @if(Email?.errors?.['required']) {
+                <span>يرجى إدخال البريد الإلكتروني</span>}
+                @if(Email?.errors?.['pattern']) {
+                <span> يجب ان يحتوي علي ارقام واحرف ورموز</span> }
+              </span>
+            </div>
+            } -->
+
+            <!-- formgroup.get('changeEmail')?.value ||
+            formgroup.get('changePhoneNumber')?.value  -->
+
+            @if(formgroup.get('changePassword')?.value )
+              {
+            <div class="address">
+              <label>{{'Current Password'|translate}}</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="currentPassword"
+                [ngClass]="{
+                  'is-invalid':
+                    (CurrentPassword?.touched || CurrentPassword?.dirty) &&
+                    CurrentPassword?.invalid
+                }"
+              />
+              <span class="invalid-feedback">
+                @if(CurrentPassword?.errors?.['required']) {
+                <span>{{'Current Password is Required'|translate}}</span>}
+              </span>
+            </div>
+            } @if(formgroup.get('changePassword')?.value) {
+            <div class="address">
+              <label>{{'New Password'|translate}}</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="newPassword"
+                [ngClass]="{
+                  'is-invalid':
+                    (NewPassword?.touched || NewPassword?.dirty) &&
+                    NewPassword?.invalid
+                }"
+              />
+              <span class="invalid-feedback">
+                @if(NewPassword?.errors?.['required']) 
+                {<span>{{'New Password is Required'|translate}}</span>}
+                @else if(NewPassword?.errors?.['minlength']) 
+                { <span>{{'Minimum Length is 8 character'|translate}}</span> }
+ 
+                @else if(NewPassword?.errors?.['pattern']) 
+                { <span>{{'Password is invalid'|translate}}</span> }
+              </span>
+            </div>
+            <div class="address">
+              <label>{{'Confirm New Password'|translate}}</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="confirmPassword"
+                [ngClass]="{
+                  'is-invalid':
+                    (ConfirmPassword?.touched || ConfirmPassword?.dirty) &&
+                    ConfirmPassword?.invalid
+                }"
+              />
+              <span class="invalid-feedback">
+                @if(ConfirmPassword?.errors?.['required']) 
+                {<span>{{'Confirm New Password is Required'|translate}}</span>}
+                @else if(ConfirmPassword?.errors?.['mismatch']) 
+                { <span>{{'Confirm Password and Password Not Matched'|translate}}</span> }
+              </span>
+            </div>
+            } 
+            @if(formgroup.get('changePhoneNumber')?.value) {
+
+            <div class="address">
+              <label>{{'Phone Number'|translate}}</label>
+              <input
+                type="tel"
+                class="form-control"
+                formControlName="phoneNumber"
+                [ngClass]="{
+                  'is-invalid':
+                    (Phone?.touched || Phone?.dirty) && Phone?.invalid
+                }"
+              />
+              <span class="invalid-feedback">
+                @if(Phone?.errors?.['required']) {
+                <span>{{'Phone Number is Required'|translate}}</span>
+                } @if(Phone?.errors?.['pattern']) {
+                <span>{{'Phone Number is invalid'|translate}}</span>
+                }
+              </span>
+            </div>
+            }
+            <!-- @if(formgroup.get('changePassword').value ||
+            formgroup.get('changeEmail').value ||
+            formgroup.get('changePhoneNumber').value) {
+            <button type="button" [disabled]="!formgroup.valid">حفظ</button>
+            } -->
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </form>
+</div>

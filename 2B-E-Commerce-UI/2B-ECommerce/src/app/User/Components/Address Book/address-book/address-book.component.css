@@ -1,0 +1,74 @@
+.col-4 {
+    margin: 5px;
+  }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .Name {
+    width: 200px;
+  }
+  
+  .phone {
+    width: 320px;
+    margin-right: 45px;
+    margin-top: 25px;
+  }
+  
+  .address {
+    width: 370px;
+    margin-bottom: 27px;
+  }
+  .title4,
+  .title5,
+  .title6 {
+    margin-right: 6px;
+    margin-bottom: 8px;
+  }
+  
+  .contact_us {
+    border-top: 5px solid rgb(245, 114, 7);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-right: 8%;
+  }
+  
+  .titleCardOne {
+    margin-right: 10px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 50px;
+    color: rgb(227, 106, 6);
+  }
+  .titleCard {
+    margin-right: 30px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 50px;
+    color: rgb(221, 104, 8);
+  }
+  
+  .all {
+    margin-right: 30px;
+    margin-bottom: 50px;
+    /* margin: auto; */
+  }
+  
+  .all2 {
+    margin-right: 30px;
+    margin-bottom: 50px;
+  }
+  
+  button {
+    margin-right: 55%;
+    margin-left: auto;
+    margin-top: 50px;
+    width: 150px;
+    background-color: rgb(202, 86, 2);
+    border: none;
+    color: aliceblue;
+    height: 40px;
+    display: block;
+    border: none;
+  }

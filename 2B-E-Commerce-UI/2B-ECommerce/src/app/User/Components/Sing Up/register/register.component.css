@@ -1,0 +1,119 @@
+
+.accunnt{
+    text-align: center;
+    color: rgb(246, 109, 11);
+}
+.dashed{
+    justify-content: center;
+    text-align: center;
+}
+.line{
+   
+    margin-left: 1px;
+    
+}
+
+.image{
+    border-radius: 50px;
+    margin: 30px;
+    justify-content: center;
+  
+}
+.hr1 ,.hr2{
+width: 200px;
+display: flex;
+margin: 10px;
+height: 1px;
+background-color: rgb(214, 213, 213);
+justify-content: space-between;
+  text-align: center;
+
+}
+.row{
+    display: flex;
+}
+
+form {
+    width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    /* border: 1px solid #ccc; */
+    text-align: right;
+}
+
+label {
+    /* display: block; */
+    margin-bottom: 5px;
+    /* margin-left: 370px; */
+    font-weight: bold;
+    font-size: 700;
+    text-align: right;
+    color: #a2a2a2;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ 
+}
+
+input[type="text"] ,
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+    width: 100%;
+    padding: 16px;
+    /* border: 1px solid #ccc; */
+    outline: none;
+    border-radius: 4px;
+    border: none;
+    background-color: #eee8e8;
+}
+
+
+
+
+
+
+button:hover {
+    background-color: #fcb96c;
+}
+.button {
+    background-color: #f68a05;
+    color: #fff;
+    /* margin-top: 70px; */
+    padding: 10px 20px;
+    border: none;
+    width: 250px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 210px;
+}
+
+.app{
+    text-align: right;
+}
+.checkBox1{
+    margin: 5px;
+}
+
+
+.link {
+    text-decoration: none;
+    color: #999b9b;
+    font-size:18px;
+    font-weight: bold;
+}
+
+.forgot-password {
+    margin-top: 10px;
+}
+
+.register {
+    text-align: right;
+    margin-top: 20px;
+}
+
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+

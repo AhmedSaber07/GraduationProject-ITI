@@ -1,0 +1,65 @@
+.big,
+.big2 {
+  border: 1px solid rgb(200, 200, 200);
+}
+
+.recordAddress {
+  margin-top: 20px;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.rowOne,
+.rowOne1 {
+  margin: 0 auto;
+  max-width: 768px;
+}
+
+p {
+  font-size: 15px;
+}
+
+.card-header {
+  background-color: #f6f5f5;
+  color: #474747;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(200, 200, 200);
+}
+
+.contant {
+  border-top: 1px solid rgb(200, 200, 200);
+  background-color: #f6f5f5;
+  height: 40px;
+  text-decoration: none;
+}
+
+.card-title {
+  margin-left: 20px;
+  margin-right: 1%;
+  margin-top: 10px;
+  font-size: 18px;
+  color: black;
+}
+
+.text-p {
+  margin-right: 2%;
+}
+
+.card-body {
+  color: #7e7e7e;
+  background-color: #fdfbfb;
+}
+
+.Release {
+  margin-right: 2%;
+  color: rgb(237, 99, 0);
+  text-decoration: none;
+}
+
+.address,
+.data {
+  height: auto;
+}

@@ -1,0 +1,22 @@
+        <!--Order Details-->
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{{'Order #'|translate}}</th>
+                <th scope="col">{{'Price'|translate}}</th>
+                <th scope="col">{{'Qty'|translate}}</th>
+                <th scope="col">{{'Subtotal'|translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(item of orderItems;track $index)
+              {
+              <tr>
+                <td scope="row">{{item.productName}}</td>
+                <td>{{item.price }}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.itemTotalPrice}}</td>
+              </tr>
+              }
+            </tbody>
+          </table>

@@ -1,0 +1,57 @@
+
+@if(Products.length > 0)
+{
+  <div class="container">
+    @for( category of Displayprds;track $index)
+    {
+      @if(category.products.length>0)
+      {
+      <h3 class="container fw-bold text-black mb-3">{{ category.name }}</h3>
+      <div class="container d-flex">
+        @for( product of category.products;track $index)
+        {
+          @if(!searchQuery || product.name)
+          {
+          <div class="col-md-auto ms-2 mb-3 border border-1" style="width: 218px">
+            <div class="text-center">
+              <a (click)="showProductDetails(product.id)" style="cursor: pointer;">
+                <img [src]="product.images[0]" style="width:250px;height:250px"/>
+              </a>
+              <a (click)="showProductDetails(product.id)" class="text-dark">
+                {{ product.name }}
+              </a>
+              <!-- Stars -->
+              <div class="container d-flex justify-content-center mt-200">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="rating">
+                      <div class="stars">
+                        @for(star of stars;track $index)
+                        {
+                          <span class="fa fa-star" [class.checked]="star <= product.rating"></span>
+                        }
+                        <!-- <span class="review-no">41 reviews</span> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price -->
+              <div class="fw-bold">
+                <span>{{ product.price | currency:'EGP' }}</span>
+              </div>
+
+              <!-- Add To Cart Btn -->
+              <button class="addToCartBtn" title="أضف لسلة التسوق" (click)="addToCart(product.id)" [disabled]="product.stockQuantity===0">
+                <span>{{'Add To Cart' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        }
+        }
+      </div>
+    }
+    }
+  </div>
+}

@@ -1,0 +1,20 @@
+.sidebar {
+  margin-right: 4%;
+ 
+}
+.nav-link {
+  border-bottom: 1px rgb(182, 180, 180) solid;
+
+  font-size: 18px;
+
+  color: rgb(145, 145, 145);
+}
+.myaccunt {
+  color: rgb(247, 119, 27);
+  font-weight: bold;
+}
+.Installment {
+  color: rgb(247, 119, 27);
+  font-weight: 700;
+  margin-top: 100px;
+}

@@ -1,0 +1,95 @@
+<div class="row col-md-9 rowOne">
+  <h6>{{'Account Information' | translate }}</h6>
+  <div class="col-sm-12 col-lg-6 account pt-2">
+    <div class="big">
+      <div class="card-header">
+        <p class="card-title">{{'CONTACT INFORMATION' | translate }}</p>
+      </div>
+      <div class="card-body">
+        <div>
+          <br />
+          <p class="text-p">{{fullName}}</p>
+          <p class="text-p">{{email}}</p>
+          <br />
+        </div>
+        <div class="d-flex contant">
+          <a  [routerLink]="['/UserProfile/AccountInformation']" class="text Release">{{'Edit' | translate }}</a>
+          <p class="Release">|</p>
+          <a  class="text Release" style="cursor: pointer;" (click)="changePasswordClicked()">{{'Change Password' | translate }}</a>
+        </div>
+        <div class="contant">
+          <a  class="text Release" style="cursor: pointer;" (click)="changePhoneNumberClicked()">{{'Change Phone Number' | translate }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="col-sm-12 col-lg-6 account">
+    <div class="big">
+      <div class="card-header">
+        <p class="card-title">{{'NEWSLETTERS' | translate }}</p>
+      </div>
+      <div class="card-body">
+        <div>
+          <br />
+          <p class="text-p">{{"You aren't subscribed to our newsletter" | translate }}</p>
+          <br />
+        </div>
+        <div class="contant">
+          <a href="#" class="text Release">{{'Edit' | translate }}</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="col-sm-12 col-lg-6 pt-2 account1">
+    <div class="big2">
+      <div class="card-header">
+        <p class="card-title">{{'DEFAULT SHIPPING ADDRESS' | translate }}</p>
+      </div>
+      <div class="card-body">
+        <div class="address">
+          <br />
+          @if(!AddressExist)
+          {
+          <p class="text-p">{{'You have not set a default shipping address.'|translate}}</p>
+          }
+          @else {
+            <div style="line-height: 0.5;">
+            <p class="text-p">{{fullName}}</p>
+            <p class="text-p">{{address.addressLine1}}</p>
+            <p class="text-p">{{address.city}},{{address.country}}</p>
+            <p class="text-p">T: <a href="#">{{phoneNumber}}</a></p>
+          </div>
+          }
+          <br />
+        </div>
+        <div class="contant">
+          @if(AddressExist){
+          <a [routerLink]="['/UserProfile/AddressBook']" class="text Release">{{'Edit Address'|translate}}</a>
+          }
+          @else {
+            <a [routerLink]="['/UserProfile/AddressBook']" class="text Release">{{'Add Address'|translate}}</a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="row col-md-9 rowOne1">
+  <h6 class="recordAddress">{{'Address Book' | translate }}</h6>
+    <div class="big">
+      <div class="card-header">
+        <p class="card-title">عنوان الدفع الافتراضي</p>
+      </div>
+      <div class="card-body">
+        <div class="data">
+          <br />
+          <p class="text-p">لم تقم بتعيين عنوان دفع افتراضي.</p>
+          <br />
+        </div>
+        <div class="contant">
+          <a href="#" class="text Release"> تعديل العنوان</a>
+        </div>
+      </div>
+    </div>
+  </div>  -->
+  

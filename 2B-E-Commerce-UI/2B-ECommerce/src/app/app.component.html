@@ -1,0 +1,9 @@
+@if(showHeader){
+<app-header [dir]="direction"></app-header>
+}
+<div  [dir]="direction">
+<router-outlet></router-outlet>
+</div>
+@if(showFooter){
+<app-footer [dir]="direction"></app-footer>
+}

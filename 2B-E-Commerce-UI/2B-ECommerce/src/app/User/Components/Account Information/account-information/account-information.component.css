@@ -1,0 +1,75 @@
+
+.col-4{
+    margin: 5px;
+}
+.Name{
+    width: 200px;
+    /* margin: 5px; */
+}
+.phone{
+    width: 320px;
+    margin-right:45px ;
+    margin-top: 25px;
+    
+  
+    
+}
+.address{
+    width: 370px;
+    margin-bottom: 10px;
+}
+.contact_us{
+    border-top: 5px rgb(255, 130, 28) solid;
+   /* border-left: 1px  rgb(138, 138, 138) solid;
+   border-bottom: 1px rgb(138, 138, 138) solid;
+   border-right: 1px rgb(138, 138, 138) solid; */
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+   margin-right: 8%;
+    
+}
+h6{
+    margin-right: 30px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    color: rgb(255, 130, 28);
+}
+h5{
+    margin-right: 30px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    color: rgb(255, 130, 28);
+}
+.all{
+    margin-right: 30px;
+    margin-bottom: 50px; 
+    /* margin-top: 100px; */
+}
+.all2{
+    margin-right: 30px;
+    margin-bottom: 50px;
+   
+   
+}
+button{
+    margin-right: 270px;
+    margin-top: 50px;
+    width: 100px;
+    background-color: rgb(204, 97, 21);
+    border: none;
+    color: aliceblue;
+    height: 40px;
+
+}
+.checkBox{
+    width: 320px;
+    margin-right:45px ;
+    margin-top: 25px;
+
+}
+.form-check-input{
+    margin: 5px;
+}
+.form-check{
+
+    justify-content: righ;
+}

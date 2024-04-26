@@ -1,0 +1,158 @@
+<head>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen and (min-width: 768px)"
+    href="https://smhttp-ssl-73217.nexcesscdn.net/pub/static/version1710104673/frontend/Smartwave/porto_rtl/ar_EG/css/styles-l.min.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="all"
+    href="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/porto/web/css/header/type16.rtl.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="all"
+    href="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/porto/web/css/custom.rtl.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="all"
+    href="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/porto/configed_css/design_ar.css"
+  />
+</head>
+<div class="row">
+  <img src="../../../../assets/images/header-1.PNG">
+</div>
+<header class="container">
+      <nav class="navbar navbar-expand-lg" style="background-color: #f0f0ed;">
+        <div class="container-fluid">
+          <ul class="navbar-nav">
+            @if(!isLoggedIn)
+            {
+            <li class="nav-item mr-3"> <!-- Added 'mr-3' class -->
+              <a [routerLink]="['/regester']" routerLinkActive="router-link-active" class="text-dark">
+                {{'SignUp' | translate }}
+              </a>
+            </li>
+          }
+          @if(isLoggedIn)
+            {
+            <li class="nav-item mr-3"> <!-- Added 'mr-3' class -->
+              <a style="cursor: pointer;"  [routerLink]="['/UserProfile']" routerLinkActive="router-link-active" class="text-dark">
+                {{username}}
+              </a>
+            </li>
+          }
+          @if(!isLoggedIn)
+            {
+            <li class="nav-item mr-3">
+              <a [routerLink]="['/login']" routerLinkActive="router-link-active" class="text-dark">
+                {{'Login' | translate }}
+              </a>
+            </li>
+          }
+          @if(isLoggedIn)
+            {
+            <li class="nav-item mr-3">
+              <a (click)="logout()" style="cursor: pointer;" routerLinkActive="router-link-active" class="text-dark">
+                {{'Logout' | translate }}
+              </a>
+            </li>
+          }
+          </ul>
+          
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          </div>
+
+          <a class="navbar-brand d-flex align-items-center" (click)="ChangeLanguage()" style="cursor: pointer;color:#fb7c63">
+            <img [src]="imagePath" class="ms-2 me-2"/>
+            {{ 'English' | translate }}
+          </a>
+          
+        </div>
+      </nav>
+      <div class="row d-flex pt-5 pb-5">
+        <div class="col-md-11">
+        <a [routerLink]="['/Home']" routerLinkActive="router-link-active"  class="logo">
+          <img src="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/logo/stores/2/logo.png"/>
+        </a>
+        <div class="block block-search">
+          <div class="block block-content">
+                  <input
+                    type="text"
+                    placeholder="{{'Search....'|translate}}"
+                    class="input-text border-dark-subtle"
+                    [(ngModel)]="searchQuery" (input)="onSearchInput()"
+                  />
+          </div>
+        </div> 
+      </div>
+
+        <!-- bag -->
+         <div class="pt-3 col-md-1">
+          @if(countOFItemsInCart>0)
+          {
+          <span class="position-absolute top-25 start-25 translate-middle badge rounded-pill" style="background-color: #ed5348;">
+            {{countOFItemsInCart}}
+          </span>
+          }
+          <a class="action showcart" [routerLink]="['/ShoppingCart']" routerLinkActive="router-link-active" >
+            <h1><i class="bi bi-bag"></i></h1>
+          </a>
+        </div> 
+
+        <!--Search-->
+      </div>
+      <div class="sections nav-sections bg-black">
+        <div class="section-items nav-sections-items">
+            <div class="section-item-content nav-sections-item-content" id="store.menu">
+                <nav class="text-white navigation sw-megamenu" role="navigation">
+                    @if(Categories.length>0)
+                    {
+                    <ul class="main-menu">
+                        @for(category of Categories;track $index)
+                        {
+                        <li class="level0 fullwidth parent">
+                            <div class="open-children-toggle"></div>
+                            <a (click)="getCategoryById(category.id)" style="cursor: pointer;" class="level-top text-white"><span>{{category.name}}</span></a>
+                            <div class="level0 submenu">
+                                <div class="container">
+                                    <div class="row">
+                                        @if(category.children && category.children.length>0){
+                                        <ul class="subchildmenu col-md-12 mega-columns columns4">
+                                            @for(childCategory of category.children;track $index){
+                                            <li class="ui-menu-item level1 parent">
+                                                <div class="open-children-toggle"></div>
+                                                <a (click)="showCategories(childCategory.id)" style="cursor: pointer;"><span>{{childCategory.name}}</span></a>
+                                                @if(childCategory.children && childCategory.children.length>0)
+                                                {
+                                                <ul class="subchildmenu">
+                                                    @for(child of childCategory.children;track $index)
+                                                    {
+                                                    <li class="ui-menu-item level2">
+                                                        <a (click)="showCategories(child.id)" style="cursor: pointer;"><span>{{child.name}}</span></a>
+                                                    </li>
+                                                    }
+                                                </ul>
+                                                }
+                                            </li>
+                                            }
+                                        </ul>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        }
+                    </ul>
+                    }
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+</header>

@@ -1,0 +1,35 @@
+@if(orders)
+{
+<div class="orders-container">
+  @if(orders.count>0)
+  {
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{{'Order #'|translate}}</th>
+          <th scope="col">{{'Date'|translate}}</th>
+          <!-- <th scope="col">يرسل الي</th> -->
+          <th scope="col">{{'Order Total'|translate}}</th>
+          <th scope="col">{{'Status'|translate}}</th>
+          <th scope="col">{{'Action'|translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(order of orders.entities;track $index)
+        {
+        <tr>
+          <td scope="row">{{order.orderNumber}}</td>
+          <td>{{order.createdAt | dateFormat }}</td>
+          <td>{{order.totalAmount | customDisplayPrice}}</td>
+          <td>{{order.status}}</td>
+          <td><a [routerLink]="['/UserProfile/orderDetails',order.orderNumber]" routerLinkActive="router-link-active"  class="text-danger">{{'Order Details'|translate}}</a></td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  }
+  @else{ 
+  <div class="row order">{{'You have not placed any purchase orders.'|translate}}</div>
+  } 
+</div>
+}

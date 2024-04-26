@@ -7,7 +7,11 @@
     ViewData["Title"] = "create";
 }
 
-<h1>Create Category</h1>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Create Category</h1>
+    <a asp-action="CategoryList" class="d-none d-sm-inline-block btn btn-sm bg-success  shadow text-white ">Back to List</a>
+</div>
+@* <h1>Create Category</h1> *@
 
 <hr />
 <div class="row">
@@ -60,9 +64,9 @@
         </div>
     </div>
 </div>
-<div>
-    <a asp-action="CategoryList">Back to List</a>
-</div>
+@* <div>
+    <a asp-action="CategoryList" class="d-none d-sm-inline-block btn btn-sm bg-success  shadow text-white ">Back to List</a>
+</div> *@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
